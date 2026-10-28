@@ -1,8 +1,8 @@
 # Worked Example for `LeanTheory`: Modeling the Solar System & Certifying a Rocket Trajectory to Mars (`MarsMissionLean`)
 
-This document demonstrates the complete **`LeanTheory` workflow in action** on a concrete physics and engineering problem: **modeling the Solar System ($N$-body gravitational mechanics + Tsiolkovsky variable-mass rocket dynamics) and generating a machine-checked certificate for an Earth-to-Mars transfer trajectory**.
+This document illustrates the **`LeanTheory` workflow** on a concrete physics and engineering problem: **modeling the Solar System ($N$-body gravitational mechanics + Tsiolkovsky variable-mass rocket dynamics) and specifying a route toward a machine-checked Earth-to-Mars transfer certificate**.
 
-You can drop the files below directly into a fresh clone of [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory) to see how high-level goals and textbook astrodynamics are transformed into `notes/*.md`, a **Small Verification Kernel**, **5 COSC Sanity Stress Tests**, and an **Assumption Ledger**.
+The example shows how high-level goals and textbook astrodynamics are transformed into `notes/*.md`, a **small domain kernel**, an **extensible suite of compiled sanity checks**, and an **assumption ledger**. It is a design sketch: declarations shown below must still be placed in the repository, compiled, and audited before they count as verified results.
 
 ---
 
@@ -15,7 +15,7 @@ MarsMissionLean/
 ├── ASSUMPTION_LEDGER.md                       # Explicit physical idealizations & parameters
 ├── PROGRESS.md                                # Compiled declarations vs. open math targets
 ├── notes/
-│   ├── 01-model-contracts-and-kernel.md       # Small Kernel (~110 LOC) & 5 Sanity Stress Tests
+│   ├── 01-model-contracts-and-kernel.md       # Kernel contracts and planned sanity suite
 │   ├── 02-solar-system-nbody-ephemeris.md     # N-body gravitation, barycentric frames & clearance
 │   ├── 03-kepler-conics-and-lambert.md        # 2-body invariants (E, L, e_vec) & Hohmann/Lambert transfer
 │   ├── 04-rocket-equation-and-staging.md      # Tsiolkovsky variable-mass ODE & Δv fuel budgets
@@ -23,19 +23,23 @@ MarsMissionLean/
 │   └── 06-mars-capture-certificate.md         # End-to-end tolerance-aware Earth-to-Mars certificate
 └── MarsMissionLean/
     ├── Kernel/
-    │   ├── AstrodynamicsKernel.lean           # Frozen Small Kernel (Escapement)
-    │   └── SanityChecks.lean                  # 5 COSC Bench Tests (Compiled)
-    └── Library/
-        ├── KeplerConservation.lean            # Angular momentum & Laplace-Runge-Lenz proofs
-        ├── Tsiolkovsky.lean                   # Exact Δv integration
-        └── TubeEnclosure.lean                 # Grönwall tube certificate around nominal trajectory
+    │   └── AstrodynamicsKernel.lean           # Small domain specification
+    ├── Sanity/
+    │   └── Astrodynamics.lean                 # Triad plus domain-specific stress tests
+    ├── Theory/
+    │   ├── KeplerConservation.lean            # Angular momentum and Laplace-Runge-Lenz proofs
+    │   └── Tsiolkovsky.lean                   # Exact Δv integration
+    ├── Bridge/
+    │   └── TubeEnclosure.lean                 # Connects analytic bounds to the domain model
+    └── Certificates/
+        └── MarsTransfer.lean                  # Exact certificate data and checker
 ```
 
 ---
 
 ## Part 2: Sample Formalization Note (`notes/01-model-contracts-and-kernel.md`)
 
-*(Below is the exact Markdown note generated using **Prompt 2**, showing how equations, kernel contracts, and the 5 sanity checks are specified together in `notes/`.)*
+*(Below is a sample note generated using **Prompt 2**, showing how equations, kernel contracts, and sanity checks are specified together in `notes/`.)*
 
 ### 1. Motivation & Verification Strategy
 How do we formally verify in Lean 4 that a rocket launched from Earth orbit at $t = 0$ reaches the Mars capture sphere at $t = T_{\text{arr}}$ without colliding with any celestial body or running out of propellant, even under $\pm\varepsilon$ engine thrust and navigation uncertainties?
@@ -72,7 +76,7 @@ $$\|\mathbf{r}(t) - \bar{\mathbf{r}}(t)\| + \tau_0 \|\dot{\mathbf{r}}(t) - \dot{
 ```lean
 /-
   MarsMissionLean/Kernel/AstrodynamicsKernel.lean
-  The "Escapement" (Small Trusted Specification Kernel) for Solar System
+  Small domain specification for Solar System
   N-body mechanics and Earth-to-Mars trajectory verification.
 -/
 import Mathlib.Analysis.Calculus.Deriv.Basic
@@ -152,24 +156,31 @@ structure CertifiedMarsTransfer
 end MarsMissionLean.Kernel
 ```
 
+This structure is a pedagogical starting point, not yet the promised tolerance-aware certificate.
+In particular, `ε_thrust` is stored but not used by `guaranteed_capture`, and the connection from
+oracle residual bounds to every admissible perturbed trajectory has not been encoded. A complete
+version must represent those perturbations explicitly, prove the tube-enclosure bridge, and record
+the ephemeris and physical constants with sources and validity envelopes.
+
 ---
 
-### 4. The 5 COSC Sanity Stress Tests (`MarsMissionLean/Kernel/SanityChecks.lean`)
+### 4. Extensible Sanity Suite (`MarsMissionLean/Sanity/Astrodynamics.lean`)
 
-Just like a watchmaker testing an escapement across 5 positions, temperatures, and shock loads, we immediately compile **5 Sanity Stress Tests** on `AstrodynamicsKernel.lean` before writing any complex trajectory proofs:
+Before writing complex trajectory proofs, compile a sanity suite for the astrodynamics kernel. The required baseline is the triad from `notes/domain-libraries.md`: a degenerate case, a concrete satisfying instance, and a counterexample. The singularity, symmetry, and monotonicity checks below are additional tests motivated by this model. Future audits should add further regression theorems rather than preserve an arbitrary fixed number of checks.
 
-| Bench Test Category | What Could Go Wrong in the Spec? | Compiled Sanity Check in `SanityChecks.lean` |
+| Check category | Specification risk | Planned or compiled check |
 | :--- | :--- | :--- |
-| **1. Clutch Engagement (Special Case Witness)** | `ValidRocketTrajectory` might have contradictory sign conventions between `bodyGravity` and centripetal acceleration. | **`circular_kepler_orbit_witness`**: Proves that a ballistic spacecraft ($F_{\text{thr}} = 0, m(t) = m_0$) in a circular orbit of radius $R > R_{\text{safe}}$ with angular speed $\omega = \sqrt{\mu / R^3}$ satisfies `ValidRocketTrajectory`. |
-| **2. Banking-Pin Guard (Degenerate Case Rejection)** | An AI prover might try to satisfy arrival at Mars by teleporting in zero time ($T = 0$) or using negative/zero spacecraft mass ($m(t) = 0$, exploiting `1 / 0 = 0` in `newton_second_law`). | **`reject_zero_time_and_zero_mass`**: Proves `¬ ValidRocketTrajectory sys 0` and proves that for any `traj : ValidRocketTrajectory sys T`, `traj.m t ≠ 0` everywhere on `[0, T]`. |
-| **3. Singularity Guard (Corner Case)** | At $\mathbf{r}(t) = \mathbf{R}_i(t)$, Lean evaluates `bodyGravity` to `0` because `x / 0 = 0`, turning the center of the Sun into a "force-free" point! | **`no_planetary_collision_in_valid_traj`**: Proves that `HasPlanetaryClearance` strictly excludes $\mathbf{r}(t) = \mathbf{R}_i(t)$ and guarantees $\|\mathbf{r}(t) - \mathbf{R}_i(t)\|^3 \ge R_{\text{safe}, i}^3 > 0$. |
-| **4. 5-Position Orientation (Symmetry / Equivariance)** | A sign or index typo in `bodyGravity` breaks rotational or translational symmetry. | **`gravity_galilean_translation_invariant` & `gravity_rotation_equivariant`**: Proves that shifting all positions by $\mathbf{r}_0 + \mathbf{v}_0 t$ or applying an orthogonal rotation $Q \in SO(3)$ transforms $\mathbf{g}_{\text{solar}}$ covariantly. |
-| **5. Isochronism Check (Asymptotic / Scaling Limit)** | Wrong sign in `mass_depletion_law` could allow a rocket to *gain* mass while thrusting, or violate energy conservation when $F_{\text{thr}} = 0$. | **`rocket_mass_monotone_decreasing`** ($\dot{m}(t) \le 0$) and **`tsiolkovsky_delta_v_bound`** (in free space $\mu_i \to 0$, $\|\Delta \mathbf{v}\| \le v_e \ln(m_0 / m_{\text{dry}})$). |
+| **Concrete instance** | `ValidRocketTrajectory` might be inconsistent because of contradictory sign conventions. | **`circular_kepler_orbit_witness`**: prove that a ballistic spacecraft ($F_{\text{thr}} = 0$, $m(t) = m_0$) in a circular orbit satisfies `ValidRocketTrajectory`. |
+| **Degenerate case** | Zero flight time or zero mass could exploit a vacuous interval or Lean's totalized division. | **`reject_zero_flight_time`** and **`spacecraft_mass_ne_zero`**: reject `T = 0` and prove positive mass throughout the modeled interval. |
+| **Counterexample** | The law could accidentally accept arbitrary curves. | Add an explicit discontinuous or non-Keplerian trajectory and prove that it does **not** satisfy `ValidRocketTrajectory`. This required triad member is still a target until a compiled declaration is supplied. |
+| **Singularity guard** | At $\mathbf{r}(t) = \mathbf{R}_i(t)$, totalized division would make the gravitational expression misleading. | **`gravity_denominator_pos`**: planetary clearance makes every gravitational denominator strictly positive. |
+| **Symmetry / equivariance** | A sign or index error could break translational or rotational behavior. | **`bodyGravity_translation_invariant`**, followed by a rotation-equivariance theorem where needed. |
+| **Monotonicity and limiting behavior** | A wrong sign in `mass_depletion_law` could allow mass to increase while thrusting. | **`rocket_mass_deriv_nonpos`**; later add free-space and scaling limits used by the mission proof. |
 
 ```lean
 /-
-  MarsMissionLean/Kernel/SanityChecks.lean
-  Compiled COSC-style bench tests validating AstrodynamicsKernel.lean
+  MarsMissionLean/Sanity/Astrodynamics.lean
+  Compiled sanity checks for the astrodynamics domain kernel
 -/
 import MarsMissionLean.Kernel.AstrodynamicsKernel
 
@@ -208,7 +219,7 @@ theorem bodyGravity_translation_invariant
   intro B_shifted
   simp only [bodyGravity, B_shifted, add_sub_add_right_eq_sub]
 
-/-- TEST 5 (Isochronism / Monotonicity): Rocket mass derivative is always ≤ 0 -/
+/-- Monotonicity check: the modeled rocket mass derivative is always nonpositive. -/
 theorem rocket_mass_deriv_nonpos {N : ℕ} {sys : SolarSystem N} {T : ℝ}
     (traj : ValidRocketTrajectory sys T) {t : ℝ} (ht : t ∈ Set.Icc 0 T) :
     - ‖traj.F_thr t‖ / traj.v_e ≤ 0 := by

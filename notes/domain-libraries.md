@@ -45,11 +45,19 @@ encoding, and says clearly that it is a kernel file.
 ## Sanity checks for the kernel
 
 State results that are true in the domain and prove them from the kernel definitions and laws:
-characterizing results, special and degenerate cases, bounds. For every law provide at least
+characterizing results, special and degenerate cases, and bounds. Sanity checks are an extensible
+audit suite, not a fixed checklist or a fixed number of tests. For every law provide at least
 
 * a **degenerate case** (e.g. zero stiffness gives a free particle);
 * a **concrete instance**, so the law is satisfiable and theorems about it are not vacuous;
 * a **counterexample**: an object that is not an instance, showing the law excludes something.
+
+This triad is the required baseline. Add checks suggested by the domain and by every defect found
+during review: vacuity and inconsistent hypotheses, singularities and totalized operations,
+symmetry or equivariance, conservation and monotonicity, dimensional scaling, asymptotic limits,
+boundary and regularity cases, parameter-range endpoints, and accepted/rejected certificate
+fixtures. These are heuristics, not exhaustive categories. Record what risk each theorem tests so
+that later contributors can extend the suite without treating the current examples as complete.
 
 ## Library with verification
 
