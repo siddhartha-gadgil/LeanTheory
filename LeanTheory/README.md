@@ -3,6 +3,10 @@
 The Lean library. Every module is imported by the root [`LeanTheory.lean`](../LeanTheory.lean)
 (the default build) and audited by `scripts/check_axioms.lean`.
 
+For a new domain, first create a fresh, topic-named GitHub repository using
+[`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory) as a template;
+then continue with the [getting-started workflow](../docs/GettingStarted.md) in that repository.
+
 | Folder | Content | Start with |
 | --- | --- | --- |
 | [`Kernel/`](Kernel/README.md) | Domain model: definitions and laws as typeclasses, no axioms | `Kernel/Example.lean` |

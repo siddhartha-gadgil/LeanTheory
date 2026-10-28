@@ -26,17 +26,23 @@ To prevent these failure modes, `LeanTheory` separates the specification from it
 
 ---
 
-## 2. The 6-Step Workflow: Starting a New Theory with a Chatbot / Coding Agent
+## 2. The 7-Step Workflow: Starting a New Theory with a Chatbot / Coding Agent
 
-Whenever you instantiate `LeanTheory` for a new scientific or mathematical project, follow this six-step loop with your AI assistant (e.g., Claude Code, Cursor, GitHub Copilot, Gemini, or ChatGPT).
+Create a separate repository for each scientific or mathematical project, then follow this workflow with your AI assistant (e.g., Claude Code, Cursor, GitHub Copilot, Gemini, or ChatGPT).
 
-### Step 1: Ingest Papers & Define the "North Star Certificate"
+### Step 1: Create a Topic-Specific Repository from the Template
+
+On GitHub, open [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory), select **Use this template**, and create a fresh repository in your account or organization. Give it a name based on the topic, such as `MarsMissionLean`, `PhotonicCrystalLean`, or `FluidStabilityLean`, rather than continuing work in a clone named `LeanTheory`.
+
+Clone the new repository, open that checkout in your coding-agent environment, and make all subsequent notes, domain definitions, proofs, and project history there. The new repository retains the template's architecture and examples while remaining an independent, topic-focused formalization.
+
+### Step 2: Ingest Papers & Define the "North Star Certificate"
 Do **not** start by asking for Lean 4 code. Start by giving your chatbot the domain papers, notes, or physical problem statement, and ask it to identify:
 1. **The North Star Certificate:** What is the single concrete theorem at the end of the project that certifies a real-world design or mathematical goal?
 2. **The Minimal Mathematical Ontology:** What are the fewest standard `Mathlib` types needed to state that certificate (e.g., `EuclideanSpace ℝ (Fin 3)`, `Matrix`, `IntervalIntegral`)?
 3. **The Workstream Decomposition:** Break the domain into 6–12 modular chapters for the `notes/` directory.
 
-### Step 2: Generate the Literate Markdown Blueprint (`notes/*.md`)
+### Step 3: Generate the Literate Markdown Blueprint (`notes/*.md`)
 Instruct the chatbot to write one self-contained Markdown file per workstream in `notes/`. Every note **must** follow a mandatory 5-section template:
 1. **Motivation & Verification Strategy:** Why we model the problem this way (e.g., using an *a posteriori* defect bound or conservation law rather than formalizing a black-box numerical solver).
 2. **Exact Mathematical Formulation:** Self-contained LaTeX equations with explicit domains, quantifiers, and sign conventions.
@@ -44,12 +50,12 @@ Instruct the chatbot to write one self-contained Markdown file per workstream in
 4. **Sanity Stress Tests:** Begin with the required triad for every law—degenerate case, concrete instance, and counterexample—then add checks for relevant risks such as vacuity, singularities (`x / 0 = 0`), symmetry, scaling, conservation, boundary behavior, units, or parameter limits.
 5. **Assumption Ledger Entries:** Every physical idealization (e.g., point-mass gravity, neglect of solar radiation pressure, rigid body assumption) logged with an ID (`A1`, `A2`, ...).
 
-### Step 3: Extract and Stabilize the Small Domain Kernel (`Kernel/*.lean`)
+### Step 4: Extract and Stabilize the Small Domain Kernel (`Kernel/*.lean`)
 Once the Markdown notes look right to a domain expert, instruct the coding agent to extract **only** the core definitions and top-level certificate structures into `Kernel/`.
 * **Rule 1 (Zero Project Axioms):** Never allow `axiom` or `sorry` inside a `Kernel/` definition.
 * **Rule 2 (Guard All Partial Operations):** Every division `a / b`, square root `Real.sqrt x`, or `sSup S` in a kernel specification must be accompanied by an explicit positivity or non-emptiness hypothesis (`b ≠ 0`, `x ≥ 0`, `S.Nonempty`).
 
-### Step 4: Compile an Extensible Sanity Suite (`Sanity/*.lean`)
+### Step 5: Compile an Extensible Sanity Suite (`Sanity/*.lean`)
 Before asking the coding agent for large domain proofs, require compiled checks against the kernel. For every law, start with this triad:
 
 1. **Degenerate case:** Show that a limiting parameter reduces the law to an expected elementary model; reject a degenerate input when the contract is meant to exclude it.
@@ -60,10 +66,10 @@ Then extend the suite according to the model's risks. Useful checks include sing
 
 At this checkpoint, have a domain expert review the equations, units, assumptions, parameter ranges, and source citations. Lean can verify consequences of the encoded model, but it cannot establish that the model applies to the intended physical regime.
 
-### Step 5: Build Theory, Bridges, and Certificates from the Notes
+### Step 6: Build Theory, Bridges, and Certificates from the Notes
 Point the coding agent at a specific section of a note and ask it to formalize the intermediate lemmas in `Theory/`, the domain connection in `Bridge/`, or the exact checker in `Certificates/`. Keep the kernel stable unless the audit shows that the specification itself is incomplete or wrong; record and re-run its sanity suite whenever it changes.
 
-### Step 6: Log Progress in `PROGRESS.md` and `ASSUMPTION_LEDGER.md`
+### Step 7: Log Progress in `PROGRESS.md` and `ASSUMPTION_LEDGER.md`
 After each module compiles (`lake build`), instruct the agent to update the status badges in `notes/` and record any physical modeling assumptions in `ASSUMPTION_LEDGER.md`.
 
 ---
