@@ -1,0 +1,20 @@
+name: Lean Action CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read # Read access to repository contents
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: leanprover/lean-action@v1
+      - name: Audit logical dependencies
+        run: lake env lean scripts/check_axioms.lean
+      # - uses: leanprover-community/docgen-action@v1
