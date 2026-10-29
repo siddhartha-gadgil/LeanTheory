@@ -32,10 +32,30 @@ allowed when every downstream result remains explicitly conditional and unverifi
 - For `work on <item>`, resolve the ID, note path or topic. If it is broad, select and announce the
   nearest useful subnote. Respect the user's selection even when it is blocked: explain the
   missing prerequisites and work on one only when that is the closest in-scope way forward.
+  Recommend launching sub-agents when independent strands can produce concrete inputs in parallel.
 - For discussion, engage with the mathematics or source. Record durable conclusions, objections,
   sources and new subquestions in the graph when they materially affect future work.
 - For `keep working`, enter autonomous mode and continue across work units without asking the user
-  to select after each one.
+  to select after each one. Proactively use available sub-agents for independent ready tasks or
+  independent attacks on the same difficult question when this improves progress.
+
+## Use sub-agents deliberately
+
+In both `work on ...` and `keep working`, prefer launching sub-agents when at least two substantial
+tasks can proceed independently. Useful assignments include primary-source review, counterexample
+search, Mathlib/API reconnaissance, numerical exploration, proof attempts and an independent
+kernel/specification audit. Give each sub-agent a precise item ID, inputs, output format and
+non-overlapping scope; tell it which specialized skill to use when relevant.
+
+The coordinating agent remains responsible for the research graph, mathematical consistency and
+the final result. Before integrating a sub-agent result, inspect its claims and files, reconcile
+definitions and hypotheses, and run the required Lean checks. A sub-agent report is not verified
+evidence merely because it is confident or complete.
+
+All agents share the checkout, so assign explicit file ownership and avoid concurrent edits to the
+same files. Keep expensive Lean builds and certificate generation serialized unless resource
+limits and disjoint outputs make concurrency clearly safe. Do not delegate a trivial task, a
+tightly coupled proof step, or work whose coordination cost exceeds the likely gain.
 
 ## Run one work unit
 
@@ -64,6 +84,10 @@ value rather than mechanically:
 - an inexpensive counterexample test for a risky conjecture;
 - a lean-ready theorem that advances the verified frontier;
 - a research note likely to make a blocked question precise.
+
+When several ready items are independent, keep multiple sub-agents productively occupied and
+integrate their outputs at explicit checkpoints. Do not let autonomous delegation bypass audit,
+authorization, resource or evidence requirements.
 
 Create auxiliary notes or questions when discovery requires them, but do not silently replace a
 user's top-level goal or make a materially new project commitment. Stop autonomous mode when no
