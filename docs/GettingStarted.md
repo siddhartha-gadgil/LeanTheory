@@ -106,6 +106,42 @@ Do not force a single “north star” if the project naturally has several aims
 - initial notes and their dependency edges;
 - a provisional priority order, clearly separated from verified facts.
 
+Use this copy-paste prompt, replacing the bracketed fields:
+
+```text
+Seed the goals, questions, sources and initial research-note graph for this LeanTheory project.
+
+Domain and context:
+- Topic: [scientific or engineering domain]
+- Background and intended scope: [what system or mathematics is being studied]
+- Desired outcomes: [one or more goals; do not force them into a single goal]
+- Open questions: [known primary or auxiliary questions]
+- User ideas or proposed approaches: [ideas, conjectures, calculations or design directions]
+- Sources: [papers, books, standards, datasets, links and precise locators where available]
+- Constraints: [models, parameter ranges, units, tolerances, computational limits or exclusions]
+
+Read notes/implementation-plan.md, notes/note-template.md and the startup audit before editing.
+Then:
+1. Create stable G-* entries for each distinct goal, with precise success criteria and
+   parent/support relationships.
+2. Create stable Q-* entries for independent and auxiliary questions, recording which goals,
+   questions or notes need their answers.
+3. Create an assumption and source ledger. Distinguish published theorems, empirical inputs,
+   proposed models, user ideas, conjectures and numerical observations; record validity ranges
+   and source locators without inventing missing details.
+4. Propose initial N-* notes using notes/note-template.md. For each, record dependencies and the
+   evidence required from them, expected outputs, difficulty, barriers, research status and Lean
+   readiness.
+5. Build the dependency graph and identify which notes are ready now. An earlier result counts as
+   established only when its named Lean declaration compiles and its required audit has passed.
+6. Suggest a provisional priority order, favoring work that resolves model ambiguity, tests risky
+   conjectures or unlocks several downstream notes.
+
+Do not begin formalization merely to fill the graph, and do not label sourced or plausible claims
+as verified. Update notes/implementation-plan.md and create the initial note files. Finally report
+the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what to work on next.
+```
+
 ### Step 3: Develop the note graph
 
 Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
@@ -193,16 +229,6 @@ existing kernel declaration and its sanity coverage, red-team assumptions and de
 inspect affected downstream results, run the feasible build and axiom checks, and record findings
 and the audited commit. Add missing risk-specific sanity or regression checks. Then summarize the
 project and offer ready choices.
-```
-
-### Project architect
-
-```text
-Initialize this topic as a LeanTheory research project. From the supplied goals, questions,
-sources and ideas, create stable G-*, Q-* and N-* identifiers; map their dependencies; and propose
-the first ready work items. Do not assume that every target is already formalization-ready.
-Separate sourced results, conjectures, empirical assumptions, calculations and compiled Lean
-theorems. Use notes/note-template.md for every new note.
 ```
 
 ### Note worker
