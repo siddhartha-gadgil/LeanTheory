@@ -7,7 +7,12 @@ description: Formalize sourced mathematical results in Lean for a LeanTheory-bas
 
 ## Load only the relevant material
 
-Read `notes/domain-libraries.md`, the actual kernel modules, `notes/formalization/00-model-contracts.md` and the relevant existing theory in `LeanTheory/Theory/`. Resolve paths relative to the selected repository even when this skill is installed globally. If supporting notes are absent, state the narrower available context.
+Read `notes/domain-libraries.md`, the source research note and its dependencies, the actual kernel
+modules, `notes/formalization/00-model-contracts.md` and the relevant existing theory in
+`LeanTheory/Theory/`. Resolve paths relative to the selected repository even when this skill is
+installed globally. Confirm that required upstream results have named compiled declarations. If a
+dependency is only conjectural or sketched, do not silently formalize downstream of it as if it
+were established; formalize the prerequisite first or keep the theorem explicitly conditional.
 
 ## Extract a source theorem before coding
 
@@ -38,4 +43,7 @@ Inspect `#print axioms` for important public results and add certificate entry p
 
 Recheck the informal statement against the final Lean declaration. Verify that a nonempty admissible class remains (a concrete instance, as in `LeanTheory/Sanity/Example.lean`), that the chosen norm is the advertised one, and that boundary terms and symmetry modes have not disappeared through an unjustified restriction. A result on a finite subspace must say so in its name.
 
-Deliver the source locator, declaration names, assumptions, compiled checks, sanity theorems, remaining dependencies and the next target. Label sketches and unformalized source results separately from verified library code.
+Update the originating note and `notes/implementation-plan.md` with source locators, declaration
+names, assumptions, compiled checks, sanity theorems, remaining dependencies, barriers and newly
+ready notes. Deliver the next target. Label sketches and unformalized source results separately
+from verified library code.

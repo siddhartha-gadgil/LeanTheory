@@ -1,9 +1,11 @@
 # Skills
 
-Agent skills for a LeanTheory-based formalization (`.claude` is a symlink to `.agents`).
+Agent skills for a LeanTheory theory-development and verification project (`.claude` is a symlink
+to `.agents`).
 
 | Skill | Use when |
 | --- | --- |
+| `develop-theory` | coordinating multiple goals, questions and research notes; status summaries; `work on ...`; user discussion; or the autonomous `keep working` loop |
 | `audit-domain` | starting work, choosing or changing a model, reviewing a claim: kernel laws as typeclasses, the sanity triad (degenerate case, concrete instance, counterexample), assumption ledger, scope statements |
 | `formalize-theory` | formalizing a sourced result (paper, book, complete proof) as reusable Lean theory above the kernel |
 | `discover-theory` | existing results do not give the needed bound or margin: conjecture, proof, counterexample, refinement |

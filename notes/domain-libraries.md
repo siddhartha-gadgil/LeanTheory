@@ -1,8 +1,10 @@
-# Domain libraries in Lean
+# Developing domain theory with Lean
 
-Instructions for modelling a real-world domain in Lean so that it can be audited cleanly. A
-domain library has a *kernel*, *sanity checks* for the kernel, and a *library* of results with
-*verification theorems*. The template's worked example is `LeanTheory/Kernel/Example.lean`,
+Instructions for developing mathematical theory in any scientific or engineering domain, with
+Lean checking the steps that later results rely on. A project is a graph of goals, questions and
+research notes, together with a checked library containing a *kernel*, *sanity checks*, derived
+*theory*, *bridges* and *verification theorems*. The template's worked example is
+`LeanTheory/Kernel/Example.lean`,
 `LeanTheory/Sanity/Example.lean`, `LeanTheory/Bridge/Example.lean` and
 `LeanTheory/Certificates/Example.lean`.
 
@@ -11,20 +13,62 @@ that downstream proofs must unfold are `@[expose]`. Every definition and theorem
 and every module a module docstring. Mathlib is the main dependency; add others in
 `lakefile.toml` (`[[require]]`) only when needed.
 
-## Agent runs and loops
+## Goals, questions and notes
 
-On the first run (no kernel yet), build the kernel as below, then its sanity checks, then loop
-through the library-building steps, accumulating theory as code until progress halts.
+Maintain stable identifiers in `notes/implementation-plan.md`:
 
-On later runs, examine the kernel and fix errors if any, recording changes in comments and in the
-implementation log of `notes/implementation-plan.md`. Extend the kernel only when more external
-facts or concepts must be modelled. The main goal of a later run is to assess what has been done
-and what remains for the goals, and to add verified code.
+- goals `G-*`, with success criteria and links to parent or supporting goals;
+- questions `Q-*`, including independent research questions and auxiliary questions needed by a
+  goal or another question;
+- notes `N-*`, each representing a coherent unit of research, proof, computation or
+  formalization.
 
-After each run, update the progress log of the implementation plan: what was proved (with
-declaration names), what failed and why, the checks actually run (`lake build`, the axiom audit),
-and the next targets. Distinguish compiled theorems from synthetic examples, supplied data and
-planned work.
+Use `notes/note-template.md`. Every note records its dependencies, the exact evidence required
+from them, outputs, difficulty, barriers, sources, research status and Lean readiness. A note may
+produce new notes or revise goals and questions. Notes are not promises to write Lean immediately:
+they may develop definitions, conjectures, proofs, counterexamples, literature comparisons or
+research strategies.
+
+Keep these evidence states distinct:
+
+- **exploratory**: an idea, heuristic, experiment or tentative approach;
+- **stated**: a precise conjecture or sourced theorem with hypotheses recorded;
+- **proof-ready**: a complete mathematical argument is available for formalization;
+- **lean-ready**: statement, definitions and verified prerequisites have been identified;
+- **verified**: named Lean declarations compile and the required audit has passed;
+- **blocked/refuted/superseded**: the note records why it cannot currently proceed or should not
+  be used.
+
+Only `verified` outputs may be treated as established premises by downstream work. Research may
+explore a conditional branch based on an unverified claim, but every derived note must preserve
+that dependency and must not report its conclusions as established.
+
+## Agent runs and interaction loop
+
+At the start of a run, survey the registries, note metadata and compiled declarations. If the user
+says `work on ...`, select that note, goal or question; for a broad item, announce the nearest
+useful subnote. If the user asks for discussion, explore freely and record durable ideas, sources,
+decisions and new questions in notes.
+
+For one work unit:
+
+1. Check dependency and verification requirements.
+2. Choose the appropriate activity: literature study, theory discovery, proof development,
+   counterexample search, numerical exploration, formalization or certification.
+3. Produce a coherent result or explicit barrier. Formalize it when ready, and do not mark it
+   verified until the relevant Lean module compiles.
+4. Update notes, goals, questions, dependencies and the progress log.
+5. Report compiled results separately from conjectures and observations, then list ready next
+   choices.
+
+Interactive mode is the default: after each work unit ask what to work on next, allowing a ready
+note, any goal/question or arbitrary discussion. On `keep working`, use autonomous mode: repeatedly
+choose the highest-value ready item, prefer prerequisites that unlock several dependants, provide
+concise progress updates and continue without awaiting a choice. Stop only for a genuine user
+decision, missing authorization, lack of useful ready work or an explicit pause.
+
+The autonomous loop changes target selection, not the validity standard. A later step builds on an
+earlier result as established only if the earlier result has a compiled Lean declaration.
 
 ## Kernel
 
@@ -59,12 +103,12 @@ boundary and regularity cases, parameter-range endpoints, and accepted/rejected 
 fixtures. These are heuristics, not exhaustive categories. Record what risk each theorem tests so
 that later contributors can extend the suite without treating the current examples as complete.
 
-## Library with verification
+## Theory and library with verification
 
-The library builds on the kernel incrementally, adding results from the literature and then new
-discoveries. Use both theory and exact numerical computation (interval arithmetic, certificates),
-prioritizing theory; use computation-based proofs to go beyond the theory where it is unclear how
-to extend it.
+The library builds on the kernel incrementally, formalizing results from the literature and new
+discoveries developed in notes. Use both theory and exact numerical computation (interval
+arithmetic, certificates), prioritizing reusable theory; use computation-based proofs where the
+available theory does not yet give a useful result.
 
 Whenever a definition or type is introduced, state and prove its properties: characterizing
 properties, consequences and special (especially degenerate) cases. If a check fails, correct the

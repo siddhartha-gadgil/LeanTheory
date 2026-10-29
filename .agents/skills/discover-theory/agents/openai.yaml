@@ -1,4 +1,4 @@
 interface:
   display_name: "Discover new theory"
-  short_description: "Generate, test and refine new mathematical conjectures"
-  default_prompt: "Use $discover-theory to seek a stronger, constructive theorem for the domain."
+  short_description: "Develop research notes through conjecture, proof and counterexample"
+  default_prompt: "Use $discover-theory to advance an open question or research note."

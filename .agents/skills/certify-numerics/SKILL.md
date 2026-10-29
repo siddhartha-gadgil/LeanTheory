@@ -5,7 +5,11 @@ description: Build and check numerical proof certificates for a LeanTheory-based
 
 # Certify a numerical candidate
 
-Read the kernel definitions, the relevant theory, `notes/formalization/00-model-contracts.md`, and the existing certificate modules in `LeanTheory/Certificates/` before writing a new checker. Reuse what is there; do not assume a package mentioned in a planning note is installed or sound for the required operations.
+Read the originating research note and its dependency requirements, the kernel definitions, the
+relevant verified theory, `notes/formalization/00-model-contracts.md`, and the existing certificate
+modules in `LeanTheory/Certificates/` before writing a new checker. Reuse what is there; do not
+assume a theorem from an upstream note is available unless its Lean declaration compiles, or that
+a package mentioned in a planning note is installed or sound for the required operations.
 
 ## Define the certificate boundary
 
@@ -47,3 +51,5 @@ Generators must validate every emitted bound with exact rational arithmetic befo
 ## Report
 
 Certified quantities and margins, assumptions supplied by other theorems or law instances, arithmetic/truncation uncertainty, data uncertainty, and remaining model discrepancy. Attach the candidate's identity (data hash, definitions) to the result so a later change of the candidate cannot reuse its certificate accidentally.
+Update the note graph with declaration names, verification status, remaining barriers and any
+downstream notes made ready by the certificate.

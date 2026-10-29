@@ -3,6 +3,10 @@
 How to choose and state goals for a LeanTheory project, distilled from the original project's goal
 notes. Domain content belongs in `notes/implementation-plan.md` §0.
 
+Maintain several goals and questions when the domain requires them. Give each a stable identifier,
+record parent/support relationships, and introduce auxiliary questions rather than forcing every
+line of work into one top-level goal.
+
 1. **Specify the output before choosing a method.** Write the target as a contract: model,
    object, quantifiers, observable and tolerance. Choose the technique (energy method,
    comparison principle, certificate, perturbation theorem) only afterwards.

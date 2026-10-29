@@ -1,11 +1,15 @@
 ---
 name: discover-theory
-description: Develop new mathematical theory for a LeanTheory-based formalization using conjecture, proof, counterexample and refinement loops. Use when existing results do not yield a useful margin, bound, existence theorem, error estimate or constructive design condition.
+description: Develop new mathematical theory in a LeanTheory project using conjecture, proof, counterexample and refinement loops. Use for open questions and research notes when existing verified results do not yield a needed margin, bound, existence theorem, error estimate or constructive design condition.
 ---
 
 # Discover useful mathematics
 
-Read the actual kernel, `notes/formalization/00-model-contracts.md`, `notes/implementation-plan.md` and the method notes in `notes/goals/`. Prefer theoretical advances; use numerical experiments to discover structure and to produce counterexamples or candidate certificates.
+Read the selected research note, its goal/question and dependencies, the actual verified kernel,
+`notes/formalization/00-model-contracts.md`, `notes/implementation-plan.md` and the method notes in
+`notes/goals/`. Prefer theoretical advances; use numerical experiments to discover structure and
+to produce counterexamples or candidate certificates. Do not assume an upstream note is true
+unless its required Lean declaration compiles.
 
 ## Choose a precise gap
 
@@ -21,7 +25,9 @@ Typical targets: completing squares in an energy functional, identifying the rig
 4. Independently seek counterexamples: zero modes, resonances, degenerate parameters, singular points, boundary effects, large gradients, truncated modes, adversarial corners of the uncertainty set.
 5. Check an experimental counterexample against the exact definitions. A floating-point failure is evidence to investigate; an exact witness refutes the statement.
 6. If refuted, repair the claim by an interpretable hypothesis or a narrower conclusion, and record why the change is necessary.
-7. Prove the repaired theorem, formalize it (`formalize-theory`), and test its useful special cases (the sanity triad of `audit-domain`). Repeat until a meaningful theorem or a clearly stated obstruction remains.
+7. Prove the repaired theorem when possible and test useful special cases. Formalize it with
+   `formalize-theory` when the argument and prerequisites are ready; otherwise create the next
+   research note or record a clearly stated obstruction.
 
 Keep conjectures, exact counterexamples, proof sketches, compiled Lean theorems and numerical observations separate. Never add a conjecture as an axiom, claim novelty from Lean acceptance, or hide an unresolved estimate inside a typeclass instance.
 
@@ -33,4 +39,9 @@ Keep the theorem's actual scope when the strong form fails. Explore weaker but t
 
 ## Finish with an actionable record
 
-Write the final claim, proof or obstruction, exact hypotheses, literature comparison, counterexample attempts, Lean status, design implication and next dependency. Update `notes/implementation-plan.md` after successful formalization. Do not inflate a restricted mathematical improvement into a claim about the full real-world system.
+Update the note with the final claim, proof or obstruction, exact hypotheses, literature
+comparison, counterexample attempts, difficulty, barriers, Lean readiness, design implication and
+next dependencies. Create new `N-*` or `Q-*` entries for substantial branches. Update
+`notes/implementation-plan.md` after every work unit, not only after successful formalization. Do
+not inflate a restricted mathematical improvement into a verified result or a claim about the
+full real-world system.

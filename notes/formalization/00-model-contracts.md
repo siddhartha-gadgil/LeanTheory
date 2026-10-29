@@ -5,6 +5,12 @@ practical claim needs several such implications, plus evidence that the models a
 apply to the intended regime. Lean checks the implications; validation supplies the evidence
 about the regime. This note fixes how claims are stated so that the two are never confused.
 
+Research notes may propose contracts, proofs and reductions before they are formalized. Record
+those dependencies in the note graph, but treat a mathematical step as established downstream only
+when a named Lean declaration states and proves it. Empirical inputs remain explicit supplied data
+or law instances with sources and validity envelopes; Lean verifies deductions conditional on
+them.
+
 ## Contracts
 
 Use separate predicates with explicit parameters instead of one unqualified `Good : Prop`. Each

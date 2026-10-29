@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop theory"
+  short_description: "Coordinate goals, questions, research notes and Lean validity gates"
+  default_prompt: "Use $develop-theory to review the project graph and work on the next useful item."

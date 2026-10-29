@@ -1,69 +1,99 @@
-# Implementation plan: theory → proof techniques → successively realistic models
+# Theory development and verification plan
 
-Skeleton of the plan of record. Replace every ‹…› slot with your domain; keep the section order.
-Each section has one or two lines of guidance.
+This is the project index and plan of record. Replace every `‹…›` slot with domain content. Keep
+stable identifiers when titles or priorities change; detailed work belongs in notes following
+`notes/note-template.md`.
 
-## 0. Goals and current status
+## 0. Current status
 
-‹State the main goals (G1, G2, …) as precise target theorems or contracts
-(`notes/formalization/00-model-contracts.md`), and one paragraph on where the project stands.›
+‹Summarize the domain, verified foundation, active research, main barriers and the most useful
+ready choices. Separate compiled facts from conjectures, sources and observations.›
 
-## 1. Corrections to the starting notes
+## 1. Goal registry
 
-‹List claims from the starting notes that are false or underspecified as written, each with its
-precise replacement. Do these first: formalizing them as written would be unsound.›
+Several goals may coexist. Goals may be independent or support other goals.
 
-## 2. Layers
+| ID | Goal and success criterion | Supports / supported by | Status | Evidence needed |
+| --- | --- | --- | --- | --- |
+| `G-...` | ‹precise mathematical, scientific or engineering outcome› | ‹IDs› | ‹open / active / achieved / blocked / superseded› | ‹contracts and declarations› |
 
-‹Describe the three interacting layers: theory (results above the kernel), proof techniques
-(certificate formats and checkers) and the model ladder (§5).›
+## 2. Question registry
 
-### 2.1 Kernel extensions
+Questions may be primary research outputs or auxiliary prerequisites.
 
-‹Planned kernel additions: minimal, laws as typeclasses only, no axioms, each with its sanity
-triad (degenerate case, instance, counterexample).›
+| ID | Question | Needed by | Status | Current best answer / barrier |
+| --- | --- | --- | --- | --- |
+| `Q-...` | ‹precise question› | ‹`G-*`, `Q-*`, `N-*`› | ‹open / active / answered / blocked / refuted› | ‹summary and evidence level› |
 
-## 3. Running a cycle
+## 3. Note registry and dependency graph
 
-‹One run in the sense of `notes/domain-libraries.md`: pick targets, formalize, certify, audit
-(`lake build`, `scripts/check_axioms.lean`), record in §9 and §13.›
+| ID | Note | Addresses | Depends on | Difficulty | Status / Lean readiness | Next action |
+| --- | --- | --- | --- | --- | --- | --- |
+| `N-...` | ‹path and title› | ‹`G-*`, `Q-*`› | ‹notes and declarations› | ‹routine / moderate / hard / research› | ‹exploratory / stated / proof-ready / lean-ready / verified / blocked / refuted / superseded› | ‹one work unit› |
 
-## 4. Theory tracks
+A dependency is established only when its required output is a compiled Lean declaration. A note
+may explore a conditional dependency, but the edge and all downstream status must remain marked
+unverified.
 
-‹Table of theory tracks, each with its technique companion (which certificate or checker makes
-it effective) and its first deliverable.›
+## 4. Corrections and assumption ledger
 
-## 5. Model ladder
+‹List false or underspecified starting claims with precise replacements. Record every model law,
+empirical input, parameter range, unit convention and validity envelope, together with its source.›
 
-‹Rungs from the simplest model to the most realistic one; for each rung, which goals it addresses
-and what must be proved to climb to the next (reduction theorems or error envelopes).›
+## 5. Theory tracks and model ladder
 
-## 6. Cycle schedule
+‹Group related notes into theory tracks. For each track give the current verified frontier,
+questions, proof or certificate techniques, and first useful deliverable. List model rungs from
+simple to realistic and the verified reduction or explicit error envelope needed between rungs.›
 
-‹Ordered cycles (Cycle 1, Cycle 2, …), each naming its rung, tracks and expected outputs.›
+## 6. Work selection
 
-## 7. Sub-agent prompt template
+Interactive mode: after each work unit report status and ask the user to choose a ready note, a
+goal/question or a topic for discussion. Record user ideas and sources in the affected notes.
 
-‹A reusable prompt for delegated work: goal, files to read, scope, what is already ruled out,
-the policies (no decide, standard axioms, zero warnings, ≤ 6 GB per process), and the report
-format.›
+Autonomous mode (`keep working`): choose the highest-value ready note, preferring work that
+unblocks several dependants, closes a validity gap, tests a risky conjecture or produces a reusable
+theorem. Continue across work units without waiting for a choice; stop for a genuine user decision,
+missing authorization or absence of useful ready work.
+
+Current priority order:
+
+1. ‹ready item and reason›
+2. ‹ready item and reason›
+
+## 7. Running a work unit
+
+1. Resolve the selected `G-*`, `Q-*`, `N-*` or discussion topic to one coherent task.
+2. Check dependency evidence and read the relevant notes, sources and compiled declarations.
+3. Perform literature study, discovery, proof, counterexample search, computation, formalization or
+   certification as appropriate to readiness.
+4. Compile and audit any Lean output. Do not promote an output to verified on informal evidence.
+5. Update the note graph, registries, barriers and this progress log.
+6. Report verified and unverified outcomes separately and identify ready next work.
 
 ## 8. Definition of done
 
-‹Per cycle: statements compiled with docstrings and sanity theorems, zero warnings, axiom audit
-passed, entry points registered, notes and progress log updated, honest scope statement.›
+For a research note: claims and evidence are classified, dependencies and barriers are current,
+outputs are recorded, and the next readiness-changing action is explicit.
 
-## 9. Progress log
+For a verified result: declarations compile with docstrings and sanity theorems, zero warnings,
+the axiom audit passes, entry points are registered, and the note gives an honest scope statement.
 
-‹One dated entry per phase: what was proved (declaration names), what failed and why, checks
-run, next targets.›
+For a goal: all required contracts hold for compatible witnesses and models, and every claimed
+dependency is backed by the recorded level of evidence. A formal theorem alone does not validate
+the physical model.
 
-## 10. Evidence gates
+## 9. Evidence gates
 
-‹For each claim headed to a design: which contracts must hold for the same witness, and which
-evidence (proof, certificate, external validation) is required at each gate.›
+‹For each goal or design, list which contracts must hold for the same witness and which evidence
+is required: compiled proof, exact certificate, empirical data or external model validation.›
 
-## 11. Implementation log
+## 10. Progress log
 
-‹Technical notes per stage: certificate formats introduced, build-time and memory measurements,
-refactors, workstation runs (see `workstation/REVIEWED.md`).›
+‹One dated entry per work unit: selected item, theory or note changes, declarations proved, failed
+approaches and barriers, checks run, status changes, new dependencies and next ready choices.›
+
+## 11. Implementation and workstation log
+
+‹Technical notes: certificate formats, build time and memory, refactors and workstation runs. Keep
+these distinct from mathematical evidence. See `workstation/REVIEWED.md`.›

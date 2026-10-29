@@ -5,7 +5,12 @@ description: Advance a candidate design in the user's domain, for a LeanTheory-b
 
 # Advance a design against explicit contracts
 
-Read `notes/formalization/00-model-contracts.md`, `notes/implementation-plan.md` and the relevant notes in `notes/goals/`. Inspect the implemented kernel, theory, bridge and certificate modules before describing a capability as available. Designs live in `LeanTheory/Design/` (empty in the template: one subdirectory or module per design family).
+Read `notes/formalization/00-model-contracts.md`, `notes/implementation-plan.md`, the relevant
+goal/question/research notes and the method notes in `notes/goals/`. Inspect the implemented
+kernel, theory, bridge and certificate modules before describing a capability as available. A
+design may support one of several project goals; preserve those links and do not treat an
+unformalized research-note result as established. Designs live in `LeanTheory/Design/` (empty in
+the template: one subdirectory or module per design family).
 
 Slots marked ‹replace: …› are to be filled in for your domain, ideally once in `notes/implementation-plan.md`, and then reused.
 

@@ -1,8 +1,12 @@
 # LeanTheory
 
-A minimal, general template for formalizing a **mathematical-physics theory in Lean 4** with
-**verified numerics** and **proof-term certificates**. It was extracted from a larger project
-by removing everything domain-specific and keeping the general machinery:
+A general workspace for developing mathematical theory across science and engineering, with
+**Lean 4 as the validity gate**. Work may be autonomous or interactive: users can pose several
+goals and questions, develop or discuss research notes, add sources and ideas, and choose what to
+work on next. Results count as established dependencies only after they have been formalized and
+checked by Lean.
+
+The template keeps the following general machinery:
 
 - an architecture that separates the *model* (laws stated as typeclasses, never axioms) from its
   *sanity checks*, *bridges*, general *theory*, numerical *certificates* and concrete *designs*;
@@ -10,11 +14,19 @@ by removing everything domain-specific and keeping the general machinery:
   Lean kernel (no `decide`, no `native_decide`, standard axioms only);
 - general analysis used by such certificates (strip/Fourier Banach algebras, KAM-type Newton
   iterations, analytic composition, Sturm–Picone–Riccati comparison, ODE barriers);
-- agent skills and a workstation pipeline for offloading heavy numerics and builds.
+- a research-note graph connecting goals, questions, sources, conjectures, barriers and verified
+  declarations;
+- agent skills for interactive and autonomous theory development, plus a workstation pipeline
+  for offloading heavy numerics and builds.
 
 A small worked example (a one-dimensional harmonic oscillator) runs through every layer.
 
 ## Getting started
+
+Create a fresh topic-named repository from this GitHub template, then follow
+[the theory-development workflow](docs/GettingStarted.md). In a project checkout, users can ask
+for a status summary, say `work on <note/goal/question>`, discuss an idea or source, or say
+`keep working` to run the autonomous work-selection loop.
 
 ```bash
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds
@@ -41,7 +53,7 @@ LeanTheory/
   SubsetSum.lean         Reference pattern: large proofs as explicit proof terms
 LeanTheoryMeta/          `meta` code of `eval_cert`, precompiled to native code
 scripts/                 Setup, axiom audit, kernel_fact audit, workstation pipeline
-notes/                   Method notes: domain libraries, model contracts, plan skeleton
+notes/                   Goals, questions, research notes, dependencies and progress
 .agents/skills/          Agent skills (`.claude` is a symlink to `.agents`)
 ```
 
@@ -106,21 +118,27 @@ See [Workstation.md](Workstation.md).
 
 ## Starting a new theory
 
-1. Rename the library if you like (`LeanTheory` in `lakefile.toml`, the directories and the
-   namespaces), and state the goals in `notes/implementation-plan.md`.
-2. Write the kernel: definitions plus laws as typeclasses, following `Kernel/Example` and
-   [notes/domain-libraries.md](notes/domain-libraries.md); record the contracts in
-   [notes/formalization/00-model-contracts.md](notes/formalization/00-model-contracts.md).
-3. Add the sanity triad for every law (`Sanity/Example`).
-4. Build theory and bridges; prove semantic soundness theorems for any checker you add.
-5. Generate certificates with an untrusted oracle (Python in `scripts/`), validate every bound
-   in exact arithmetic before emitting Lean, and prove them with the toolkit above.
-6. Compose them in `Design/`, register entry points in `scripts/check_axioms.lean` and imports in
-   `LeanTheory.lean`.
+1. State any number of goals (`G-*`) and questions (`Q-*`) in
+   `notes/implementation-plan.md`, including auxiliary items and dependency links.
+2. Create research notes from sources, user ideas, calculations or open questions. Follow
+   [the note template](notes/note-template.md): every note records dependencies, outputs,
+   difficulty, barriers and Lean readiness.
+3. Develop theory by alternating literature study, conjecture, proof, counterexample and
+   refinement. A processed note may update goals/questions and produce further notes.
+4. Formalize a claim when its statement, hypotheses and proof are ready. Write model laws in the
+   kernel as typeclasses, add their sanity checks, and put derived mathematics in `Theory/` and
+   `Bridge/`.
+5. Generate certificates with an untrusted oracle when needed, validate every bound in exact
+   arithmetic, and check the result with Lean.
+6. Only use a result as an established prerequisite after its corresponding Lean declaration
+   compiles. Exploratory work may be conditional on an unverified conjecture, but must remain
+   labelled as such.
+7. After each work unit, update the note graph and status report. In interactive mode ask the
+   user what to work on next; in autonomous mode select the next ready, useful item.
 
-The skills in [.agents/skills](.agents/skills/README.md) (`lean-proofs`, `certify-numerics`,
-`discover-theory`, `formalize-theory`, `audit-domain`, `domain-design`, `workstation-update`)
-describe each step for an agent.
+The skills in [.agents/skills](.agents/skills/README.md) (`develop-theory`, `lean-proofs`,
+`certify-numerics`, `discover-theory`, `formalize-theory`, `audit-domain`, `domain-design`,
+`workstation-update`) describe each step for an agent.
 
 **Future work.** A configurable documentation pipeline (handbook site and progress slideshow
 generated from the notes) existed in the original project and was removed from the template.

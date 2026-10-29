@@ -1,11 +1,15 @@
 # LeanTheory/
 
-The Lean library. Every module is imported by the root [`LeanTheory.lean`](../LeanTheory.lean)
-(the default build) and audited by `scripts/check_axioms.lean`.
+The Lean library is the checked layer of a broader theory-development workspace. Research may
+begin in notes, but a result becomes an established prerequisite only when its Lean declaration
+has compiled. Every module is imported by the root [`LeanTheory.lean`](../LeanTheory.lean) (the
+default build) and audited by `scripts/check_axioms.lean`.
 
 For a new domain, first create a fresh, topic-named GitHub repository using
 [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory) as a template;
 then continue with the [getting-started workflow](../docs/GettingStarted.md) in that repository.
+That workflow covers multiple goals and questions, research-note dependencies, interactive
+commands such as `work on ...`, and the autonomous `keep working` loop.
 
 | Folder | Content | Start with |
 | --- | --- | --- |

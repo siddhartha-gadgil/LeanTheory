@@ -2,25 +2,43 @@
 
 This document illustrates the **`LeanTheory` workflow** on a concrete physics and engineering problem: **modeling the Solar System ($N$-body gravitational mechanics + Tsiolkovsky variable-mass rocket dynamics) and specifying a route toward a machine-checked Earth-to-Mars transfer certificate**.
 
-The example shows how high-level goals and textbook astrodynamics are transformed into `notes/*.md`, a **small domain kernel**, an **extensible suite of compiled sanity checks**, and an **assumption ledger**. It is a design sketch: declarations shown below must still be placed in the repository, compiled, and audited before they count as verified results.
+The example shows how a goal and its auxiliary questions become a dependency graph of research
+notes, a **small domain kernel**, an **extensible suite of compiled sanity checks**, and an
+**assumption ledger**. It is a design sketch: declarations shown below must still be placed in the
+repository, compiled, and audited before they count as verified results.
 
 ---
 
-## Part 1: Repository Map Created by Prompt 1 (The Architect Step)
+## Part 1: Goal, Questions, and Repository Map
 
-When we apply **Prompt 1** to the Mars trajectory problem, we decompose the theory into 6 modular workstreams in `notes/`:
+One possible initial graph is:
+
+| ID | Item | Depends on / supports | Initial status |
+| --- | --- | --- | --- |
+| `G-MARS-1` | Certify a tolerance-aware Earth-to-Mars transfer | supported by all questions below | open |
+| `Q-MARS-1` | Which dynamical model and validity envelope are adequate? | required by `G-MARS-1` | research |
+| `Q-MARS-2` | Which defect bound controls every admissible perturbed trajectory? | requires the model contracts | research |
+| `Q-MARS-3` | Which exact data establish capture and clearance margins? | requires a verified tube theorem | blocked |
+
+This is only one project goal; the same repository could contain independent goals concerning
+staging, ephemeris validation or transfer optimization. Each note below should include the
+metadata from `notes/note-template.md`, including exact dependencies, difficulty, barriers and
+Lean readiness.
+
+The Mars trajectory goal initially decomposes into six notes:
 
 ```text
 MarsMissionLean/
 ├── ASSUMPTION_LEDGER.md                       # Explicit physical idealizations & parameters
-├── PROGRESS.md                                # Compiled declarations vs. open math targets
 ├── notes/
-│   ├── 01-model-contracts-and-kernel.md       # Kernel contracts and planned sanity suite
-│   ├── 02-solar-system-nbody-ephemeris.md     # N-body gravitation, barycentric frames & clearance
-│   ├── 03-kepler-conics-and-lambert.md        # 2-body invariants (E, L, e_vec) & Hohmann/Lambert transfer
-│   ├── 04-rocket-equation-and-staging.md      # Tsiolkovsky variable-mass ODE & Δv fuel budgets
-│   ├── 05-verified-ode-defect-bounds.md       # A posteriori Chebyshev/Taylor ODE enclosures (Grönwall)
-│   └── 06-mars-capture-certificate.md         # End-to-end tolerance-aware Earth-to-Mars certificate
+│   ├── implementation-plan.md                 # G/Q/N registries, dependencies and progress
+│   ├── note-template.md                       # Shared research-note metadata
+│   ├── N-01-model-contracts-and-kernel.md      # Model choice; research → Lean-ready
+│   ├── N-02-solar-system-nbody-ephemeris.md    # Source/data assumptions and clearance
+│   ├── N-03-kepler-conics-and-lambert.md       # Analytical theory and transfer approaches
+│   ├── N-04-rocket-equation-and-staging.md     # Tsiolkovsky theory and engineering questions
+│   ├── N-05-verified-ode-defect-bounds.md      # Research/proof of a posteriori enclosure
+│   └── N-06-mars-capture-certificate.md        # Blocked until N-01, N-02 and N-05 verify inputs
 └── MarsMissionLean/
     ├── Kernel/
     │   └── AstrodynamicsKernel.lean           # Small domain specification
@@ -37,9 +55,22 @@ MarsMissionLean/
 
 ---
 
-## Part 2: Sample Formalization Note (`notes/01-model-contracts-and-kernel.md`)
+## Part 2: Sample Research and Formalization Note (`notes/N-01-model-contracts-and-kernel.md`)
 
-*(Below is a sample note generated using **Prompt 2**, showing how equations, kernel contracts, and sanity checks are specified together in `notes/`.)*
+The full note would begin with the standard metadata. For example:
+
+| Field | Value |
+| --- | --- |
+| ID | `N-MARS-01` |
+| Kind | model definition and formalization plan |
+| Addresses | `G-MARS-1`, `Q-MARS-1` |
+| Depends on | astrodynamics sources and ephemeris specifications; no theorem-note dependency yet |
+| Produces | model contracts, kernel declarations, sanity obligations, new model-validity questions |
+| Difficulty | hard: continuum dynamics, perturbations and source validity must be separated |
+| Status | stated; not yet Lean-ready |
+| Lean evidence | none—the code below is illustrative until compiled |
+
+The remainder shows how equations, kernel contracts and sanity checks can be developed together.
 
 ### 1. Motivation & Verification Strategy
 How do we formally verify in Lean 4 that a rocket launched from Earth orbit at $t = 0$ reaches the Mars capture sphere at $t = T_{\text{arr}}$ without colliding with any celestial body or running out of propellant, even under $\pm\varepsilon$ engine thrust and navigation uncertainties?
@@ -239,6 +270,6 @@ Every `LeanTheory` project maintains an explicit `ASSUMPTION_LEDGER.md` so revie
 | Ledger ID | Physical Assumption / Idealization | Where Used in `notes/` & `Kernel/` | Epistemic Status | How to Relax in Future Workstreams |
 | :--- | :--- | :--- | :--- | :--- |
 | **`A-PHYS-01`** | **Point-Mass / Spherical Harmonics $J_0$ Gravity:** Celestial bodies act as point masses $\mu_i = G M_i$ outside their safe exclusion radius $R_{\text{safe}, i}$. | `bodyGravity` in `AstrodynamicsKernel.lean` | Explicit Model Contract | Add $J_2$ oblateness quadrupole term $\nabla \Phi_{J_2}$ to `bodyGravity` near Earth/Mars departure & arrival. |
-| **`A-PHYS-02`** | **Prescribed Chebyshev Ephemeris $\mathbf{R}_i(t)$:** Planetary positions are given by certified JPL DE440 polynomial ephemeris curves with bounded residual $\varepsilon_{\text{ephem}}$. | `CelestialBody.pos` in `02-solar-system-nbody-ephemeris.md` | Explicit Hypothesis | Couple planetary mutual $N$-body ODEs into the joint state vector. |
-| **`A-PHYS-03`** | **Unmodeled Non-Gravitational Perturbations (Solar Radiation Pressure & Atmospheric Drag):** Bounded as an $L^\infty$ acceleration perturbation $\|\mathbf{a}_{\text{SRP}}(t)\| \le \varepsilon_{\text{SRP}}$ outside planetary atmospheres ($R_{\text{safe}, i} = R_{\text{planet}, i} + h_{\text{atm}}$). | Absorbed into $\varepsilon_{\text{thrust}}$ in `05-verified-ode-defect-bounds.md` | Certified Margin Bound | Add explicit inverse-square solar photon pressure model $P_{\odot} A C_R / (m r^2)$. |
+| **`A-PHYS-02`** | **Prescribed Chebyshev Ephemeris $\mathbf{R}_i(t)$:** Planetary positions are given by certified JPL DE440 polynomial ephemeris curves with bounded residual $\varepsilon_{\text{ephem}}$. | `CelestialBody.pos` in `N-02-solar-system-nbody-ephemeris.md` | Explicit Hypothesis | Couple planetary mutual $N$-body ODEs into the joint state vector. |
+| **`A-PHYS-03`** | **Unmodeled Non-Gravitational Perturbations (Solar Radiation Pressure & Atmospheric Drag):** Bounded as an $L^\infty$ acceleration perturbation $\|\mathbf{a}_{\text{SRP}}(t)\| \le \varepsilon_{\text{SRP}}$ outside planetary atmospheres ($R_{\text{safe}, i} = R_{\text{planet}, i} + h_{\text{atm}}$). | Absorbed into $\varepsilon_{\text{thrust}}$ in `N-05-verified-ode-defect-bounds.md` | Certified Margin Bound | Add explicit inverse-square solar photon pressure model $P_{\odot} A C_R / (m r^2)$. |
 | **`A-MATH-01`** | **Zero Project-Specific Lean Axioms:** All proofs rest solely on Lean 4's foundational axioms (`propext`, `Classical.choice`, `Quot.sound`). | Verified globally via `#print axioms CertifiedMarsTransfer` | Machine-Checked | N/A (Permanent invariant). |

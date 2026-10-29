@@ -1,144 +1,198 @@
-# Getting Started with `LeanTheory`: From Domain Papers & Goals to a Verified Theory via AI Agents
+# Getting Started with `LeanTheory`: Develop Theory, Check It with Lean
 
-**Repository Template:** [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory)  
-**Methodology:** Literate Blueprint-Driven Development + Small, Auditable Domain Kernels
+**Repository template:** [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory)
+**Methodology:** research-note graphs + small, auditable domain kernels + Lean validity gates
 
----
+## 1. Purpose
 
-## 1. Philosophy: How `LeanTheory` Works
+`LeanTheory` supports the development of mathematical theory throughout science and engineering.
+It is not merely a pipeline for translating finished mathematics into Lean. A project may begin
+with several independent or related goals, open questions, partial approaches, sources,
+calculations and design problems. Agents and users develop these interactively or autonomously.
 
-`LeanTheory` is a general-purpose template (extracted from `PlasmaLean`) for formalizing scientific, engineering, and mathematical theories in **Lean 4** using AI coding agents and chatbots.
+Lean provides the validity gate. Literature summaries, proof sketches, numerical experiments and
+conjectures are valuable research artifacts, but they are not established results. A later step
+may rely on an earlier result as proved only after a corresponding Lean declaration compiles.
+Exploratory work may investigate consequences of an unverified conjecture, provided the
+dependency remains explicit and no conclusion is reported as established.
 
-When using an AI agent to formalize a complex domain (such as plasma confinement, astrodynamics, photonic crystals, or fluid dynamics), asking the agent to *"formalize this paper directly in Lean"* almost always fails at scale due to two failure modes:
-1. **Context Loss & Hallucinated Architecture:** Over thousands of lines, the agent loses track of global design goals, invents incompatible definitions across files, or wanders down dead-end proof paths.
-2. **Specification Drift & "Junk Value" Exploits:** Because Lean 4 is a strict type checker rather than a physical oracle, an agent under pressure to close a `sorry` may unintentionally weaken a definition, introduce contradictory hypotheses (making theorems vacuously true), or exploit total-function junk values (like `1 / 0 = 0` or `Real.sqrt (-1) = 0`).
+The method prevents two common failures:
 
-### The `LeanTheory` Solution: A Layered, Auditable Architecture
-To prevent these failure modes, `LeanTheory` separates the specification from its checks and consequences:
+1. **Research drift:** long agent runs lose the motivating question, repeat abandoned approaches
+   or silently change definitions.
+2. **Validity drift:** a plausible argument, sampled computation or cited result is treated as if
+   it had already been checked under the exact hypotheses needed downstream.
 
-| Layer in `LeanTheory` | Purpose |
-| :--- | :--- |
-| **`notes/*.md` and the assumption ledger** | Detailed notes distilled from papers and textbooks *before* writing Lean code. They record exact equations, coordinate conventions, sources, validity ranges, and physical approximations. |
-| **`Kernel/*.lean`** | A small, self-contained domain specification containing core objects and external laws. Laws are explicit structures or typeclasses, never project axioms. This domain kernel is distinct from Lean's logical kernel. |
-| **`Sanity/*.lean`** | Compiled tests of the kernel. Every law has a degenerate case, a concrete satisfying instance, and a counterexample; projects add further checks appropriate to the domain. |
-| **`Theory/*.lean` and `Bridge/*.lean`** | Reusable mathematical consequences and theorems connecting abstract results to domain statements. |
-| **`Certificates/*.lean` and `Design/*.lean`** | Exact checkers, certified data, and concrete candidates assembled from the preceding layers. External solvers may propose data but do not enter the trusted proof path. |
+## 2. The project graph
 
----
+A project tracks three kinds of first-class items:
 
-## 2. The 7-Step Workflow: Starting a New Theory with a Chatbot / Coding Agent
+- **Goals (`G-*`)** are desired mathematical, scientific or engineering outcomes. There may be
+  several goals, and a goal may support another goal.
+- **Questions (`Q-*`)** are unresolved issues whose answers may be the project output or a
+  prerequisite for a goal. A question can be independent, auxiliary, blocked or refuted.
+- **Notes (`N-*`)** are work units. A note may synthesize literature, develop a definition,
+  explore a conjecture, record a counterexample, give a proof, specify a computation, prepare a
+  Lean formalization or document a verified result.
 
-Create a separate repository for each scientific or mathematical project, then follow this workflow with your AI assistant (e.g., Claude Code, Cursor, GitHub Copilot, Gemini, or ChatGPT).
+The registries and current priorities live in `notes/implementation-plan.md`. Detailed work lives
+in topic-specific notes. Every note follows [the note template](../notes/note-template.md) and
+records:
 
-### Step 1: Create a Topic-Specific Repository from the Template
+- the goals and questions it addresses;
+- note and Lean-declaration dependencies, with the verification required from each;
+- its expected outputs and any new notes it creates;
+- difficulty, barriers and unknowns;
+- research status and formalization readiness;
+- claims, counterexamples, sources and compiled Lean declarations without conflating them.
 
-On GitHub, open [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory), select **Use this template**, and create a fresh repository in your account or organization. Give it a name based on the topic, such as `MarsMissionLean`, `PhotonicCrystalLean`, or `FluidStabilityLean`, rather than continuing work in a clone named `LeanTheory`.
+Processing a note need not end in Lean code. It may produce new theory, split a question into
+tractable subquestions, expose a barrier, refute an approach, update priorities, or create further
+notes. When a claim becomes precise and justified enough to formalize, its note moves to
+`lean-ready`; only successful compilation moves the result to `verified`.
 
-Clone the new repository, open that checkout in your coding-agent environment, and make all subsequent notes, domain definitions, proofs, and project history there. The new repository retains the template's architecture and examples while remaining an independent, topic-focused formalization.
+## 3. Repository architecture
 
-### Step 2: Ingest Papers & Define the "North Star Certificate"
-Do **not** start by asking for Lean 4 code. Start by giving your chatbot the domain papers, notes, or physical problem statement, and ask it to identify:
-1. **The North Star Certificate:** What is the single concrete theorem at the end of the project that certifies a real-world design or mathematical goal?
-2. **The Minimal Mathematical Ontology:** What are the fewest standard `Mathlib` types needed to state that certificate (e.g., `EuclideanSpace ℝ (Fin 3)`, `Matrix`, `IntervalIntegral`)?
-3. **The Workstream Decomposition:** Break the domain into 6–12 modular chapters for the `notes/` directory.
+| Part | Purpose |
+| --- | --- |
+| `notes/` | Goals, questions, research notes, sources, dependency graph, barriers and status |
+| `Kernel/` | Small domain specification: core objects and external laws as structures or typeclasses, never project axioms |
+| `Sanity/` | Degenerate cases, concrete instances, counterexamples and domain-specific regression tests |
+| `Theory/` | Reusable proved mathematics |
+| `Bridge/` | Theorems connecting abstract theory and finite certificates to domain claims |
+| `Certificates/` | Exact checkers, enclosures and certified data; external solvers remain untrusted |
+| `Design/` | Concrete scientific or engineering candidates composed from verified layers |
 
-### Step 3: Generate the Literate Markdown Blueprint (`notes/*.md`)
-Instruct the chatbot to write one self-contained Markdown file per workstream in `notes/`. Every note **must** follow a mandatory 5-section template:
-1. **Motivation & Verification Strategy:** Why we model the problem this way (e.g., using an *a posteriori* defect bound or conservation law rather than formalizing a black-box numerical solver).
-2. **Exact Mathematical Formulation:** Self-contained LaTeX equations with explicit domains, quantifiers, and sign conventions.
-3. **Proposed Small-Kernel Contract (Lean 4 Stub):** The exact `structure` or `def` that belongs in the trusted kernel.
-4. **Sanity Stress Tests:** Begin with the required triad for every law—degenerate case, concrete instance, and counterexample—then add checks for relevant risks such as vacuity, singularities (`x / 0 = 0`), symmetry, scaling, conservation, boundary behavior, units, or parameter limits.
-5. **Assumption Ledger Entries:** Every physical idealization (e.g., point-mass gravity, neglect of solar radiation pressure, rigid body assumption) logged with an ID (`A1`, `A2`, ...).
+The domain kernel is distinct from Lean's logical kernel. Lean verifies consequences of the
+encoded model; expert review and validation determine whether the model applies to the intended
+physical regime.
 
-### Step 4: Extract and Stabilize the Small Domain Kernel (`Kernel/*.lean`)
-Once the Markdown notes look right to a domain expert, instruct the coding agent to extract **only** the core definitions and top-level certificate structures into `Kernel/`.
-* **Rule 1 (Zero Project Axioms):** Never allow `axiom` or `sorry` inside a `Kernel/` definition.
-* **Rule 2 (Guard All Partial Operations):** Every division `a / b`, square root `Real.sqrt x`, or `sSup S` in a kernel specification must be accompanied by an explicit positivity or non-emptiness hypothesis (`b ≠ 0`, `x ≥ 0`, `S.Nonempty`).
+## 4. Starting a project
 
-### Step 5: Compile an Extensible Sanity Suite (`Sanity/*.lean`)
-Before asking the coding agent for large domain proofs, require compiled checks against the kernel. For every law, start with this triad:
+### Step 1: Create a topic-specific repository
 
-1. **Degenerate case:** Show that a limiting parameter reduces the law to an expected elementary model; reject a degenerate input when the contract is meant to exclude it.
-2. **Concrete instance:** Exhibit a known analytical or finite model satisfying the law, so downstream theorems are not vacuous.
-3. **Counterexample:** Exhibit an object that fails the law, showing that the specification has real content and is not accidentally universal.
+On GitHub, open the [`LeanTheory` template](https://github.com/siddhartha-gadgil/LeanTheory),
+select **Use this template**, and create a fresh repository in your account or organization. Name
+it for the topic—for example `MarsMissionLean`, `PhotonicCrystalLean` or
+`FluidStabilityLean`—rather than continuing in a repository named `LeanTheory`.
 
-Then extend the suite according to the model's risks. Useful checks include singularity exclusion, symmetry or equivariance, conservation laws, dimensional scaling, asymptotic limits, boundary behavior, accepted and rejected certificate fixtures, and characterizing lemmas for new definitions. These are a menu, not a fixed quota; add a regression theorem whenever an audit exposes a new failure mode.
+Clone the new repository and open that checkout in the coding-agent environment. Keep its notes,
+history and Lean theory independent from other domain projects.
 
-At this checkpoint, have a domain expert review the equations, units, assumptions, parameter ranges, and source citations. Lean can verify consequences of the encoded model, but it cannot establish that the model applies to the intended physical regime.
+### Step 2: Seed goals, questions and sources
 
-### Step 6: Build Theory, Bridges, and Certificates from the Notes
-Point the coding agent at a specific section of a note and ask it to formalize the intermediate lemmas in `Theory/`, the domain connection in `Bridge/`, or the exact checker in `Certificates/`. Keep the kernel stable unless the audit shows that the specification itself is incomplete or wrong; record and re-run its sanity suite whenever it changes.
+Give the agent the scientific context, relevant papers or books, user ideas and desired outputs.
+Do not force a single “north star” if the project naturally has several aims. Ask it to create:
 
-### Step 7: Log Progress in `PROGRESS.md` and `ASSUMPTION_LEDGER.md`
-After each module compiles (`lake build`), instruct the agent to update the status badges in `notes/` and record any physical modeling assumptions in `ASSUMPTION_LEDGER.md`.
+- a goal registry with precise success conditions;
+- a question registry, including which questions support which goals;
+- an assumption and source ledger with validity ranges;
+- initial notes and their dependency edges;
+- a provisional priority order, clearly separated from verified facts.
 
----
+### Step 3: Develop the note graph
 
-## 3. Copy-Paste Prompt Templates for Chatbots & Coding Agents
+Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
+may mean studying literature, testing definitions, deriving a lemma, searching for a
+counterexample, running an exploratory calculation, writing a proof, or formalizing it in Lean.
 
-Use the four prompts below verbatim (filling in the bracketed placeholders) to drive your AI assistant from initial papers to compiled Lean 4 code.
+The work unit ends by updating the affected notes and registries. New mathematical ideas belong
+in notes even if they are not ready for formalization. New obstacles should become explicit
+barriers or questions rather than disappearing into a progress narrative.
 
-### Prompt 1: The "Architect Prompt" (Papers + Goals $\to$ Workstream Plan & Assumption Ledger)
+### Step 4: Formalize ready mathematics
+
+Formalize only when the claim, hypotheses, definitions and proof route are sufficiently precise.
+Search Mathlib and the existing project before adding infrastructure. Put model laws in `Kernel/`
+as explicit hypotheses, derived mathematics in `Theory/`, domain connections in `Bridge/`, and
+exact checks in `Certificates/`.
+
+Every new law needs the sanity triad:
+
+1. a meaningful degenerate or limiting case;
+2. a concrete satisfying instance, guarding against vacuity;
+3. a counterexample, showing that the law excludes something.
+
+Add further checks suggested by the domain: singularities, symmetry, conservation,
+monotonicity, dimensional scaling, parameter endpoints, boundary behavior, or accepted and
+rejected certificate fixtures.
+
+### Step 5: Pass the validity gate
+
+Compile the affected modules, run the axiom audit where appropriate, and record exact declaration
+names and hypotheses. No downstream note may mark the result as an established dependency until
+this succeeds. A failed formalization returns useful information to the research note: a missing
+hypothesis, false conjecture, unsuitable definition or library gap.
+
+### Step 6: Report and select the next work
+
+After every work unit, report:
+
+- what changed in the theory and note graph;
+- what is compiled and therefore available downstream;
+- what remains conjectural, empirical or blocked;
+- newly created questions, notes and barriers;
+- ready next choices and why they are ready.
+
+In interactive mode, ask the user what to work on next. The user may select a ready note, any goal
+or question, or an arbitrary topic for discussion. If prerequisites are missing, explain them and
+offer to work on the closest prerequisite.
+
+## 5. Ways to interact
+
+These phrases are conventions rather than a rigid command language:
+
+- **`status` / `summarize`** — summarize goals, questions, verified results, active notes,
+  barriers and ready choices at the requested level of detail.
+- **`work on N-...`**, **`work on G-...`** or **`work on Q-...`** — begin a work unit on that
+  item. For a broad goal or question, choose and announce the nearest useful subnote.
+- **`discuss ...`** — explore an idea, source or objection with the user. Record durable outcomes
+  as new or updated notes and dependency edges.
+- **`keep working`** — enter autonomous mode. Repeatedly choose the highest-value ready item,
+  develop or formalize it, update the graph, and continue without waiting for the user after each
+  step. Give concise progress updates. Stop when a real user decision is required, no useful item
+  is ready, authorization is needed, or the user asks to pause.
+
+Interactive mode is the default. After an interactive work unit, present a short menu that may
+include prerequisite-ready notes, open goals/questions and free-form discussion. Autonomous mode
+uses the same validity gates; it changes work selection, not standards of evidence or authority.
+
+## 6. Prompts for agents
+
+### Project architect
+
 ```text
-You are the Lead Formalization Architect for a new project built on the `LeanTheory` template (https://github.com/siddhartha-gadgil/LeanTheory), following its small, auditable domain-kernel methodology.
-
-### Project Goal & Reference Material:
-- **Domain:** [e.g., Astrodynamics: Solar System N-body mechanics and Earth-to-Mars rocket trajectory verification]
-- **North Star Goal:** [e.g., Machine-check a tolerance-aware Earth-to-Mars transfer trajectory certificate guaranteeing arrival within the Mars capture sphere under ±ε thrust and initial-state uncertainties, with zero planetary collisions.]
-- **Key Papers / Textbooks:** [Paste abstracts, LaTeX snippets, or textbook chapters]
-
-### Your Task:
-Do NOT write long proof files yet. Instead, produce:
-1. **The North Star Certificate Contract:** A 20-line Lean 4 `structure` using only standard `Mathlib` types that states our final physical guarantee.
-2. **A 6-to-10 Chapter `notes/` Blueprint Index:** List the markdown files we need in `notes/`, separating pure geometry/kinematics, physical laws (ODEs/PDEs), analytical approximations, verified numerics (*a posteriori* defect bounds), and engineering tolerances.
-3. **Initial `ASSUMPTION_LEDGER.md`:** A table distinguishing:
-   - *Physical Model Assumptions* (e.g., point-mass ephemeris, patched conics vs. full N-body),
-   - *Mathematical Hypotheses* (explicit fields in our Lean structures), and
-   - *Verified Theorems* (zero project-specific Lean `axiom`s allowed).
+Initialize this topic as a LeanTheory research project. From the supplied goals, questions,
+sources and ideas, create stable G-*, Q-* and N-* identifiers; map their dependencies; and propose
+the first ready work items. Do not assume that every target is already formalization-ready.
+Separate sourced results, conjectures, empirical assumptions, calculations and compiled Lean
+theorems. Use notes/note-template.md for every new note.
 ```
 
----
+### Note worker
 
-### Prompt 2: The "Note Builder Prompt" (Drafting a Detailed `notes/*.md` File)
 ```text
-We are building the file `notes/[FILENAME.md]` for our `LeanTheory` repository.
-Write a comprehensive, mathematically rigorous Markdown formalization note for this chapter that a coding agent will use as the blueprint to write Lean 4 code.
-
-Include these exact 5 sections:
-1. **Motivation & Verification Strategy:** Explain how we convert the continuum ODE/PDE or physical problem into something tractable for formal verification (e.g., conservation laws, comparison principles, or *a posteriori* polynomial defect bounds / Picard-Lindelöf / Radii Polynomials rather than trusting a black-box numerical integrator).
-2. **Mathematical Formulation:** Complete LaTeX equations with explicit coordinate frames, domains, and regularity assumptions.
-3. **Small-Kernel Specifications in Lean 4:** The exact Lean 4 `structure` and `def` declarations (using `Mathlib`) that define the model contracts for this chapter. Explicitly guard all divisions (`d_min > 0`), square roots, and suprema against Mathlib's total-function junk values (`1 / 0 = 0`).
-4. **Extensible Sanity Suite:** For every proposed law, state a degenerate-case theorem, a concrete satisfying instance, and a counterexample. Add whichever further compiled checks the model needs—for example singularity guards, symmetry or invariance, conservation laws, scaling or asymptotic limits, boundary cases, and accepted/rejected certificate fixtures. Explain which specification risk each check addresses.
-5. **Self-Contained Micro-Bounties:** 2 or 3 self-contained pure-math lemmas (30–50 lines of Lean 4 each) that a mathematician can prove using only `Mathlib` without needing domain background.
+Work on [N-ID, G-ID, Q-ID or topic]. Read its dependencies and verification requirements first.
+Choose the appropriate activity: literature synthesis, theory discovery, counterexample search,
+proof development, numerical exploration or Lean formalization. Do not use an unformalized claim
+as an established premise. Update the note graph, readiness and barriers, then report verified
+outputs separately from conjectural progress and offer ready next choices.
 ```
 
----
+### Specification auditor
 
-### Prompt 3: The "Kernel Auditor Prompt" (Red-Teaming the Specification for Junk Values)
 ```text
-Act as a hostile "Red-Team Specification Auditor" for our `LeanTheory` Small Kernel below.
-Remember: an AI theorem prover trying to prove a target theorem will ruthlessly exploit any loophole in our definitions.
-
-Inspect the following Lean 4 kernel definitions for:
-1. **Vacuous Premise Traps:** Can two fields in the `structure` subtly contradict each other so that `Contract → Goal` is proved via `False.elim`?
-2. **Degenerate Witness Exploits:** Can the contract be satisfied by setting a vector field to `0`, a time interval to `T = 0`, a domain to `∅`, or a linear operator `A = 0`?
-3. **Mathlib Total-Function Junk Values:** Are there any unguarded divisions `x / y` (where `y = 0` gives `0`), `Real.sqrt x` (where `x < 0` gives `0`), `Real.log x`, or `sSup ∅`?
-4. **Missing Quantifier Bounds:** Are boundary conditions or tolerances quantified over the full continuous interval `[0, T]` and perturbation ball `‖δ‖ ≤ ε`?
-
-For every vulnerability you find, output the corrected Lean 4 `structure` and write a compiled Negative Sanity Check theorem (`theorem ... : ¬ Contract degenerateInput`) that blocks the exploit permanently.
+Audit this model or proposed theorem for vacuity, contradictory hypotheses, degenerate witnesses,
+unguarded total operations, missing quantifier bounds, unit or normalization errors, and a mismatch
+between the claim and its cited source. Produce corrections, sanity checks and new research
+questions. A correction is not verified until its Lean declaration compiles.
 ```
 
----
+### Autonomous coordinator
 
-### Prompt 4: The Coding Agent Prompt (Building Lean 4 Code from `notes/*.md`)
 ```text
-Read `notes/[FILENAME.md]` and `Kernel/[KERNEL_FILE.lean]`.
-Your task is to implement the appropriate Lean 4 module in `Theory/`, `Bridge/`, or `Certificates/`.
-
-### Strict Rules:
-1. **Do NOT modify a definition in `Kernel/` merely to make a proof easier.** If the specification is incomplete or wrong, document the defect, make the smallest justified kernel correction, and update its sanity checks.
-2. **Do NOT introduce any `axiom`.**
-3. Start by translating the sanity suite from Section 4 of `notes/[FILENAME.md]` into `Sanity/[MODULE_NAME].lean` and proving it completely (zero `sorry`).
-4. For the main domain theorems, decompose complex calculus or ODE defect bounds into small helper lemmas with clear docstrings referencing the equation numbers in `notes/[FILENAME.md]`.
-5. After compiling with `lake build`, update `PROGRESS.md` with the exact declaration names, literature locators, assumptions, and status (`[Compiled]`, `[Sanity Check]`, or `[Proof Sketch / Open Bounty]`).
+Keep working. Survey the goal/question/note graph, select the highest-value item whose established
+prerequisites are compiled, and complete one coherent work unit. Update notes and verification
+evidence, report a concise status update, then select the next ready item. Continue until genuinely
+blocked or a user decision or new authorization is required.
 ```

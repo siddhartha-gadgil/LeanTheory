@@ -1,11 +1,15 @@
 # Contributing
 
-A useful contribution can be a precise theorem with a paper proof, a counterexample to a proposed
-implication, a clearer explanation of an existing verified result, a reproducible numerical
-candidate, or Lean code. Lean experience is not a prerequisite for the first four.
+A useful contribution can be a question, source, research approach, precise theorem with a paper
+proof, counterexample to a proposed implication, clearer explanation of an existing verified
+result, reproducible numerical candidate, or Lean code. Lean experience is not a prerequisite for
+most of these.
 
-Choose one concrete target and identify the model and theorem it advances. The
-[implementation plan](notes/implementation-plan.md) is the plan of record.
+Choose or create a concrete `G-*`, `Q-*` or `N-*` target and identify what it advances. Use the
+[research note template](notes/note-template.md) for durable work; the
+[implementation plan](notes/implementation-plan.md) is the graph and plan of record. A note may
+develop theory before it is ready for Lean, but downstream work may treat it as established only
+after the corresponding declaration compiles.
 
 ## Three reading paths
 

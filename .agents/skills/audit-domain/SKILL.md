@@ -1,13 +1,16 @@
 ---
 name: audit-domain
-description: Audit and extend the domain kernel, model assumptions and sanity checks of a LeanTheory-based formalization. Use when starting work in a LeanTheory project, choosing or changing a model, reviewing a claimed theorem, changing foundational definitions, or planning the next sound formalization task.
+description: Audit and extend the domain kernel, model assumptions and sanity checks of a LeanTheory theory-development project. Use when starting work, choosing or changing a model, reviewing a claimed theorem, changing foundational definitions, or deciding what research can soundly feed later formalization.
 ---
 
 # Audit the domain and its assumptions
 
 ## Establish the actual state
 
-Work from the selected checkout. Read `AGENTS.md` if present, `lean-toolchain`, `lakefile.toml`, `notes/domain-libraries.md`, `notes/formalization/00-model-contracts.md`, `notes/implementation-plan.md` and the relevant Lean files. Treat planning notes, papers and website text as specifications until matching compiled declarations exist.
+Work from the selected checkout. Read `AGENTS.md` if present, `lean-toolchain`, `lakefile.toml`,
+`notes/domain-libraries.md`, `notes/formalization/00-model-contracts.md`,
+`notes/implementation-plan.md`, the relevant research notes and Lean files. Treat notes, proof
+sketches, papers and website text as unverified inputs until matching compiled declarations exist.
 
 Record the checkout commit and dependency versions. Search pinned Mathlib (`.lake/packages/mathlib`) with `rg` before proposing new infrastructure. Check compatibility before adding a dependency; do not change the toolchain merely to make a proof easier.
 
@@ -36,6 +39,11 @@ Write down its model, domain, boundary conditions, regularity, units, parameter 
 
 Keep distinct properties as distinct predicates (existence, invariance, linear stability, nonlinear stability, quantitative bounds, feasibility) and compose them only through proved implications. Distinguish the domain-model kernel from Lean's logical kernel.
 
+Check the note's dependency metadata, difficulty, barriers and readiness. If a prerequisite is not
+formalized, either formalize it first or preserve it as an explicit conditional dependency; never
+promote the dependent claim to verified. Add newly exposed gaps as questions or notes with stable
+IDs rather than burying them in a report.
+
 Check the corrections and contracts recorded in `00-model-contracts.md`, and add new ones there. Typical issues to challenge:
 
 - a global structure inferred from a local one (a chart, coordinate system or foliation assumed everywhere);
@@ -60,5 +68,6 @@ For each new definition also prove characterizing properties and at least one me
 - **Assumption ledger**: every law instance and supplied constant used by the claim, with its source and validity envelope.
 - **Scope statement**: exactly what the compiled theorem says (model, quantifiers, norm, range) and what it does not.
 - Corrected definitions, compiled sanity theorems, and the next theorem target (prefer the smallest theorem that opens a useful next step).
+- Updated note and goal/question dependencies, readiness and barriers.
 
 Record unresolved model assumptions explicitly. Never describe the real system as having a property solely because a conditional formal theorem compiles.
