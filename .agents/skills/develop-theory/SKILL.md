@@ -23,6 +23,10 @@ allowed when every downstream result remains explicitly conditional and unverifi
 
 ## Interpret user requests
 
+- For `start`, run `audit-domain` before ordinary work. If no audit record exists, perform a full
+  strict audit of existing code, especially every kernel declaration. If an audit record exists,
+  inspect all changes since its commit and refresh affected audits. Then report repository status,
+  audit findings and ready choices. Do not begin new theory on an unaudited foundation.
 - For `status` or a summary, report goals, questions, verified frontier, active/blocked notes and
   a few ready choices. Match the requested level of detail.
 - For `work on <item>`, resolve the ID, note path or topic. If it is broad, select and announce the
@@ -45,6 +49,10 @@ allowed when every downstream result remains explicitly conditional and unverifi
 4. Compile and audit Lean output in proportion to the claim. Record exact declaration names and
    assumptions; otherwise leave the status below verified.
 5. Update affected notes and `notes/implementation-plan.md`, including newly ready dependants.
+
+Re-run the relevant strict audit after any kernel, foundational definition, law instance,
+certificate soundness theorem or top-level claim changes. Existing code is in scope: do not audit
+only the lines written in the current work unit.
 
 ## Select autonomous work
 

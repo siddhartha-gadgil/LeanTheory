@@ -5,8 +5,8 @@ to `.agents`).
 
 | Skill | Use when |
 | --- | --- |
-| `develop-theory` | coordinating multiple goals, questions and research notes; status summaries; `work on ...`; user discussion; or the autonomous `keep working` loop |
-| `audit-domain` | starting work, choosing or changing a model, reviewing a claim: kernel laws as typeclasses, the sanity triad (degenerate case, concrete instance, counterexample), assumption ledger, scope statements |
+| `develop-theory` | `start`; coordinating multiple goals, questions and research notes; status summaries; `work on ...`; user discussion; or the autonomous `keep working` loop |
+| `audit-domain` | strictly auditing existing and new code, especially every kernel declaration; model changes; claim review; sanity triad plus risk-specific adversarial checks; audit ledger and scope statements |
 | `formalize-theory` | formalizing a sourced result (paper, book, complete proof) as reusable Lean theory above the kernel |
 | `discover-theory` | existing results do not give the needed bound or margin: conjecture, proof, counterexample, refinement |
 | `certify-numerics` | turning a numerical candidate into a kernel-checked certificate (exact arithmetic, validated enclosures, remainder bounds) |

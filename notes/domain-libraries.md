@@ -45,9 +45,15 @@ that dependency and must not report its conclusions as established.
 
 ## Agent runs and interaction loop
 
-At the start of a run, survey the registries, note metadata and compiled declarations. If the user
-says `work on ...`, select that note, goal or question; for a broad item, announce the nearest
-useful subnote. If the user asks for discussion, explore freely and record durable ideas, sources,
+The canonical first command in a new or unfamiliar checkout is `start`. Before surveying future
+work, strictly audit the repository at its current commit: review every existing kernel
+declaration, check its sanity coverage and users, inspect affected downstream code, run the build
+and axiom audit when feasible, and record findings. Previous code is not exempt because it compiles
+or predates the current session.
+
+After the audit, survey the registries, note metadata and compiled declarations. If the user says
+`work on ...`, select that note, goal or question; for a broad item, announce the nearest useful
+subnote. If the user asks for discussion, explore freely and record durable ideas, sources,
 decisions and new questions in notes.
 
 For one work unit:
@@ -102,6 +108,19 @@ symmetry or equivariance, conservation and monotonicity, dimensional scaling, as
 boundary and regularity cases, parameter-range endpoints, and accepted/rejected certificate
 fixtures. These are heuristics, not exhaustive categories. Record what risk each theorem tests so
 that later contributors can extend the suite without treating the current examples as complete.
+
+In addition to the triad, every kernel law or law bundle must have at least one compiled
+risk-specific adversarial check. Choose it from the law's actual hazards, not from a fixed quota.
+Require several when hazards are independent, and add a regression theorem for every defect found
+in any later audit. A kernel change triggers re-audit of all dependent public results.
+
+## Strict audit record
+
+Record each startup or foundational audit in `notes/implementation-plan.md`: commit, scope,
+complete kernel inventory status, commands run, semantic findings by severity, missing sanity
+checks, corrections and affected downstream claims. A clean build is one audit input, not proof
+that definitions and theorem statements are appropriate. Unresolved kernel findings block the
+dependent claims from verified status.
 
 ## Theory and library with verification
 

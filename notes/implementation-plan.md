@@ -35,18 +35,36 @@ A dependency is established only when its required output is a compiled Lean dec
 may explore a conditional dependency, but the edge and all downstream status must remain marked
 unverified.
 
-## 4. Corrections and assumption ledger
+## 4. Strict audit status
+
+The canonical first command is `start`. Record the audit before new theory builds on the checkout.
+
+| Audit | Value |
+| --- | --- |
+| Audited commit | ‹commit hash or `not yet audited`› |
+| Scope | ‹full startup / changes since commit / affected modules› |
+| Kernel coverage | ‹every declaration reviewed, or exact gaps› |
+| Commands run | ‹builds, axiom audit and other checks with outcomes› |
+| Open findings | ‹severity, affected declarations/notes and owner› |
+| Missing sanity checks | ‹triad or risk-specific adversarial checks still required› |
+
+Previous code is in scope. A full startup audit inventories and red-teams every kernel declaration,
+then traces findings into dependent results. After a kernel or foundational change, update the
+audited commit only after rechecking affected code. Unresolved kernel findings block dependent
+items from verified status.
+
+## 5. Corrections and assumption ledger
 
 ‹List false or underspecified starting claims with precise replacements. Record every model law,
 empirical input, parameter range, unit convention and validity envelope, together with its source.›
 
-## 5. Theory tracks and model ladder
+## 6. Theory tracks and model ladder
 
 ‹Group related notes into theory tracks. For each track give the current verified frontier,
 questions, proof or certificate techniques, and first useful deliverable. List model rungs from
 simple to realistic and the verified reduction or explicit error envelope needed between rungs.›
 
-## 6. Work selection
+## 7. Work selection
 
 Interactive mode: after each work unit report status and ask the user to choose a ready note, a
 goal/question or a topic for discussion. Record user ideas and sources in the affected notes.
@@ -61,39 +79,42 @@ Current priority order:
 1. ‹ready item and reason›
 2. ‹ready item and reason›
 
-## 7. Running a work unit
+## 8. Running a work unit
 
 1. Resolve the selected `G-*`, `Q-*`, `N-*` or discussion topic to one coherent task.
 2. Check dependency evidence and read the relevant notes, sources and compiled declarations.
 3. Perform literature study, discovery, proof, counterexample search, computation, formalization or
    certification as appropriate to readiness.
-4. Compile and audit any Lean output. Do not promote an output to verified on informal evidence.
+4. Compile and strictly audit Lean output. For foundational changes, include existing affected
+   code and add risk-specific or regression sanity checks. Do not promote an output to verified on
+   informal evidence or on compilation alone.
 5. Update the note graph, registries, barriers and this progress log.
 6. Report verified and unverified outcomes separately and identify ready next work.
 
-## 8. Definition of done
+## 9. Definition of done
 
 For a research note: claims and evidence are classified, dependencies and barriers are current,
 outputs are recorded, and the next readiness-changing action is explicit.
 
 For a verified result: declarations compile with docstrings and sanity theorems, zero warnings,
-the axiom audit passes, entry points are registered, and the note gives an honest scope statement.
+the axiom audit passes, semantic audit findings are resolved, entry points are registered, and the
+note gives an honest scope statement. Kernel laws have the sanity triad plus risk-specific checks.
 
 For a goal: all required contracts hold for compatible witnesses and models, and every claimed
 dependency is backed by the recorded level of evidence. A formal theorem alone does not validate
 the physical model.
 
-## 9. Evidence gates
+## 10. Evidence gates
 
 ‹For each goal or design, list which contracts must hold for the same witness and which evidence
 is required: compiled proof, exact certificate, empirical data or external model validation.›
 
-## 10. Progress log
+## 11. Progress log
 
 ‹One dated entry per work unit: selected item, theory or note changes, declarations proved, failed
 approaches and barriers, checks run, status changes, new dependencies and next ready choices.›
 
-## 11. Implementation and workstation log
+## 12. Implementation and workstation log
 
 ‹Technical notes: certificate formats, build time and memory, refactors and workstation runs. Keep
 these distinct from mathematical evidence. See `workstation/REVIEWED.md`.›

@@ -16,6 +16,11 @@ may rely on an earlier result as proved only after a corresponding Lean declarat
 Exploratory work may investigate consequences of an unverified conjecture, provided the
 dependency remains explicit and no conclusion is reported as established.
 
+Compilation does not rule out a badly stated or vacuous theorem. Strict semantic audits therefore
+review old as well as new code, with complete coverage of the small domain kernel. An audit checks
+that definitions express the intended model, assumptions are consistent, sanity checks are strong
+enough, and downstream claims use the verified statement they advertise.
+
 The method prevents two common failures:
 
 1. **Research drift:** long agent runs lose the motivating question, repeat abandoned approaches
@@ -79,6 +84,17 @@ it for the topic—for example `MarsMissionLean`, `PhotonicCrystalLean` or
 Clone the new repository and open that checkout in the coding-agent environment. Keep its notes,
 history and Lean theory independent from other domain projects.
 
+The first command to give the agent in any new or unfamiliar checkout is:
+
+```text
+start
+```
+
+`start` means: inspect the repository, strictly audit the existing kernel and affected code, run
+the available build and axiom checks, record the audited commit and findings, then summarize goals,
+questions, verified results, barriers and ready choices. It does not begin new theory until the
+foundation has been audited.
+
 ### Step 2: Seed goals, questions and sources
 
 Give the agent the scientific context, relevant papers or books, user ideas and desired outputs.
@@ -113,9 +129,12 @@ Every new law needs the sanity triad:
 2. a concrete satisfying instance, guarding against vacuity;
 3. a counterexample, showing that the law excludes something.
 
-Add further checks suggested by the domain: singularities, symmetry, conservation,
-monotonicity, dimensional scaling, parameter endpoints, boundary behavior, or accepted and
-rejected certificate fixtures.
+The triad is a baseline, not sufficient audit coverage. Every kernel law or law bundle also needs
+at least one risk-specific adversarial check selected from its real hazards: singularities,
+symmetry, conservation, monotonicity, dimensional scaling, parameter endpoints, boundary
+behavior, quantifier order, nonempty domains, or accepted and rejected certificate fixtures. Add a
+compiled regression check for every defect discovered later; use several additional checks when
+the model has several independent risks.
 
 ### Step 5: Pass the validity gate
 
@@ -123,6 +142,11 @@ Compile the affected modules, run the axiom audit where appropriate, and record 
 names and hypotheses. No downstream note may mark the result as an established dependency until
 this succeeds. A failed formalization returns useful information to the research note: a missing
 hypothesis, false conjecture, unsuitable definition or library gap.
+
+Then perform semantic review. For kernel or foundational changes, re-audit all affected existing
+code rather than only the new lines. Check vacuity, degenerate witnesses, totalized operations,
+quantifiers, units, source fidelity, model scope and the continued validity of downstream
+theorems. Record the audited commit and unresolved findings in the implementation plan.
 
 ### Step 6: Report and select the next work
 
@@ -142,6 +166,8 @@ offer to work on the closest prerequisite.
 
 These phrases are conventions rather than a rigid command language:
 
+- **`start`** — the canonical first command after opening a repository. Run or refresh the strict
+  audit, record its scope and results, then give a status summary and ready choices.
 - **`status` / `summarize`** — summarize goals, questions, verified results, active notes,
   barriers and ready choices at the requested level of detail.
 - **`work on N-...`**, **`work on G-...`** or **`work on Q-...`** — begin a work unit on that
@@ -158,6 +184,16 @@ include prerequisite-ready notes, open goals/questions and free-form discussion.
 uses the same validity gates; it changes work selection, not standards of evidence or authority.
 
 ## 6. Prompts for agents
+
+### Repository startup
+
+```text
+Start. Before doing new work, strictly audit this repository at its current commit. Review every
+existing kernel declaration and its sanity coverage, red-team assumptions and degenerate cases,
+inspect affected downstream results, run the feasible build and axiom checks, and record findings
+and the audited commit. Add missing risk-specific sanity or regression checks. Then summarize the
+project and offer ready choices.
+```
 
 ### Project architect
 

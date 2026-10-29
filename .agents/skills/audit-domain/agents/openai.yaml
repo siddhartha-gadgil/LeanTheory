@@ -1,4 +1,4 @@
 interface:
   display_name: "Audit the domain and model"
-  short_description: "Audit research dependencies, model laws and theorem claims"
-  default_prompt: "Use $audit-domain to audit the model and identify the next sound research or formalization target."
+  short_description: "Strictly audit existing kernel code, assumptions and theorem claims"
+  default_prompt: "Use $audit-domain to strictly audit all existing kernel code and affected results."

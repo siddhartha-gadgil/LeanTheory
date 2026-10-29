@@ -25,8 +25,9 @@ A small worked example (a one-dimensional harmonic oscillator) runs through ever
 
 Create a fresh topic-named repository from this GitHub template, then follow
 [the theory-development workflow](docs/GettingStarted.md). In a project checkout, users can ask
-for a status summary, say `work on <note/goal/question>`, discuss an idea or source, or say
-`keep working` to run the autonomous work-selection loop.
+the agent to **`start`**, which strictly audits existing code and the complete domain kernel before
+reporting status. Afterwards users can say `work on <note/goal/question>`, discuss an idea or
+source, or say `keep working` to run the autonomous work-selection loop.
 
 ```bash
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds
@@ -107,6 +108,10 @@ module.
   modules in small groups rather than letting Lake compile many at once.
 - Every module, definition and theorem has a docstring; every new definition or certificate
   format has sanity theorems (degenerate case, instance, accepted and rejected fixtures).
+- **Strict audits include previous code.** On `start`, inventory and red-team every kernel
+  declaration, run the build and axiom audit, record the audited commit, and inspect affected
+  downstream results. Every kernel law has the sanity triad plus at least one risk-specific
+  adversarial check; every discovered defect gets a compiled regression check.
 
 ## Workstation workflow
 

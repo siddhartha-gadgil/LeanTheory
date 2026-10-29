@@ -17,6 +17,7 @@ Copy this template for each substantial unit of theory development. Use stable `
 | Difficulty | ‹routine / moderate / hard / research; explain the main source of difficulty› |
 | Status | ‹exploratory / stated / proof-ready / lean-ready / verified / blocked / refuted / superseded› |
 | Lean evidence | ‹module and declaration names, or `none`› |
+| Audit evidence | ‹audited commit and finding IDs, or `not audited`› |
 | Last updated | ‹date and summary› |
 
 ## Purpose and scope
