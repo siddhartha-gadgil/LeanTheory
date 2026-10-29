@@ -33,9 +33,13 @@ source, or say `keep working` to run the autonomous work-selection loop.
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds
 scripts/setup.sh --check-axioms     # ... and runs the axiom audit
 scripts/setup.sh --python           # ... and creates the Python venv for oracle scripts
+source .venv-ws/bin/activate        # activate it before running project Python scripts
 ```
 
 `scripts/setup.sh` is idempotent (Linux and macOS); `scripts/setup.sh --help` lists its options.
+Run `scripts/setup.sh --check-axioms` at the first Lean use if `lean --version` is unavailable or
+the checkout has not been set up. Request the Python environment only when a task needs it, and
+activate `.venv-ws` in every new shell rather than installing project packages globally.
 By hand: install [elan](https://github.com/leanprover/elan), then `lake exe cache get`,
 `lake build`, `lake env lean scripts/check_axioms.lean`. The toolchain is pinned in
 `lean-toolchain` (Lean and Mathlib `v4.34.1`).

@@ -84,6 +84,24 @@ it for the topic—for example `MarsMissionLean`, `PhotonicCrystalLean` or
 Clone the new repository and open that checkout in the coding-agent environment. Keep its notes,
 history and Lean theory independent from other domain projects.
 
+The startup audit is the first point at which Lean is needed. Check whether it is available:
+
+```bash
+lean --version
+```
+
+If that command is unavailable—or if this checkout has not yet fetched its dependencies—run:
+
+```bash
+scripts/setup.sh --check-axioms
+```
+
+On Linux and macOS this idempotent script installs `elan` if necessary, selects the Lean version
+pinned by `lean-toolchain`, fetches the Mathlib cache, builds the project and runs the axiom audit.
+If a newly installed `lean` or `lake` is not visible in the current shell, open a new shell or run
+`source "$HOME/.elan/env"`. Do not install an arbitrary Lean version separately from the pinned
+toolchain.
+
 The first command to give the agent in any new or unfamiliar checkout is:
 
 ```text
@@ -147,6 +165,21 @@ the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what 
 Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
 may mean studying literature, testing definitions, deriving a lemma, searching for a
 counterexample, running an exploratory calculation, writing a proof, or formalizing it in Lean.
+
+Most work does not require Python. When a note first needs a Python oracle, generator, exploratory
+calculation or workstation helper, create the repository's managed environment and activate it:
+
+```bash
+scripts/setup.sh --python --no-build
+source .venv-ws/bin/activate
+python --version
+```
+
+The setup command creates `.venv-ws` and installs `scripts/requirements.txt`; it is safe to run
+again when requirements change. Activate `.venv-ws` in each new shell used for project Python
+work, run project scripts with its `python`, and use `deactivate` when finished. Do not install
+project packages globally or use a different virtual environment without recording and justifying
+the change.
 
 The work unit ends by updating the affected notes and registries. New mathematical ideas belong
 in notes even if they are not ready for formalization. New obstacles should become explicit
