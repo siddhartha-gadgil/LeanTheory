@@ -1,6 +1,6 @@
 ---
 name: develop-theory
-description: Coordinate interactive or autonomous theory development in a LeanTheory project through goals, questions and dependency-aware research notes. Use for project status or summaries, “work on ...”, discussion that may change the research graph, and “keep working”; route ready tasks to discovery, formalization, numerics or design while preserving Lean as the validity gate.
+description: Coordinate interactive or autonomous theory development in a LeanTheory project through goals, questions and dependency-aware research notes. Invoke this skill whenever a request contains `work status`, `summarise work`, `work on ...`, `keep working` or `start`, and for discussion that changes the research graph; route ready tasks while preserving Lean as the validity gate.
 ---
 
 # Coordinate theory development
@@ -27,8 +27,9 @@ allowed when every downstream result remains explicitly conditional and unverifi
   strict audit of existing code, especially every kernel declaration. If an audit record exists,
   inspect all changes since its commit and refresh affected audits. Then report repository status,
   audit findings and ready choices. Do not begin new theory on an unaudited foundation.
-- For `status` or a summary, report goals, questions, verified frontier, active/blocked notes and
-  a few ready choices. Match the requested level of detail.
+- For `work status` or `summarise work`, report goals, questions, verified frontier,
+  active/blocked notes and a few ready choices. Match the requested level of detail. Treat these
+  exact phrases as explicit invocations of this skill, not as generic conversational requests.
 - For `work on <item>`, resolve the ID, note path or topic. If it is broad, select and announce the
   nearest useful subnote. Respect the user's selection even when it is blocked: explain the
   missing prerequisites and work on one only when that is the closest in-scope way forward.

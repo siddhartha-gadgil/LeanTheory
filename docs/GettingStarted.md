@@ -237,8 +237,10 @@ These phrases are conventions rather than a rigid command language:
 
 - **`start`** — the canonical first command after opening a repository. Run or refresh the strict
   audit, record its scope and results, then give a status summary and ready choices.
-- **`status` / `summarize`** — summarize goals, questions, verified results, active notes,
-  barriers and ready choices at the requested level of detail.
+- **`work status` / `summarise work`** — invoke the theory-development skill to report goals,
+  questions, verified results, active notes, barriers and ready choices at the requested level of
+  detail. These distinctive phrases are preferred over generic `status` or `summarize` requests so
+  Claude reliably selects the project skill.
 - **`work on N-...`**, **`work on G-...`** or **`work on Q-...`** — begin a work unit on that
   item. For a broad goal or question, choose and announce the nearest useful subnote.
 - **`discuss ...`** — explore an idea, source or objection with the user. Record durable outcomes

@@ -5,7 +5,7 @@ to `.agents`).
 
 | Skill | Use when |
 | --- | --- |
-| `develop-theory` | `start`; coordinating goals, questions and notes; `work on ...` and `keep working`, with sub-agents recommended for independent research, proof and audit strands |
+| `develop-theory` | exact triggers `start`, `work status`, `summarise work`, `work on ...` and `keep working`; sub-agents recommended for independent research, proof and audit strands |
 | `audit-domain` | strictly auditing existing and new code, especially every kernel declaration; model changes; claim review; sanity triad plus risk-specific adversarial checks; audit ledger and scope statements |
 | `formalize-theory` | formalizing a sourced result (paper, book, complete proof) as reusable Lean theory above the kernel |
 | `discover-theory` | existing results do not give the needed bound or margin: conjecture, proof, counterexample, refinement |

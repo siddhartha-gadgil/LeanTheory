@@ -26,8 +26,9 @@ A small worked example (a one-dimensional harmonic oscillator) runs through ever
 Create a fresh topic-named repository from this GitHub template, then follow
 [the theory-development workflow](docs/GettingStarted.md). In a project checkout, users can ask
 the agent to **`start`**, which strictly audits existing code and the complete domain kernel before
-reporting status. Afterwards users can say `work on <note/goal/question>`, discuss an idea or
-source, or say `keep working` to run the autonomous work-selection loop.
+reporting status. Afterwards users can say `work status`, `summarise work`,
+`work on <note/goal/question>`, discuss an idea or source, or say `keep working` to run the
+autonomous work-selection loop.
 
 ```bash
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds

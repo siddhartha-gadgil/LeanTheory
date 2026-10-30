@@ -9,9 +9,10 @@ For a new domain, first create a fresh, topic-named GitHub repository using
 [`siddhartha-gadgil/LeanTheory`](https://github.com/siddhartha-gadgil/LeanTheory) as a template;
 then continue with the [getting-started workflow](../docs/GettingStarted.md) in that repository.
 That workflow covers multiple goals and questions, research-note dependencies, interactive
-commands such as `work on ...`, and the autonomous `keep working` loop. After opening the
-repository, the canonical first command is **`start`**: it strictly audits existing code—especially
-the complete domain kernel—before summarizing status or beginning new work.
+commands such as `work status`, `summarise work` and `work on ...`, and the autonomous
+`keep working` loop. After opening the repository, the canonical first command is **`start`**: it
+strictly audits existing code—especially the complete domain kernel—before reporting status or
+beginning new work.
 
 | Folder | Content | Start with |
 | --- | --- | --- |
