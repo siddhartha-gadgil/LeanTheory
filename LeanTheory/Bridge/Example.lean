@@ -6,6 +6,7 @@ Authors: LeanTheory contributors
 module
 
 public import LeanTheory.Kernel.Example
+public import Mathlib.Analysis.Calculus.Deriv.Comp
 
 /-!
 # Bridge example: composing the oscillator law with other results
