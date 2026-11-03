@@ -38,6 +38,8 @@ allowed when every downstream result remains explicitly conditional and unverifi
   sources and new subquestions in the graph when they materially affect future work. For
   `add notes` or `modify notes`, use `../edit-notes/SKILL.md`: preserve notes whose implementation
   has started and record requested revisions in separate code patch notes.
+- For `update notes from <source files or URLs>`, use `../update-notes-from/SKILL.md` to analyze the
+  supplied theory and integrate it through the same implementation gate.
 - For `keep working`, enter autonomous mode and continue across work units without asking the user
   to select after each one. Proactively use available sub-agents for independent ready tasks or
   independent attacks on the same difficult question when this improves progress.

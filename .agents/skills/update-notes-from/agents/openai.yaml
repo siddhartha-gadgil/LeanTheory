@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update notes from theory sources"
+  short_description: "Analyze theory sources and safely integrate research notes"
+  default_prompt: "Use $update-notes-from to update notes from the supplied theory files or URLs, preserving implemented notes and recording necessary code patches separately."
