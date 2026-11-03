@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add or modify notes"
+  short_description: "Capture discussion and queue patches for implemented notes"
+  default_prompt: "Use $edit-notes to add or modify notes from our discussion, preserving implemented notes and recording needed code patches separately."

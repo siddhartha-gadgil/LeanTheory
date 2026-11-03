@@ -16,6 +16,8 @@ Copy this template for each substantial unit of theory development. Use stable `
 | Produces | ‹claims, definitions, data, declarations, new notes or registry updates› |
 | Difficulty | ‹routine / moderate / hard / research; explain the main source of difficulty› |
 | Status | ‹exploratory / stated / proof-ready / lean-ready / verified / blocked / refuted / superseded› |
+| Implementation status | ‹not started / in progress / complete / unknown; separate from research readiness› |
+| Implementation evidence | ‹modules/declarations, partial source work or work-log links; `none` if confirmed not started› |
 | Lean evidence | ‹module and declaration names, or `none`› |
 | Audit evidence | ‹audited commit and finding IDs, or `not audited`› |
 | Last updated | ‹date and summary› |

@@ -35,7 +35,9 @@ allowed when every downstream result remains explicitly conditional and unverifi
   missing prerequisites and work on one only when that is the closest in-scope way forward.
   Recommend launching sub-agents when independent strands can produce concrete inputs in parallel.
 - For discussion, engage with the mathematics or source. Record durable conclusions, objections,
-  sources and new subquestions in the graph when they materially affect future work.
+  sources and new subquestions in the graph when they materially affect future work. For
+  `add notes` or `modify notes`, use `../edit-notes/SKILL.md`: preserve notes whose implementation
+  has started and record requested revisions in separate code patch notes.
 - For `keep working`, enter autonomous mode and continue across work units without asking the user
   to select after each one. Proactively use available sub-agents for independent ready tasks or
   independent attacks on the same difficult question when this improves progress.
