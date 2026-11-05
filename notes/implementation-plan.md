@@ -67,7 +67,9 @@ simple to realistic and the verified reduction or explicit error envelope needed
 ## 7. Work selection
 
 Interactive mode: after each work unit report status and ask the user to choose a ready note, a
-goal/question or a topic for discussion. Record user ideas and sources in the affected notes.
+goal/question or a topic for discussion. Record user ideas and sources in the affected notes
+(`add notes`/`modify notes` for a discussion, `update notes from ...` for files or URLs); changes to
+implemented notes become separate code patch notes.
 
 Autonomous mode (`keep working`): choose the highest-value ready note, preferring work that
 unblocks several dependants, closes a validity gap, tests a risky conjecture or produces a reusable

@@ -27,8 +27,9 @@ Create a fresh topic-named repository from this GitHub template, then follow
 [the theory-development workflow](docs/GettingStarted.md). In a project checkout, users can ask
 the agent to **`start`**, which strictly audits existing code and the complete domain kernel before
 reporting status. Afterwards users can say `work status`, `summarise work`,
-`work on <note/goal/question>`, discuss an idea or source, or say `keep working` to run the
-autonomous work-selection loop.
+`work on <note/goal/question>`, discuss an idea or source, record a discussion with `add notes`
+or `modify notes`, integrate papers or URLs with `update notes from <sources>`, or say
+`keep working` to run the autonomous work-selection loop.
 
 ```bash
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds
@@ -132,7 +133,10 @@ See [Workstation.md](Workstation.md).
    `notes/implementation-plan.md`, including auxiliary items and dependency links.
 2. Create research notes from sources, user ideas, calculations or open questions. Follow
    [the note template](notes/note-template.md): every note records dependencies, outputs,
-   difficulty, barriers and Lean readiness.
+   difficulty, barriers and Lean readiness. Use `add notes` / `modify notes` to record a
+   discussion and `update notes from <files or URLs>` to integrate sources. Notes are edited in
+   place only before implementation starts; changes to implemented material become separate
+   code patch notes.
 3. Develop theory by alternating literature study, conjecture, proof, counterexample and
    refinement. A processed note may update goals/questions and produce further notes.
 4. Formalize a claim when its statement, hypotheses and proof are ready. Write model laws in the
@@ -146,9 +150,9 @@ See [Workstation.md](Workstation.md).
 7. After each work unit, update the note graph and status report. In interactive mode ask the
    user what to work on next; in autonomous mode select the next ready, useful item.
 
-The skills in [.agents/skills](.agents/skills/README.md) (`develop-theory`, `lean-proofs`,
-`certify-numerics`, `discover-theory`, `formalize-theory`, `audit-domain`, `domain-design`,
-`workstation-update`) describe each step for an agent.
+The skills in [.agents/skills](.agents/skills/README.md) (`develop-theory`, `edit-notes`,
+`update-notes-from`, `lean-proofs`, `certify-numerics`, `discover-theory`, `formalize-theory`,
+`audit-domain`, `domain-design`, `workstation-update`) describe each step for an agent.
 
 **Future work.** A configurable documentation pipeline (handbook site and progress slideshow
 generated from the notes) existed in the original project and was removed from the template.

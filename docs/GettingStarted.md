@@ -160,6 +160,9 @@ as verified. Update notes/implementation-plan.md and create the initial note fil
 the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what to work on next.
 ```
 
+Further sources can be added at any time with `update notes from <files or URLs>`, and the outcome
+of a discussion can be recorded with `add notes` or `modify notes` (see Section 5).
+
 ### Step 3: Develop the note graph
 
 Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
@@ -182,8 +185,11 @@ project packages globally or use a different virtual environment without recordi
 the change.
 
 The work unit ends by updating the affected notes and registries. New mathematical ideas belong
-in notes even if they are not ready for formalization. New obstacles should become explicit
-barriers or questions rather than disappearing into a progress narrative.
+in notes even if they are not ready for formalization. A note may be revised in place only while
+its implementation has not started; requested changes to partially or fully implemented material
+are recorded as separate *code patch notes*, so the original note and its evidence stay intact.
+New obstacles should become explicit barriers or questions rather than disappearing into a
+progress narrative.
 
 ### Step 4: Formalize ready mathematics
 
@@ -245,6 +251,15 @@ These phrases are conventions rather than a rigid command language:
   item. For a broad goal or question, choose and announce the nearest useful subnote.
 - **`discuss ...`** — explore an idea, source or objection with the user. Record durable outcomes
   as new or updated notes and dependency edges.
+- **`add notes`** / **`modify notes`** — invoke the `edit-notes` skill to turn the discussion in
+  context into new or revised research notes. Notes whose implementation has not started are
+  edited in place; for notes with any implementation started, the original is preserved and a
+  separate code patch note records the changes needed in the generated code. No Lean code is
+  written as part of this step.
+- **`update notes from <files or URLs>`** — invoke the `update-notes-from` skill to read and
+  analyze supplied papers, documents, local files or online sources, record provenance and
+  inaccessible material, and integrate the resulting theory into the notes under the same
+  implementation gate and code patch note workflow.
 - **`keep working`** — enter autonomous mode. Repeatedly choose the highest-value ready item,
   develop or formalize it, update the graph, and continue without waiting for the user after each
   step. Give concise progress updates. Stop when a real user decision is required, no useful item
@@ -274,6 +289,25 @@ Choose the appropriate activity: literature synthesis, theory discovery, counter
 proof development, numerical exploration or Lean formalization. Do not use an unformalized claim
 as an established premise. Update the note graph, readiness and barriers, then report verified
 outputs separately from conjectural progress and offer ready next choices.
+```
+
+### Note editor
+
+```text
+Add notes (or: modify notes) from this discussion. Find existing coverage before creating new
+notes. Revise only notes whose implementation has not started; for partially or fully
+implemented notes, leave the original unchanged and create a code patch note describing the
+required code changes. Register new notes and dependency edges, then report what was created,
+modified, preserved and queued.
+```
+
+### Source integrator
+
+```text
+Update notes from [paths, attachments or URLs]. Read the actual sources, including the full
+papers or sections needed; record precise locators and anything inaccessible. Distinguish
+sourced theorems, proof sketches and conjectures, then integrate them into the note graph,
+preserving implemented notes and queuing code patch notes for changes to implemented material.
 ```
 
 ### Specification auditor
