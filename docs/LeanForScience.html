@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lean for Science</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/white.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+:root {
+  --ink: #172033; --muted: #5b6578; --line: #dfe2e8; --paper: #fbfaf6; --card: #ffffff;
+  --accent: #0b7285; --accent-soft: #e6f4f6; --plasma: #d9480f; --plasma-soft: #fff1e7;
+  --good: #2b8a3e; --good-soft: #ebf7ee; --bad: #c92a2a; --bad-soft: #fdecec;
+  --gold: #b7791f; --gold-soft: #fdf6e3;
+  --night: #0b1220; --night-2: #131d33; --night-ink: #e8edf6; --night-muted: #9aa6bd;
+  --r-background-color: var(--paper);
+  --r-main-font: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --r-main-font-size: 36px;
+  --r-main-color: var(--ink);
+  --r-heading-font: "Source Serif 4", Georgia, serif;
+  --r-heading-color: var(--ink);
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: 600;
+  --r-heading-letter-spacing: -0.01em;
+  --r-heading1-size: 2.1em;
+  --r-heading2-size: 1.4em;
+  --r-link-color: var(--accent);
+  --r-link-color-hover: var(--plasma);
+  --r-code-font: "JetBrains Mono", ui-monospace, monospace;
+  --r-selection-background-color: var(--accent-soft);
+}
+.reveal .slides section { text-align: left; }
+.reveal h1, .reveal h2, .reveal h3 { text-wrap: balance; }
+.reveal h2 { margin: 0 0 0.5em; }
+.reveal .kicker {
+  font-size: 0.5em; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); font-weight: 700; margin: 0 0 0.35em;
+}
+.reveal ul, .reveal ol { margin-left: 1.1em; display: block; }
+.reveal li { margin: 0.32em 0; line-height: 1.3; }
+.reveal li::marker { color: var(--accent); }
+.reveal p { line-height: 1.35; margin: 0.45em 0; }
+.reveal strong { color: inherit; font-weight: 700; }
+.reveal a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.lead { font-size: 1.08em; }
+.muted { color: var(--muted); }
+.small { font-size: 0.8em; }
+.xsmall { font-size: 0.66em; }
+.mt { margin-top: 0.8em !important; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; }
+.cols.wide-left { grid-template-columns: 1.25fr 1fr; }
+.cols.wide-right { grid-template-columns: 1fr 1.2fr; }
+.cols.center { align-items: center; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 0.6em 0.8em; box-shadow: 0 1px 2px rgba(23, 32, 51, 0.05);
+}
+.card h3 {
+  font-family: var(--r-main-font); font-size: 0.82em; font-weight: 700;
+  color: var(--accent); margin: 0 0 0.3em; letter-spacing: 0;
+}
+.card p, .card li { font-size: 0.72em; margin: 0.2em 0; }
+.card.plasma h3 { color: var(--plasma); }
+.card.good h3 { color: var(--good); }
+.card.bad h3 { color: var(--bad); }
+.card .big { font-size: 1.6em; line-height: 1; margin-bottom: 0.15em; }
+.tag {
+  display: inline-block; padding: 0.12em 0.6em; border-radius: 999px; font-size: 0.66em;
+  border: 1px solid var(--line); background: #fff; margin: 0.18em 0.12em;
+}
+.tag.struck { text-decoration: line-through; color: var(--muted); }
+.tag.keep { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.callout {
+  border-left: 5px solid var(--plasma); background: var(--plasma-soft);
+  padding: 0.5em 0.8em; border-radius: 0 12px 12px 0; font-size: 0.85em;
+}
+.callout.accent { border-color: var(--accent); background: var(--accent-soft); }
+.callout.good { border-color: var(--good); background: var(--good-soft); }
+.viz {
+  background: var(--night); border-radius: 16px; overflow: hidden; position: relative;
+  box-shadow: 0 10px 30px rgba(11, 18, 32, 0.22);
+}
+.viz canvas { display: block; width: 100%; height: auto; }
+.caption { font-size: 0.5em; color: var(--muted); margin-top: 0.45em !important; line-height: 1.3; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.3em 1.1em; font-size: 0.5em; color: var(--muted); margin-top: 0.4em; }
+.legend i { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; margin-right: 0.35em; vertical-align: -0.05em; }
+
+/* divider and title slides */
+.reveal section.divider { padding-top: 210px; }
+.reveal section.divider h1 { color: var(--night-ink); font-size: 2.2em; max-width: 15em; }
+.reveal section.divider .kicker { color: #66d9e8; font-size: 0.6em; }
+.reveal section.divider p.sub { color: var(--night-muted); font-size: 0.8em; max-width: 34em; }
+.reveal section.title-slide { padding-top: 150px; }
+.title-bg { position: absolute; left: -40px; top: -30px; width: 1360px; height: 780px; z-index: 0; pointer-events: none; }
+.title-text { position: relative; z-index: 1; max-width: 600px; }
+.nw { white-space: nowrap; display: inline-block; }
+.reveal section.title-slide h1 { color: var(--night-ink); font-size: 2.05em; line-height: 1.08; }
+.reveal section.title-slide .kicker { color: #66d9e8; font-size: 0.55em; }
+.reveal section.title-slide .subtitle { color: var(--night-muted); font-size: 0.85em; }
+.reveal section.title-slide .author { color: var(--night-ink); font-size: 0.8em; margin-top: 2em; font-weight: 600; }
+
+/* flows and diagrams */
+.flow { display: flex; align-items: center; gap: 0.45em; }
+.flow.wrap { flex-wrap: wrap; row-gap: 0.6em; }
+.flow .box {
+  background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.45em 0.7em;
+  font-size: 0.68em; text-align: center; line-height: 1.22; flex: 0 1 auto;
+}
+.flow .box small { display: block; color: var(--muted); font-size: 0.82em; margin-top: 0.15em; }
+.flow .arrow { color: var(--muted); font-size: 0.85em; flex: 0 0 auto; }
+.box.accent { border-color: var(--accent); background: var(--accent-soft); }
+.box.plasma { border-color: var(--plasma); background: var(--plasma-soft); }
+.box.good { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 700; }
+.box.dark { background: var(--night); border-color: var(--night); color: var(--night-ink); }
+.box.dark small { color: var(--night-muted); }
+.box.big { font-size: 0.78em; padding: 0.7em 0.9em; }
+
+.stack { display: flex; flex-direction: column-reverse; gap: 8px; }
+.stack .layer {
+  display: grid; grid-template-columns: 7.6em 1fr; align-items: center; gap: 0.6em;
+  border-radius: 10px; padding: 0.38em 0.75em; font-size: 0.66em; background: #fff; border: 1px solid var(--line);
+}
+.stack .layer b { color: var(--accent); font-size: 1.08em; }
+.stack .layer.kernel { background: var(--night); color: var(--night-ink); border-color: var(--night); }
+.stack .layer.kernel b { color: #66d9e8; }
+
+.timeline { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; margin-top: 1.4em; }
+.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 0.62em; height: 3px; background: var(--line); }
+.tl { position: relative; }
+.tl .dot { width: 0.95em; height: 0.95em; border-radius: 50%; background: var(--accent); border: 4px solid var(--paper); position: relative; z-index: 1; }
+.tl.ai .dot { background: var(--plasma); }
+.tl .yr { font-family: var(--r-heading-font); font-weight: 700; font-size: 1em; margin-top: 0.3em; }
+.tl p { font-size: 0.6em; margin: 0.2em 0 0; color: var(--ink); }
+.tl.ai .yr { color: var(--plasma); }
+
+.alt { display: flex; gap: 8px; flex-wrap: wrap; margin: 0.6em 0; }
+.alt span { font-size: 0.56em; padding: 0.35em 0.6em; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
+.alt span.s { border-color: var(--accent); background: var(--accent-soft); }
+.alt span.t { border-color: var(--plasma); background: var(--plasma-soft); }
+.alt span.hit { background: var(--good); color: #fff; border-color: var(--good); font-weight: 700; }
+
+/* code */
+.reveal pre.lean { width: 100%; box-shadow: none; margin: 0; font-size: 0.44em; }
+.reveal pre.lean code {
+  background: #0f1626; color: #e6ebf5; border-radius: 14px; padding: 0.9em 1.15em;
+  max-height: none; line-height: 1.5; white-space: pre; display: block; overflow: visible;
+}
+.tok-kw { color: #ff9e64; font-weight: 600; }
+.tok-com { color: #8392ab; font-style: italic; }
+.tok-ty { color: #7dcfff; }
+.tok-tac { color: #c3e88d; }
+.reveal code.inline { font-size: 0.85em; background: #eef0f4; padding: 0.05em 0.3em; border-radius: 5px; }
+.btn {
+  display: inline-block; padding: 0.45em 0.95em; border-radius: 10px; background: var(--accent);
+  color: #fff !important; font-weight: 600; font-size: 0.66em; text-decoration: none !important;
+}
+.btn:hover { background: var(--plasma); }
+
+/* tables */
+.reveal table { font-size: 0.64em; border-collapse: collapse; width: 100%; }
+.reveal table th, .reveal table td { border-bottom: 1px solid var(--line); padding: 0.42em 0.6em; text-align: left; vertical-align: top; }
+.reveal table th { color: var(--muted); font-weight: 600; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.06em; }
+.reveal table td.clause { font-weight: 700; color: var(--plasma); white-space: nowrap; }
+.reveal table td.cmd { font-family: var(--r-code-font); font-size: 0.9em; color: var(--accent); white-space: nowrap; }
+.reveal table td.ok { color: var(--good); font-weight: 700; }
+.reveal table td.open { color: var(--bad); font-weight: 700; }
+
+.big-number { font-family: var(--r-heading-font); font-size: 2.2em; font-weight: 700; color: var(--plasma); line-height: 1; }
+.check { color: var(--good); font-weight: 700; }
+.cross { color: var(--bad); font-weight: 700; }
+.reveal .slide-number { font-family: var(--r-main-font); background: transparent; color: var(--muted); font-size: 14px; }
+.reveal .progress { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) {
+  .mover { animation: none !important; }
+}
+.mover { offset-path: path("M 40 230 Q 260 -60 480 230"); animation: fly 3.2s ease-in-out infinite; }
+@keyframes fly { 0% { offset-distance: 0%; } 80%, 100% { offset-distance: 100%; } }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================ TITLE ============================ -->
+<section class="title-slide" data-background-color="#0b1220">
+  <canvas class="title-bg" data-anim="titleStell" width="1360" height="780"></canvas>
+  <div class="title-text">
+    <p class="kicker">AI for science and engineering</p>
+    <h1>Lean Prover for AI for Science and Engineering</h1>
+    <p class="subtitle">Reliable, autonomous mathematics for science, with AI and Lean</p>
+    <p class="author">Siddhartha Gadgil</p>
+  </div>
+  <aside class="notes">The animation is an illustrative stellarator: a twisted plasma surface surrounded by non-planar coils.</aside>
+</section>
+
+<section>
+  <p class="kicker">Introduction</p>
+  <h2>AI for mathematics, and for science</h2>
+  <ul>
+    <li>Artificial Intelligence systems have become <strong>very powerful at mathematics</strong>.</li>
+    <li class="fragment">It is natural to hope to use this, and other capabilities of AI, to <strong>accelerate scientific discovery</strong>, including engineering and mathematics.</li>
+    <li class="fragment">To do this on a large scale we need <strong>high reliability</strong> and <strong>autonomy</strong>.</li>
+    <li class="fragment">AI-discovered proofs are checked by translating them into computer-checkable proofs, mainly in the <strong>Lean prover</strong>.</li>
+    <li class="fragment">The translation is also done by AI: <strong>autoformalization</strong>.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Introduction</p>
+  <h2>Goal of this talk</h2>
+  <p class="lead">How to use AI and Lean in the mathematical aspects of science, in a fairly straightforward way, needing relatively little AI or Lean expertise.</p>
+  <div class="cols-3 mt">
+    <div class="card fragment"><div class="big">&#9881;</div><h3>General principles</h3><p>Abstraction, trust, and verifying definitions as well as proofs.</p></div>
+    <div class="card plasma fragment"><div class="big">&#127744;</div><h3>A specific example</h3><p>PlasmaLean: mathematics towards the design of stellarator fusion reactors.</p></div>
+    <div class="card good fragment"><div class="big">&#128230;</div><h3>Plug-and-play repository</h3><p>LeanTheory: a template with which you can begin building a theory.</p></div>
+  </div>
+</section>
+
+<!-- ============================ PART 1 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 1</p>
+  <h1>Expanding Mathematics in Science</h1>
+  <p class="sub">Abstraction, and the gap between what mathematics could do and what it does.</p>
+</section>
+
+<section>
+  <p class="kicker">Abstraction and mathematics</p>
+  <h2>Knowledge depends on abstraction</h2>
+  <div class="cols wide-left center">
+    <div>
+      <p>All knowledge beyond cataloguing facts (&ldquo;stamp collection&rdquo;) depends on <strong>abstraction</strong>: hiding details not relevant to what we seek to understand.</p>
+      <p class="fragment">Newton&rsquo;s laws give the trajectory of a <strong>point mass</strong>. We ignore</p>
+      <div class="fragment">
+        <span class="tag struck">colour</span><span class="tag struck">material</span><span class="tag struck">location</span>
+        <span class="small muted">&nbsp;irrelevant</span><br>
+        <span class="tag struck">size</span><span class="tag struck">shape</span>
+        <span class="small muted">&nbsp;they matter, but the effect is small</span><br>
+        <span class="tag keep">mass</span><span class="tag keep">position</span><span class="tag keep">velocity</span>
+        <span class="small muted">&nbsp;what we keep</span>
+      </div>
+    </div>
+    <div class="viz" style="background:#fff;border:1px solid var(--line);box-shadow:none">
+      <svg viewBox="0 0 520 280" width="100%" role="img" aria-label="A point mass following a parabolic trajectory">
+        <line x1="10" y1="240" x2="510" y2="240" stroke="#c9ced8" stroke-width="2"/>
+        <path d="M 40 230 Q 260 -60 480 230" fill="none" stroke="#0b7285" stroke-width="2.5" stroke-dasharray="6 7"/>
+        <text x="260" y="270" text-anchor="middle" font-size="16" fill="#5b6578" font-family="Source Sans 3, sans-serif">trajectory of an idealised point mass</text>
+        <circle class="mover" r="10" fill="#d9480f"/>
+      </svg>
+    </div>
+  </div>
+  <aside class="notes">This is sometimes at the cost of simplifying, or taking an ideal model of, what we are studying.</aside>
+</section>
+
+<section>
+  <p class="kicker">Abstraction and mathematics</p>
+  <h2>Abstraction in engineering</h2>
+  <p>Abstraction is most explicit in modular systems, for instance in software engineering.</p>
+  <div class="flow mt" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="box">loaded from a drive</div>
+      <div class="box">streamed over the internet</div>
+      <div class="box">input by the user</div>
+    </div>
+    <div class="arrow">&#10230;</div>
+    <div class="box accent big"><strong>data stream</strong><small>the abstraction</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box big">processing</div>
+  </div>
+  <ul class="mt">
+    <li class="fragment">We specify the <strong>properties</strong> we are concerned with, and study the system, or its idealised version, in terms of those properties.</li>
+    <li class="fragment">What we deduce applies to <strong>every system</strong> for which the abstraction is valid.</li>
+    <li class="fragment">Our attention is focussed on what matters for the questions at hand.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Abstraction and mathematics</p>
+  <h2>Mathematics turns this on its head</h2>
+  <div class="cols wide-left center">
+    <div>
+      <ul>
+        <li>Mathematics considers <strong>fully abstracted</strong> systems.</li>
+        <li class="fragment">We <em>define</em> objects as those satisfying some properties (axioms), and think of them as <strong>real objects</strong>.</li>
+        <li class="fragment">Each new abstraction gives new real objects, which we study and abstract further, based on what we discover and the techniques we use.</li>
+        <li class="fragment">This leads to a <strong>tower of abstractions</strong>.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <div class="layer"><b>Nature</b><span>systems we observe and build</span></div>
+      <div class="layer fragment"><b>Models</b><span>idealised systems, by their properties</span></div>
+      <div class="layer fragment"><b>Axioms</b><span>objects defined by properties</span></div>
+      <div class="layer fragment"><b>Abstractions</b><span>of what we discover about them</span></div>
+      <div class="layer fragment"><b>&hellip;</b><span>and so on, up the tower</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Applicability of mathematics</p>
+  <h2>Where mathematics falls short</h2>
+  <ul>
+    <li>Abstracting nature to obtain mathematics usually <strong>simplifies</strong>, leaving a gap between the empirical and the mathematical.</li>
+    <li class="fragment">Even when the match is very good, <strong>simulations, numerics and experiments</strong> are often used instead of proofs.</li>
+    <li class="fragment">The reason: the mathematics is <strong>too hard, too tedious</strong>, or both.</li>
+  </ul>
+  <div class="callout mt fragment">This limitation is what we can hope to overcome, with AI greatly accelerating mathematical discovery.</div>
+  <p class="fragment">Model example: the design of fusion reactors called <strong>stellarators</strong>. Going ahead, I hope to build, and invite others to build, many smaller but interesting and useful mathematical theories.</p>
+</section>
+
+<!-- ============================ PART 2 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 2</p>
+  <h1>Mathematics by AI</h1>
+  <p class="sub">AI systems have progressed rapidly in mathematics over the last couple of years.</p>
+</section>
+
+<section>
+  <p class="kicker">Mathematics by AI</p>
+  <h2>2026: AI arrives in mathematics</h2>
+  <div class="cols">
+    <div class="card plasma">
+      <h3>September</h3>
+      <p>A Millennium Prize problem is solved: the Navier&ndash;Stokes equations, the equations of fluids, can <strong>blow up in finite time</strong>.</p>
+    </div>
+    <div class="card">
+      <h3>October 6</h3>
+      <p>OpenAI posts <strong>700+ preprints</strong>. This is the event that established the power of AI in mathematics.</p>
+    </div>
+  </div>
+  <p class="mt">Several of the October 6 results were</p>
+  <ul>
+    <li class="fragment">fundamental to a field of mathematics;</li>
+    <li class="fragment">long open, so presumably hard;</li>
+    <li class="fragment">long proofs in many cases, which have not been shortened greatly;</li>
+    <li class="fragment">both constructions or counterexamples and &ldquo;positive&rdquo; theorems.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Example: rational solutions of Diophantine equations</p>
+  <h2>Diophantine equations</h2>
+  <p>A polynomial equation with integer coefficients, such as $x^2 + y^2 = z^2$. When does it have a solution in integers?</p>
+  <div class="cols mt">
+    <div>
+      <ul>
+        <li>Checking a candidate is easy, so searching finds a solution if there is one.</li>
+        <li class="fragment">But we don&rsquo;t know when to give up. For $x^2 - 61y^2 = 1$ the smallest positive solution is
+          $$x = 1{,}766{,}319{,}049,\quad y = 226{,}153{,}980.$$</li>
+      </ul>
+    </div>
+    <div class="fragment">
+      <div class="card">
+        <h3>Ruling out solutions</h3>
+        <p>Methods range from the elementary to the very deep.</p>
+        <p>Elementary: work modulo 4. Squares are $0$ or $1 \pmod 4$, so</p>
+        <p>$$x^2 + y^2 \not\equiv 3 \pmod 4,$$</p>
+        <p>and $x^2 + y^2 = 3$ has no integer solutions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Example: rational solutions of Diophantine equations</p>
+  <h2>Is there an algorithm?</h2>
+  <div class="timeline">
+    <div class="tl"><div class="dot"></div><div class="yr">1900</div><p>Hilbert&rsquo;s 10th problem: is there an algorithm to decide if a Diophantine equation has a solution?</p></div>
+    <div class="tl fragment"><div class="dot"></div><div class="yr">1930s</div><p>Church and Turing make &ldquo;algorithm&rdquo; precise, so the question becomes precise.</p></div>
+    <div class="tl fragment"><div class="dot"></div><div class="yr">1948</div><p>Tarski: <strong>yes</strong> for <strong>real</strong> solutions.</p></div>
+    <div class="tl fragment"><div class="dot"></div><div class="yr">1970</div><p>Davis, Putnam, Robinson, Matiyasevich: <strong>no</strong> for <strong>integer</strong> solutions.</p></div>
+    <div class="tl ai fragment"><div class="dot"></div><div class="yr">2026</div><p>An October 6 OpenAI preprint: <strong>no</strong> for <strong>rational</strong> solutions, which had been left open.</p></div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Example: rational solutions of Diophantine equations</p>
+  <h2>The idea of the proof</h2>
+  <ol>
+    <li>Suppose an algorithm decides whether an equation has a <strong>rational</strong> solution.</li>
+    <li class="fragment">Use it to build a sequence of <strong>finite tests</strong>, such that integer solutions exist if and only if all the tests pass.</li>
+    <li class="fragment">Alternately plug in candidate integer solutions and carry out tests:</li>
+  </ol>
+  <div class="alt fragment">
+    <span class="s">try candidate 1</span><span class="t">run test 1</span><span class="s">try candidate 2</span><span class="t">run test 2</span><span class="s">try candidate 3</span><span class="t">run test 3</span><span>&hellip;</span><span class="hit">one of these must succeed</span>
+  </div>
+  <p class="fragment">Either a candidate is a solution or a test fails, so this decides integer solvability. That contradicts the 1970 theorem.</p>
+</section>
+
+<!-- ============================ PART 3 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 3</p>
+  <h1>Lean Prover</h1>
+  <p class="sub">An example, and why we can trust what Lean checks.</p>
+</section>
+
+<section>
+  <p class="kicker">Lean prover: an example</p>
+  <h2>There are infinitely many primes</h2>
+  <div class="cols wide-left">
+<pre class="lean"><code>/-- A prime is a number larger than 1 with only trivial divisors -/
+def IsPrime (n : Nat) := 1 &lt; n ∧ ∀ k, 1 &lt; k → k &lt; n → ¬ k ∣ n
+
+/-- We find arbitrarily large (and thus infinitely many) primes:
+`n! + 1` has a prime factor larger than `n` -/
+theorem InfinitudeOfPrimes : ∀ n, ∃ p &gt; n, IsPrime p := by
+  intro n
+  have : 1 &lt; n ! + 1 := by grind [factorial_pos]
+  obtain ⟨p, hp, _⟩ := exists_prime_factor (n ! + 1) this
+  suffices ¬p ≤ n by grind
+  intro (_ : p ≤ n)
+  have : 1 &lt; p := hp.1
+  have : p ∣ n ! := dvd_factorial n p ‹p ≤ n› (by grind)
+  have := Nat.dvd_sub ‹p ∣ n ! + 1› ‹p ∣ n !›
+  grind [Nat.add_sub_cancel_left, Nat.dvd_one]</code></pre>
+    <div>
+      <ul class="small">
+        <li>The <strong>definition</strong> and <strong>statement</strong> are close to how a mathematician writes them.</li>
+        <li>The proof is Euclid&rsquo;s: a prime factor $p$ of $n! + 1$ cannot be at most $n$, since then $p \mid 1$.</li>
+        <li>The full file also defines the factorial and proves that every $n &gt; 1$ has a prime factor.</li>
+        <li>Lean checks every step; <code class="inline">grind</code> is an automated tactic.</li>
+      </ul>
+      <p class="mt"><a class="btn" href="https://live.lean-lang.org/#codez=PQWhAIEFwBwJwJYFsCm4EGdwENwDsBXJAIxTnABts4BzM8AFwAts9wBGcAdwWfAHs8FAJ6NEANwTYK4ACYJJGfnCwhgAKFkoAZuACSGAAqJU4ABRsAXOABy2BgEpwlgLwdwAHnzhA5EThAAETgANYANO5eQeCASYTBnt4xADWxgMRE%2BOrqoBAAouJkooQk9FS09Mys7ixYuPDIaNrYAMYMyuBq6swoyihI4CgAHpgMGAD6NajD9U0tlurgcwH4YZxebDGAwETBYQbGtbF%2BkalWbsTCs%2Bh4DHD83kzsZ2DgWbxM9AAGeK%2FoWGMoAHT%2FZxOwwa2AwKCwTB%2Bzn0RhMaDwZwA7eAaIg8LJwABtOwMX6ycSyYZwHQUAC69wg%2F1%2BAnIvHAlRw%2BEEIEuCikMnkihaPD41Th4EmzTgSIExAY2AQbEAF%2BShcDDQCX5NCNrLlntYitfClvK5wCczvNwBhkDBhtIZJjtnDyQb%2BGKJdKYGFhk7FTr%2BoMRj8Jo0hbEzCcUWjZA59YHJRjsfY8QThpdWBhyRkHgAVF4Cn3KdlhLTaSUoDHEhoEFQKFAiMI8pjgIsYZo9PD8cUMBCCVoaHPpqaIaTQnHRWz2M4AH3AAAZwC4AHwcYf4ADUnCn5jYc44TgAVJ2hey0g2my28JZ2KOT%2BO2AAiACE54n08FmZ7CKTEFTdQz3ZkmBwFC42GE334I1m1yNt2heLoenvD9RkA6FAjwMJxw1S9nGOU45klS5rjwABuc5ZAIJoD28DwcOnVFwyxKD2UTTJwCpHB0TkNktAxANeCwBpBFrXgCBQC4t2UVQNA6CC5Bjaie2seCwkCSJABMiRYxziSIYgObwUJ1PUMIuK58Dw8NCObVs2FIydQwopjI1xfFCSQAgKCJBAaCYBgwhxaM7Ic4YKB0Bhhn4bRhlssJJLJdI6IAdTQDAmH4LhGBYBhuDqSjqGIXg4GoURijocxWAxZgCCwSVczwXgy1OJBWGEJwoQKUgVDCAMYAQBogklGhGJwOAMrjOB8iIRrwHeV51AKw04p4PAurKZL3hQ1d2E%2BBk%2BV2KDKGoOhyDKNhRvUNpROJHo9DwMreK0AB5bQdlQLBpKUjYYHAacEJhW60GerT0POLC0jmFgQOsVU2EW9xvrDKywpghMzltcVJXAKVHXpFGFVQ3oBlrT04W9Ltl3AMH2CcZhMDODACG0XMGnBcAEmexS2ADSzZDOTC9LMYZoQZ%2FAQwB7AgfCWAMchX47n5wXnsOQmMdsvHt0fYXAE4CHm8EALgJzGZoM%2BfpAW0B1Dy5Yp4hwBV8BpaJjWzYttWzhZrEPOwWRCWN4FWBpxzfO0NyBxsmNBBQUkgA&amp;challengez=CYUwZgBAkgzgCgJwJYFsQQBQDsIC4IByAhgC4CUeAvBAIwQA8EOg5EQSAARBANYA0tDXEQEmEAxjmEAagYGIiJgChZJABYgA9ghApoWMEixISAV1AB5MIlQgYedk16BgIggAHCAD5b0eMjROqEAEYAnrIQEDBqCAFAA" target="_blank" rel="noopener">Open the full proof in the Lean playground &#8599;</a></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Trust and verification with Lean</p>
+  <h2>A small kernel checks every proof</h2>
+  <div class="flow mt" style="justify-content:center">
+    <div class="box big">AI or human<small>writes a proof</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box big" style="padding:1em 1.1em">Lean<small>parser, elaborator, tactics, automation:<br>large and complex</small></div>
+    <div class="arrow">&#10230;<br><span class="xsmall">proof term</span></div>
+    <div class="box dark big">kernel<small>a few thousand lines</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box good big">&#10003; checked</div>
+  </div>
+  <ul class="mt">
+    <li class="fragment">The <strong>kernel</strong> is like the part of a chess engine that checks whether moves are legal.</li>
+    <li class="fragment">Correctness of checked proofs depends only on the kernel, not on all of Lean.</li>
+    <li class="fragment"><strong>Independent kernels</strong> exist in other languages, so an invalid proof is accepted only if it passes all of them. Other checks, such as model building, have also been implemented.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Trust and verification with Lean</p>
+  <h2>But is it the right statement?</h2>
+  <div class="cols center">
+    <div>
+      <p>Even if a proof is correct, it may be proving the <strong>wrong thing</strong>:</p>
+      <ul>
+        <li class="fragment">different from what we intend, in mathematics;</li>
+        <li class="fragment">mismatched with reality, in science.</li>
+      </ul>
+      <p class="fragment">This comes from errors in <strong>definitions</strong> or <strong>statements</strong>, and we need to guard against them.</p>
+    </div>
+    <svg viewBox="0 0 440 260" width="100%" role="img" aria-label="An arrow hitting the wrong target">
+      <g font-family="Source Sans 3, sans-serif" font-size="17" text-anchor="middle">
+        <circle cx="110" cy="120" r="70" fill="#e6f4f6" stroke="#0b7285" stroke-width="2"/>
+        <circle cx="110" cy="120" r="42" fill="#fff" stroke="#0b7285" stroke-width="2"/>
+        <circle cx="110" cy="120" r="14" fill="#0b7285"/>
+        <text x="110" y="225" fill="#0b7285" font-weight="700">what we meant</text>
+        <circle cx="330" cy="120" r="70" fill="#fff1e7" stroke="#d9480f" stroke-width="2"/>
+        <circle cx="330" cy="120" r="42" fill="#fff" stroke="#d9480f" stroke-width="2"/>
+        <circle cx="330" cy="120" r="14" fill="#d9480f"/>
+        <text x="330" y="225" fill="#d9480f" font-weight="700">what we proved</text>
+        <line x1="330" y1="120" x2="420" y2="30" stroke="#172033" stroke-width="3"/>
+        <polygon points="330,120 344,100 350,114" fill="#172033"/>
+        <text x="330" y="30" fill="#2b8a3e" font-weight="700">&#10003; proof correct</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================ PART 4 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 4</p>
+  <h1>Autonomous Verification of Models and Definitions</h1>
+  <p class="sub">Checking definitions is easier than checking proofs, but manual checking limits scale. Three principles reduce errors with modest manual intervention.</p>
+</section>
+
+<section>
+  <p class="kicker">Autonomous verification</p>
+  <h2>Three principles</h2>
+  <div class="cols-3 mt">
+    <div class="card fragment"><div class="big">&#127919;</div><h3>Proof challenges</h3><p>Many statements that must hold if a definition is correct. Proving them all raises our confidence in the definition.</p></div>
+    <div class="card plasma fragment"><div class="big">&#9673;</div><h3>Small kernels</h3><p>The defining model of a domain is isolated in a modest amount of code, tested intensively and inspected by hand.</p></div>
+    <div class="card good fragment"><div class="big">&#9881;</div><h3>Swiss-watch verification</h3><p>In an interlocking theory, errors cause failures rather than cancelling out, so the theory is largely self-correcting.</p></div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Autonomous verification</p>
+  <h2>Proof challenges</h2>
+  <div class="cols center" style="grid-template-columns:1fr 1.15fr">
+    <div>
+      <ul class="small">
+        <li>To test a definition, use AI to generate many statements that hold <strong>if the definition is correct</strong>.</li>
+        <li class="fragment">Generate them following <strong>sanity-check recipes</strong> well known to mathematicians: special cases, degenerate cases, examples and non-examples.</li>
+        <li class="fragment">Being able to prove all of them greatly increases our confidence in the definition.</li>
+      </ul>
+    </div>
+<pre class="lean fragment"><code>-- If `IsPrime` is right, all of these must be provable
+
+theorem two_prime : IsPrime 2                -- an example
+
+theorem one_not_prime : ¬ IsPrime 1          -- a degenerate case
+
+theorem four_not_prime : ¬ IsPrime 4         -- a non-example
+
+theorem exists_prime_factor :                -- a characterizing property
+    ∀ n, 1 &lt; n → ∃ k, IsPrime k ∧ k ∣ n</code></pre>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Autonomous verification</p>
+  <h2>Small kernels</h2>
+  <div class="cols center">
+    <div>
+      <ul>
+        <li>Lean itself has a small kernel. In the same way, we isolate the <strong>key defining model</strong> of our domain into a modest amount of code.</li>
+        <li class="fragment">Other results are verified in terms of this domain kernel.</li>
+        <li class="fragment">The kernel itself is intensively tested with proof challenges, and can even be inspected by hand.</li>
+      </ul>
+    </div>
+    <svg viewBox="0 0 420 380" width="100%" role="img" aria-label="Concentric layers around a small kernel">
+      <g font-family="Source Sans 3, sans-serif" text-anchor="middle">
+        <circle cx="210" cy="190" r="180" fill="#f1f3f6" stroke="#dfe2e8"/>
+        <circle cx="210" cy="190" r="135" fill="#e6f4f6" stroke="#b9dde3"/>
+        <circle cx="210" cy="190" r="90" fill="#fff1e7" stroke="#f5c6a5"/>
+        <circle cx="210" cy="190" r="48" fill="#0b1220"/>
+        <text x="210" y="196" fill="#e8edf6" font-size="18" font-weight="700">kernel</text>
+        <text x="210" y="128" fill="#d9480f" font-size="16" font-weight="700">proof challenges</text>
+        <text x="210" y="80" fill="#0b7285" font-size="16" font-weight="700">theory</text>
+        <text x="210" y="34" fill="#5b6578" font-size="16" font-weight="700">applications and designs</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Autonomous verification</p>
+  <h2>Swiss-watch verification</h2>
+  <div class="cols center">
+    <div>
+      <ul>
+        <li>In a complex interlocking design, such as a Swiss watch or a mathematical theory, an error causes <strong>failures</strong>: jamming, or compilation errors.</li>
+        <li class="fragment" data-jam="1">A few errors are highly unlikely to cancel. Instead they cause <strong>worse failures</strong>.</li>
+        <li class="fragment">So interlocking theories built on stress-tested kernels are <strong>largely self-correcting</strong>.</li>
+      </ul>
+    </div>
+    <div class="viz"><canvas data-anim="gears" width="560" height="400"></canvas></div>
+  </div>
+  <aside class="notes">The gears jam when the second point appears: one wrong tooth stops the whole mechanism.</aside>
+</section>
+
+<!-- ============================ PART 5 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 5</p>
+  <h1>Building Theories: a Plug-and-Play Setup</h1>
+  <p class="sub">The principles packaged as a template repository, used with an AI coding agent.</p>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>The LeanTheory template</h2>
+  <ul>
+    <li>The principles above are packaged in a template repository, <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener">LeanTheory &#8599;</a>.</li>
+    <li class="fragment">To build a theory in some domain, create a fresh repository from the template, <strong>named for the topic</strong>, and work in it with an <strong>AI coding agent</strong>.</li>
+    <li class="fragment">The repository contains instructions for the agent, called <strong>skills</strong>, so most interaction is in <strong>natural language</strong>.</li>
+    <li class="fragment">Little expertise in Lean, or in setting up AI agents, is needed.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Developing theory, not just translating it</h2>
+  <div class="cols center" style="grid-template-columns:1.1fr 1fr;gap:30px">
+    <div>
+      <p class="xsmall">We begin with goals, open questions, partial approaches, sources, calculations and design problems, tracked as a <strong>graph</strong>:</p>
+      <ul class="xsmall">
+        <li><strong style="color:var(--plasma)">Goals</strong>: desired mathematical, scientific or engineering outcomes.</li>
+        <li><strong style="color:var(--accent)">Questions</strong>: unresolved issues, the answer we seek or a step towards a goal.</li>
+        <li><strong>Notes</strong>: units of work, such as a literature summary, a definition, a conjecture, a counterexample, a proof or a formalization.</li>
+      </ul>
+      <p class="xsmall fragment">Working on a note need not end in Lean code. It may produce new theory, split a question, expose an obstacle or refute an approach.</p>
+    </div>
+    <svg viewBox="0 0 520 380" width="100%" role="img" aria-label="A graph of goals, questions and notes">
+      <g stroke="#b7bdc9" stroke-width="2" fill="none">
+        <line x1="140" y1="60" x2="90" y2="170"/><line x1="140" y1="60" x2="250" y2="170"/>
+        <line x1="380" y1="60" x2="250" y2="170"/><line x1="380" y1="60" x2="420" y2="170"/>
+        <line x1="90" y1="170" x2="60" y2="300"/><line x1="90" y1="170" x2="170" y2="300"/>
+        <line x1="250" y1="170" x2="170" y2="300"/><line x1="250" y1="170" x2="290" y2="300"/>
+        <line x1="420" y1="170" x2="400" y2="300"/><line x1="420" y1="170" x2="480" y2="300"/>
+        <line x1="290" y1="300" x2="400" y2="300" stroke-dasharray="5 5"/>
+      </g>
+      <g font-family="Source Sans 3, sans-serif" font-size="17" font-weight="700" text-anchor="middle">
+        <rect x="95" y="40" width="90" height="40" rx="10" fill="#d9480f"/><text x="140" y="66" fill="#fff">G-1</text>
+        <rect x="335" y="40" width="90" height="40" rx="10" fill="#d9480f"/><text x="380" y="66" fill="#fff">G-2</text>
+        <circle cx="90" cy="170" r="26" fill="#0b7285"/><text x="90" y="176" fill="#fff">Q-1</text>
+        <circle cx="250" cy="170" r="26" fill="#0b7285"/><text x="250" y="176" fill="#fff">Q-2</text>
+        <circle cx="420" cy="170" r="26" fill="#0b7285"/><text x="420" y="176" fill="#fff">Q-3</text>
+        <rect x="32" y="282" width="56" height="36" rx="6" fill="#ebf7ee" stroke="#2b8a3e" stroke-width="2"/><text x="60" y="306" fill="#2b8a3e">N-1</text>
+        <rect x="142" y="282" width="56" height="36" rx="6" fill="#ebf7ee" stroke="#2b8a3e" stroke-width="2"/><text x="170" y="306" fill="#2b8a3e">N-2</text>
+        <rect x="262" y="282" width="56" height="36" rx="6" fill="#fff" stroke="#0b7285" stroke-width="2"/><text x="290" y="306" fill="#0b7285">N-3</text>
+        <rect x="372" y="282" width="56" height="36" rx="6" fill="#fff" stroke="#b7bdc9" stroke-width="2" stroke-dasharray="4 3"/><text x="400" y="306" fill="#5b6578">N-4</text>
+        <rect x="452" y="282" width="56" height="36" rx="6" fill="#fdecec" stroke="#c92a2a" stroke-width="2"/><text x="480" y="306" fill="#c92a2a">N-5</text>
+      </g>
+      <g font-family="Source Sans 3, sans-serif" font-size="14" fill="#5b6578">
+        <rect x="30" y="345" width="12" height="12" fill="#ebf7ee" stroke="#2b8a3e"/><text x="48" y="356">verified</text>
+        <rect x="130" y="345" width="12" height="12" fill="#fff" stroke="#0b7285"/><text x="148" y="356">ready for Lean</text>
+        <rect x="262" y="345" width="12" height="12" fill="#fff" stroke="#b7bdc9" stroke-dasharray="3 2"/><text x="280" y="356">exploratory</text>
+        <rect x="380" y="345" width="12" height="12" fill="#fdecec" stroke="#c92a2a"/><text x="398" y="356">blocked or refuted</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="notes">Each note records what it depends on, what it is expected to produce, its difficulty and the barriers to completing it.</aside>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Lean as the validity gate</h2>
+  <p>Summaries, proof sketches, numerical experiments and conjectures are valuable, but they are <strong>not established results</strong>.</p>
+  <div class="flow wrap mt" style="justify-content:center">
+    <div class="box">exploratory</div><div class="arrow">&#10230;</div>
+    <div class="box">stated precisely</div><div class="arrow">&#10230;</div>
+    <div class="box">complete proof</div><div class="arrow">&#10230;</div>
+    <div class="box accent">ready for Lean</div><div class="arrow">&#10230;</div>
+    <div class="box dark">Lean compiles</div><div class="arrow">&#10230;</div>
+    <div class="box good">verified &#10003;</div>
+  </div>
+  <p class="small mt">Only verified results can be relied on by later work. Consequences of a conjecture may be explored, as long as the dependence is recorded. This guards against two failures of long AI runs:</p>
+  <div class="cols">
+    <div class="card bad fragment"><h3>Research drift</h3><p>Losing the motivating question, repeating abandoned approaches, or silently changing definitions.</p></div>
+    <div class="card bad fragment"><h3>Validity drift</h3><p>Treating a plausible argument, a sampled computation or a cited result as if it had been checked under the exact hypotheses needed.</p></div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Layers of a theory</h2>
+  <div class="cols wide-right center">
+    <div>
+      <p>The Lean code is organized in layers, separating the <strong>model</strong> from what is deduced from it.</p>
+      <p class="small fragment">Laws of nature and known facts are <strong>hypotheses</strong> that theorems explicitly assume, never axioms.</p>
+    </div>
+    <div class="stack">
+      <div class="layer kernel"><b>Kernel</b><span>the small domain model: basic objects and laws</span></div>
+      <div class="layer"><b>Sanity</b><span>proof challenges testing the kernel</span></div>
+      <div class="layer"><b>Theory</b><span>general mathematics, independent of the domain</span></div>
+      <div class="layer"><b>Bridge</b><span>connects theory and computations to domain claims</span></div>
+      <div class="layer"><b>Certificates</b><span>exact numerical checks, proved correct in Lean</span></div>
+      <div class="layer"><b>Design</b><span>concrete candidates, proved by combining the layers</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>A worked example: the harmonic oscillator</h2>
+  <div class="cols center">
+    <div>
+      <ul class="small">
+        <li><strong>Kernel:</strong> Newton&rsquo;s law <span class="nw">$m\ddot x = -kx$</span> for a mass on a spring.</li>
+        <li class="fragment"><strong>Theory:</strong> the energy $\tfrac12 m\dot x^2 + \tfrac12 kx^2$ is conserved.</li>
+        <li class="fragment"><strong>Certificates:</strong> exact checks for 21 initial states, giving the bound $3x(t)^2 \le 1$ <strong>for all time</strong>.</li>
+      </ul>
+      <div class="callout accent small fragment">The domain kernel is not Lean&rsquo;s kernel. Lean verifies the consequences of the model we encoded. Whether the model applies is for experts and experiments: the gap between the empirical and the mathematical.</div>
+    </div>
+    <div>
+      <div class="viz"><canvas data-anim="oscillator" width="560" height="320"></canvas></div>
+      <p class="caption">With $m = k = 1$: the mass moves, while its state $(x, \dot x)$ stays on a circle of constant energy, inside the certified bound.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Sanity checks and audits</h2>
+  <p class="small">Every law in the kernel is tested by at least three proof challenges. For the oscillator:</p>
+  <div class="cols-3">
+    <div class="card fragment"><h3>Degenerate case</h3><p>With zero stiffness, $k = 0$, the oscillator is a free particle.</p></div>
+    <div class="card good fragment"><h3>Concrete instance</h3><p>$x(t) = \cos t$ is a solution, so the law can be satisfied and theorems about it are not vacuously true.</p></div>
+    <div class="card bad fragment"><h3>Counterexample</h3><p>$x(t) = e^t$ is not a solution, so the law rules something out.</p></div>
+  </div>
+  <ul class="small mt">
+    <li class="fragment">This is a baseline. Further checks target each law&rsquo;s risks: singularities, symmetries, conservation laws, scaling, boundary behaviour, order of quantifiers.</li>
+    <li class="fragment">Every error found later becomes a <strong>permanent check</strong>.</li>
+    <li class="fragment">Audits are strict and include <strong>old code</strong>: code is not trusted just because it compiles. The first command in a repository audits the whole kernel.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Numerics as proofs</h2>
+  <p>Simulations and numerics are used, but as <strong>untrusted oracles</strong>.</p>
+  <div class="flow mt" style="justify-content:center">
+    <div class="box plasma big">fast numerics<small>untrusted: proposes candidates and bounds</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box big">certificate<small>exact data</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box accent big">exact and interval arithmetic<small>guaranteed upper and lower bounds</small></div>
+    <div class="arrow">&#10230;</div>
+    <div class="box dark big">Lean kernel<small>checks the proof</small></div>
+  </div>
+  <ul class="small mt">
+    <li class="fragment">The template includes a toolkit for such certificates, with the general mathematics they need, for example the existence of a true solution near an approximate one.</li>
+    <li class="fragment">Heavy computations can be offloaded to a workstation; results are re-checked before they are used.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Working with the agent</h2>
+  <table>
+    <thead><tr><th>Say</th><th>The agent will</th></tr></thead>
+    <tbody>
+      <tr><td class="cmd">start</td><td>audit the repository, then summarize goals, questions, verified results, barriers and choices</td></tr>
+      <tr><td class="cmd">work status</td><td>report on the state of the project</td></tr>
+      <tr><td class="cmd">work on &hellip;</td><td>work on a particular goal, question or note</td></tr>
+      <tr><td class="cmd">discuss &hellip;</td><td>explore an idea, source or objection, recording durable outcomes as notes</td></tr>
+      <tr><td class="cmd">add notes / modify notes</td><td>turn a discussion into new or revised notes</td></tr>
+      <tr><td class="cmd">update notes from &hellip;</td><td>read papers, documents or web pages and integrate them into the notes</td></tr>
+      <tr><td class="cmd">keep working</td><td>work autonomously, choosing the most valuable task that is ready</td></tr>
+    </tbody>
+  </table>
+  <p class="small mt">By default the agent asks what to do next. In autonomous mode it chooses for itself, stopping when a decision by the user is needed. <strong>Autonomy changes how work is chosen, not the standards of evidence.</strong></p>
+</section>
+
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Getting started</h2>
+  <ol>
+    <li>Create a repository from the <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener">template</a> on GitHub, named for your topic.</li>
+    <li class="fragment">Run the setup script, which installs Lean and its mathematical library, Mathlib:
+      <pre class="lean plain" style="margin:0.35em 0 0.2em"><code>scripts/setup.sh --check-axioms</code></pre></li>
+    <li class="fragment">Tell the agent to <code class="inline">start</code>.</li>
+    <li class="fragment">Seed the project with your goals, questions, sources, ideas and constraints, using a prompt provided in the documentation.</li>
+    <li class="fragment">Choose what to work on, or say <code class="inline">keep working</code>.</li>
+  </ol>
+</section>
+
+<!-- ============================ PART 6 ============================ -->
+<section class="divider" data-background-color="#0b1220">
+  <p class="kicker">Part 6</p>
+  <h1>PlasmaLean</h1>
+  <p class="sub">Lean and AI-assisted mathematics towards the design of a stellarator.</p>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>A library for stellarator design</h2>
+  <ul>
+    <li><a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener">PlasmaLean &#8599;</a> is a library of Lean and AI-assisted mathematics aimed at the design of a <strong>stellarator</strong>.</li>
+    <li class="fragment">It is the project from which the <strong>LeanTheory</strong> template was extracted, so it follows the model just described.</li>
+    <li class="fragment">Its <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> has background on stellarators, a handbook, progress slides and an exposition suite.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">Stellarators</p>
+  <h2>A magnetic bottle needs twisted field lines</h2>
+  <p class="xsmall">Fusion needs deuterium and tritium at over a hundred million degrees: a <strong>plasma</strong>, kept away from the walls by a toroidal <strong>magnetic bottle</strong>. In a simple toroidal field, ions and electrons drift apart and hit the wall. The cure is field lines that <strong>twist</strong>, measured by the <strong>rotational transform</strong> $\iota$.</p>
+  <div class="viz"><canvas data-anim="bottle" width="1180" height="390"></canvas></div>
+  <div class="legend">
+    <span><i style="background:#ff922b"></i>ion, drifting up</span>
+    <span><i style="background:#b197fc"></i>electron, drifting down</span>
+    <span><i style="background:#3bc9db"></i>magnetic field lines</span>
+    <span>Illustrative animation, not a computed orbit.</span>
+  </div>
+  <aside class="notes">Left: with no twist, the vertical drift carries each particle straight out to the wall. Right: as the particle follows a twisted field line it spends time at the top and the bottom of the torus, so the drift averages out and the orbit stays inside.</aside>
+</section>
+
+<section>
+  <p class="kicker">Stellarators</p>
+  <h2>Tokamaks and stellarators</h2>
+  <div class="viz"><canvas data-anim="tokstell" width="1180" height="370"></canvas></div>
+  <div class="cols" style="margin-top:0.5em">
+    <div class="xsmall"><strong>Tokamak:</strong> the twist comes from a large current, millions of amperes, driven through the plasma itself. This current brings instabilities and sudden disruptions.</div>
+    <div class="xsmall fragment"><strong>Stellarator:</strong> the twist comes from shaped external coils, with little or no plasma current. The field cannot be symmetric about the axis of the torus, so stellarators are genuinely three-dimensional.</div>
+  </div>
+  <aside class="notes">Both pictures are schematic. The stellarator shape is a rotating ellipse with a helical axis and five field periods, surrounded by non-planar modular coils.</aside>
+</section>
+
+<section>
+  <p class="kicker">Stellarators</p>
+  <h2>Hard, and mathematically rich</h2>
+  <div class="cols wide-right center">
+    <div>
+      <ul class="small">
+        <li>A generic three-dimensional field confines particles poorly, so stellarators must be <strong>carefully designed</strong>.</li>
+        <li class="fragment">Field lines should lie on nested <strong>flux surfaces</strong>: invariant tori.</li>
+        <li class="fragment">Small perturbations break some tori into <strong>islands</strong> and <strong>chaos</strong>. <strong>KAM theory</strong> says which tori survive.</li>
+        <li class="fragment"><strong>Grad&rsquo;s conjecture</strong> concerns whether non-symmetric plasma equilibria with nested flux surfaces exist.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="viz"><canvas data-anim="poincare" width="600" height="440"></canvas></div>
+      <p class="caption">Where field lines cross a cross-section, modelled by H&eacute;non&rsquo;s area-preserving map. Closed curves are invariant tori, chains are islands, and scattered points are chaotic field lines.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>The stellarator contract</h2>
+  <p class="small">The goal is a <strong>single candidate</strong> design satisfying five clauses, with the same objects witnessing all of them.</p>
+  <table>
+    <thead><tr><th>Clause</th><th>Requirement</th></tr></thead>
+    <tbody>
+      <tr><td class="clause">C1 &nbsp;current-free twist</td><td>Rotational transform $\iota \ge \iota_{\min} &gt; 0$ from the external field, with zero or very small net plasma current. This rules out tokamaks.</td></tr>
+      <tr><td class="clause">C2 &nbsp;omnigeneity</td><td>Small transport of thermal ions and electrons out of the plasma.</td></tr>
+      <tr><td class="clause">C3 &nbsp;stability</td><td>Stability against the main magnetohydrodynamic instabilities, at a positive plasma pressure.</td></tr>
+      <tr><td class="clause">C4 &nbsp;existence</td><td>Nested flux surfaces, on which field lines lie, with force balance.</td></tr>
+      <tr><td class="clause">C5 &nbsp;performance</td><td>The core stays above a burn temperature, e.g. 10 keV, from a balance of heating and losses.</td></tr>
+    </tbody>
+  </table>
+  <p class="small mt">Being non-symmetric is a <strong>consequence</strong> of these clauses, not a goal. A non-symmetric result with no other content is mathematical infrastructure, not design progress.</p>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>Kernel, and errors caught by audits</h2>
+  <div class="cols" style="grid-template-columns:0.8fr 1.3fr;gap:36px">
+    <div>
+      <div class="big-number">~900</div>
+      <p class="small">lines in the domain kernel, in six modules: force balance, vacuum fields, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
+      <div class="big-number" style="margin-top:0.5em">600k+</div>
+      <p class="small">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
+    </div>
+    <div>
+      <div class="card bad fragment"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ if $g$ is unconstrained: meaningless until $g$ is proved to be the pressure gradient.</p></div>
+      <div class="card bad fragment" style="margin-top:8px"><h3>Current-free twist</h3><p>An early C1 used a surface that could be degenerate, so <em>every</em> field passed. Caught by an audit, kept as a regression check, fixed using Amp&egrave;re&rsquo;s law.</p></div>
+      <div class="card bad fragment" style="margin-top:8px"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values. Now covered by regression checks.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>Results, as of early November 2026</h2>
+  <ul class="small" style="font-size:0.72em">
+    <li><strong>Lead candidate:</strong> an exact, purely rational vacuum field of a kind first found by Dommaschk, with two field periods. Found by untrusted numerics, then certified in Lean: a KAM theorem with explicit constants gives <strong>two nested invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ on both (C1), and a certified small deviation from quasi-axisymmetry, a symmetry of particle motion that helps C2.</li>
+    <li class="fragment"><strong>Confinement for all time:</strong> an earlier exact vacuum field has a KAM-certified invariant torus, so every field line starting inside stays inside forever. Certain high-energy alpha particles produced by fusion are also confined for all time.</li>
+    <li class="fragment"><strong>Coils:</strong> concrete polygonal coils give field lines near the axis certified to stay confined for 52 circuits. Another certificate bounds field errors from manufacturing tolerances, for a test coil pair.</li>
+    <li class="fragment"><strong>Grad&rsquo;s conjecture:</strong> an explicit non-symmetric equilibrium of Landreman satisfies, in Lean, the hypotheses of a counterexample.</li>
+    <li class="fragment"><strong>Test beds:</strong> stability for a band of a Landreman equilibrium and for a tokamak equilibrium (Solov&rsquo;ev), and a tokamak model whose core stays above 10 keV for every supplied solution of a transport model.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>Honest status</h2>
+  <table>
+    <thead><tr><th>Clause</th><th>Lead candidate</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="clause">C1</td><td class="ok">verified, in vacuum</td><td>two nested certified tori, zero net current</td></tr>
+      <tr><td class="clause">C2</td><td class="open">open</td><td>certified near-symmetry only; thermal transport not yet proved</td></tr>
+      <tr><td class="clause">C3</td><td class="open">open</td><td>stability of a current-free plasma at positive pressure</td></tr>
+      <tr><td class="clause">C4</td><td class="ok">in vacuum</td><td>certified nested tori; positive pressure open</td></tr>
+      <tr><td class="clause">C5</td><td class="open">open</td><td>shown only on a tokamak model</td></tr>
+    </tbody>
+  </table>
+  <ul class="small mt">
+    <li><strong>No candidate yet satisfies all of C1&ndash;C5.</strong></li>
+    <li class="fragment">Assumptions are stated, not hidden: the burn result assumes a solution of the transport model exists, and standard reductions in the stability results are listed as supplied.</li>
+    <li class="fragment">Website graphics and sandbox outputs that are not Lean certificates are labelled as illustrative.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="kicker">PlasmaLean</p>
+  <h2>How it was built</h2>
+  <div class="cols">
+    <ul class="small">
+      <li>Built almost entirely by <strong>AI agents</strong>, using the workflow above: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits.</li>
+      <li class="fragment">Heavy numerics run on a workstation as <strong>untrusted oracles</strong>; their certificates are re-checked before they are merged.</li>
+      <li class="fragment">Large checks are written as <strong>explicit proof terms</strong> that Lean&rsquo;s kernel verifies.</li>
+    </ul>
+    <div class="fragment">
+      <div class="callout accent small">Work produced in this way can be <strong>queried and understood</strong>, and ideas at various levels can be added to guide it.</div>
+      <p class="small mt">The exposition suite includes a &ldquo;Rosetta stone&rdquo; translating stellarator physics into geometry, a guide to auditing the kernel in ten minutes, and challenges inviting pure mathematicians to contribute.</p>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#0b1220" class="divider" style="padding-top:150px">
+  <p class="kicker">Links</p>
+  <h1>Start building a theory</h1>
+  <p class="sub" style="line-height:2">
+    Template: <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener" style="color:#66d9e8">github.com/siddhartha-gadgil/LeanTheory &#8599;</a><br>
+    Example: <a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener" style="color:#66d9e8">github.com/siddhartha-gadgil/PlasmaLean &#8599;</a><br>
+    Website: <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener" style="color:#66d9e8">siddhartha-gadgil.github.io/PlasmaLean &#8599;</a>
+  </p>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  const TAU = Math.PI * 2;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const FONT = '"Source Sans 3", "Helvetica Neue", Arial, sans-serif';
+
+  /* ---------------- Lean syntax highlighting ---------------- */
+  const KW = /^(def|theorem|lemma|example|by|have|show|from|fun|match|with|notation|structure|class|instance|where|let|if|then|else|suffices|obtain|intro|exact|refine|induction|by_cases|by_contra)$/;
+  const TAC = /^(grind|simp|simp_all|omega|norm_num|decide|rfl|sorry|linarith|positivity)$/;
+  const TY = /^(Nat|Int|Real|Prop|Type|IsPrime)$/;
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function highlightLean(el) {
+    const src = el.textContent;
+    let out = "", i = 0;
+    while (i < src.length) {
+      if (src.startsWith("/-", i)) {
+        const j = src.indexOf("-/", i + 2); const end = j < 0 ? src.length : j + 2;
+        out += '<span class="tok-com">' + esc(src.slice(i, end)) + "</span>"; i = end; continue;
+      }
+      if (src.startsWith("--", i)) {
+        const j = src.indexOf("\n", i); const end = j < 0 ? src.length : j;
+        out += '<span class="tok-com">' + esc(src.slice(i, end)) + "</span>"; i = end; continue;
+      }
+      const m = /^[A-Za-z_][A-Za-z0-9_'.!?]*/.exec(src.slice(i));
+      if (m) {
+        const w = m[0];
+        if (KW.test(w)) out += '<span class="tok-kw">' + w + "</span>";
+        else if (TAC.test(w)) out += '<span class="tok-tac">' + w + "</span>";
+        else if (TY.test(w)) out += '<span class="tok-ty">' + w + "</span>";
+        else out += esc(w);
+        i += w.length; continue;
+      }
+      out += esc(src[i]); i++;
+    }
+    el.innerHTML = out;
+  }
+  document.querySelectorAll("pre.lean:not(.plain) code").forEach(highlightLean);
+
+  /* ---------------- Math ---------------- */
+  renderMathInElement(document.querySelector(".slides"), {
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false }
+    ],
+    ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+    throwOnError: false
+  });
+
+  /* ---------------- 3D helpers ---------------- */
+  // A simple perspective camera: z is vertical, yaw turns about z, pitch tilts the view downwards.
+  function camera(o) {
+    const cy = Math.cos(o.yaw), sy = Math.sin(o.yaw), cp = Math.cos(o.pitch), sp = Math.sin(o.pitch);
+    return function (p) {
+      const x1 = p[0] * cy - p[1] * sy, y1 = p[0] * sy + p[1] * cy;
+      const depth = y1 * cp - p[2] * sp, up = p[2] * cp + y1 * sp;
+      const f = o.dist / (o.dist + depth);
+      return [o.cx + o.scale * x1 * f, o.cy - o.scale * up * f, depth];
+    };
+  }
+  // Stroke a projected polyline with depth cueing: near segments bright, far segments faint.
+  function strokeDepth(ctx, pts, rgb, width, lo, hi, span) {
+    const L = 7, buckets = [];
+    for (let s = 0; s < L; s++) buckets.push([]);
+    for (let i = 0; i < pts.length - 1; i++) {
+      const a = pts[i], b = pts[i + 1];
+      const d = (a[2] + b[2]) / 2;
+      const s = Math.max(0, Math.min(L - 1, Math.floor(((d + span) / (2 * span)) * L)));
+      buckets[s].push(a, b);
+    }
+    ctx.lineWidth = width; ctx.lineCap = "round";
+    for (let s = 0; s < L; s++) {
+      const seg = buckets[s]; if (!seg.length) continue;
+      ctx.strokeStyle = "rgba(" + rgb + "," + (hi - (hi - lo) * (s + 0.5) / L).toFixed(3) + ")";
+      ctx.beginPath();
+      for (let i = 0; i < seg.length; i += 2) { ctx.moveTo(seg[i][0], seg[i][1]); ctx.lineTo(seg[i + 1][0], seg[i + 1][1]); }
+      ctx.stroke();
+    }
+  }
+  function sample(fn, n, t0, t1) {
+    const out = [];
+    for (let i = 0; i <= n; i++) out.push(fn(t0 + (t1 - t0) * i / n));
+    return out;
+  }
+  function torusPt(R, u, w, phi) { return [(R + u) * Math.cos(phi), (R + u) * Math.sin(phi), w]; }
+  function drawLines(ctx, cam, lines, span, alphaScale) {
+    const k = alphaScale === undefined ? 1 : alphaScale;
+    for (const L of lines) strokeDepth(ctx, L.pts.map(cam), L.rgb, L.w, L.lo * k, L.hi * k, span);
+  }
+  function label(ctx, text, x, y, color, size, align, weight) {
+    ctx.font = (weight || 600) + " " + (size || 20) + "px " + FONT;
+    ctx.fillStyle = color || "#e8edf6"; ctx.textAlign = align || "left"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(text, x, y);
+  }
+  function glow(ctx, x, y, r, rgb) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
+    g.addColorStop(0, "rgba(" + rgb + ",1)"); g.addColorStop(0.3, "rgba(" + rgb + ",0.55)"); g.addColorStop(1, "rgba(" + rgb + ",0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, TAU); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0, TAU); ctx.fill();
+  }
+
+  /* ---------------- Stellarator geometry ---------------- */
+  // Rotating-ellipse cross-section around a helical magnetic axis, with N field periods.
+  function stellPt(o, th, ph) {
+    const al = o.N * ph / 2;
+    const u0 = o.a * (1 + o.e) * Math.cos(th), w0 = o.a * (1 - o.e) * Math.sin(th);
+    const u = u0 * Math.cos(al) - w0 * Math.sin(al), w = u0 * Math.sin(al) + w0 * Math.cos(al);
+    const R = o.R0 + o.d * Math.cos(o.N * ph) + u, Z = o.d * Math.sin(o.N * ph) + w;
+    return [R * Math.cos(ph), R * Math.sin(ph), Z];
+  }
+  function stellaratorLines(opts) {
+    const S = { R0: 1, a: 0.25, e: 0.4, d: 0.12, N: 5 };
+    const C = { R0: 1, a: 0.4, e: 0.26, d: 0.12, N: 5 };
+    const lines = [];
+    const nPhi = opts.light ? 50 : 80, nTh = opts.light ? 8 : 12;
+    for (let i = 0; i < nPhi; i++) {
+      const ph = i * TAU / nPhi;
+      lines.push({ pts: sample(t => stellPt(S, t, ph), 40, 0, TAU), rgb: "102,217,232", w: 1, lo: 0.06, hi: 0.5 });
+    }
+    for (let j = 0; j < nTh; j++) {
+      const th = j * TAU / nTh;
+      lines.push({ pts: sample(p => stellPt(S, th, p), 360, 0, TAU), rgb: "102,217,232", w: 1, lo: 0.06, hi: 0.5 });
+    }
+    if (!opts.light) {
+      for (let j = 0; j < 3; j++) {
+        const th0 = j * TAU / 3;
+        lines.push({ pts: sample(p => stellPt(S, th0 + 0.75 * p, p), 600, 0, TAU), rgb: "255,212,59", w: 2.2, lo: 0.2, hi: 1 });
+      }
+    }
+    const nCoils = 4 * S.N;
+    for (let k = 0; k < nCoils; k++) {
+      const pk = (k + 0.5) * TAU / nCoils;
+      lines.push({ pts: sample(t => stellPt(C, t, pk + 0.03 * Math.sin(2 * t + 1.3 * k)), 64, 0, TAU), rgb: "222,150,80", w: 2.4, lo: 0.1, hi: 0.8 });
+    }
+    return lines;
+  }
+  function tokamakLines() {
+    const lines = [];
+    const a = 0.34, kap = 1.45;
+    const sec = (th) => [a * Math.cos(th + 0.35 * Math.sin(th)), kap * a * Math.sin(th)];
+    for (let i = 0; i < 56; i++) {
+      const ph = i * TAU / 56;
+      lines.push({ pts: sample(t => { const s = sec(t); return torusPt(1, s[0], s[1], ph); }, 40, 0, TAU), rgb: "102,217,232", w: 1, lo: 0.06, hi: 0.45 });
+    }
+    for (let j = 0; j < 10; j++) {
+      const th = j * TAU / 10;
+      lines.push({ pts: sample(p => { const s = sec(th); return torusPt(1, s[0], s[1], p); }, 160, 0, TAU), rgb: "102,217,232", w: 1, lo: 0.06, hi: 0.45 });
+    }
+    for (let j = 0; j < 2; j++) {
+      lines.push({ pts: sample(p => { const s = sec(j * Math.PI + 0.38 * p); return torusPt(1, s[0], s[1], p); }, 600, 0, 3 * TAU), rgb: "255,212,59", w: 2, lo: 0.2, hi: 1 });
+    }
+    for (let k = 0; k < 12; k++) {
+      const pk = (k + 0.5) * TAU / 12;
+      lines.push({ pts: sample(t => torusPt(1, 0.05 + 0.58 * Math.cos(t + 0.3 * Math.sin(t)), 0.8 * Math.sin(t), pk), 64, 0, TAU), rgb: "222,150,80", w: 2.6, lo: 0.1, hi: 0.75 });
+    }
+    return lines;
+  }
+
+  /* ---------------- Animations ---------------- */
+  const factories = {};
+
+  // Title: a slowly rotating stellarator.
+  factories.titleStell = function (cv) {
+    const ctx = cv.getContext("2d");
+    const lines = stellaratorLines({ light: false });
+    return function (t) {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      const cam = camera({ yaw: 0.12 * t, pitch: 0.62, dist: 5, scale: 225, cx: 1020, cy: 420 });
+      drawLines(ctx, cam, lines, 1.6, 0.85);
+    };
+  };
+
+  // Magnetic bottle: drifts with and without twist.
+  factories.bottle = function (cv) {
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height, a = 0.4, vd = 0.08, om = 1.0, iota = 0.6;
+    const wire = [];
+    for (let i = 0; i < 24; i++) { const ph = i * TAU / 24; wire.push({ pts: sample(t => torusPt(1, a * Math.cos(t), a * Math.sin(t), ph), 32, 0, TAU), rgb: "160,175,200", w: 1, lo: 0.05, hi: 0.28 }); }
+    for (let j = 0; j < 8; j++) { const th = j * TAU / 8; wire.push({ pts: sample(p => torusPt(1, a * Math.cos(th), a * Math.sin(th), p), 120, 0, TAU), rgb: "160,175,200", w: 1, lo: 0.05, hi: 0.28 }); }
+    const straight = wire.slice(), twisted = wire.slice();
+    for (let j = 0; j < 4; j++) {
+      const th = j * TAU / 4 + 0.4;
+      straight.push({ pts: sample(p => torusPt(1, 0.27 * Math.cos(th), 0.27 * Math.sin(th), p), 160, 0, TAU), rgb: "59,201,219", w: 1.8, lo: 0.15, hi: 0.9 });
+    }
+    for (let j = 0; j < 3; j++) {
+      const th = j * TAU / 3;
+      twisted.push({ pts: sample(p => torusPt(1, 0.27 * Math.cos(th + iota * p), 0.27 * Math.sin(th + iota * p), p), 500, 0, 2 * TAU), rgb: "59,201,219", w: 1.8, lo: 0.15, hi: 0.9 });
+    }
+    function newParticle(sign, phi) { return { sign, phi, u: 0, w: 0.1 * sign, trail: [], hit: null }; }
+    const panels = [
+      { cx: W * 0.25, lines: straight, twist: 0, ps: [newParticle(1, 0), newParticle(-1, Math.PI)], title: "No twist  (ι = 0)", sub: "drifts carry particles to the wall" },
+      { cx: W * 0.75, lines: twisted, twist: iota, ps: [newParticle(1, 0), newParticle(-1, Math.PI)], title: "Twisted field lines  (ι ≠ 0)", sub: "drifts average out: particles stay confined" }
+    ];
+    let last = null;
+    return function (t) {
+      const dt = last === null ? 0 : Math.min(0.05, t - last); last = t;
+      ctx.clearRect(0, 0, W, H);
+      for (const P of panels) {
+        const cam = camera({ yaw: 0.6 + 0.05 * t, pitch: 0.5, dist: 5, scale: 175, cx: P.cx, cy: 205 });
+        drawLines(ctx, cam, P.lines, 1.5);
+        for (const q of P.ps) {
+          if (q.hit) {
+            const age = t - q.hit.t;
+            const s = cam(q.hit.p);
+            ctx.strokeStyle = "rgba(255,107,107," + Math.max(0, 1 - age / 1.2) + ")"; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.arc(s[0], s[1], 8 + 40 * age, 0, TAU); ctx.stroke();
+            label(ctx, "wall!", s[0] + 14, s[1] - 14, "rgba(255,107,107," + Math.max(0, 1 - age / 1.2) + ")", 20, "left", 700);
+            if (age > 1.4) { const fresh = newParticle(q.sign, q.sign > 0 ? 0 : Math.PI); Object.assign(q, fresh); }
+            continue;
+          }
+          q.phi += om * dt;
+          if (P.twist) {
+            const c = Math.cos(P.twist * om * dt), s = Math.sin(P.twist * om * dt);
+            const u = q.u * c - q.w * s, w = q.u * s + q.w * c; q.u = u; q.w = w;
+          }
+          q.w += q.sign * vd * dt;
+          const p3 = torusPt(1, q.u, q.w, q.phi);
+          q.trail.push(p3); if (q.trail.length > 260) q.trail.shift();
+          if (q.u * q.u + q.w * q.w > a * a) { q.hit = { t, p: p3 }; q.trail = []; continue; }
+          const rgb = q.sign > 0 ? "255,146,43" : "177,151,252";
+          strokeDepth(ctx, q.trail.map(cam), rgb, 2.2, 0.25, 0.9, 1.5);
+          const s = cam(p3); glow(ctx, s[0], s[1], 5, rgb);
+        }
+        label(ctx, P.title, P.cx, 38, "#e8edf6", 22, "center", 700);
+        label(ctx, P.sub, P.cx, 376, "#9aa6bd", 18, "center", 400);
+      }
+      ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
+    };
+  };
+
+  // Tokamak versus stellarator.
+  factories.tokstell = function (cv) {
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height;
+    const tok = tokamakLines(), stell = stellaratorLines({ light: false });
+    return function (t) {
+      ctx.clearRect(0, 0, W, H);
+      const camT = camera({ yaw: 0.2 * t, pitch: 0.55, dist: 5, scale: 140, cx: W * 0.25, cy: 222 });
+      drawLines(ctx, camT, tok, 1.6);
+      // plasma current along the magnetic axis
+      strokeDepth(ctx, sample(p => torusPt(1, 0, 0, p), 160, 0, TAU).map(camT), "255,107,53", 4, 0.3, 1, 1.6);
+      for (let k = 0; k < 8; k++) {
+        const p = k * TAU / 8 + 0.8 * t;
+        const A = camT(torusPt(1, 0, 0, p)), B = camT(torusPt(1, 0, 0, p + 0.05));
+        const dx = B[0] - A[0], dy = B[1] - A[1], n = Math.hypot(dx, dy) || 1, ux = dx / n, uy = dy / n;
+        const al = 0.35 + 0.65 * (1 - (A[2] + 1.6) / 3.2);
+        ctx.fillStyle = "rgba(255,107,53," + al.toFixed(2) + ")";
+        ctx.beginPath(); ctx.moveTo(A[0] + 11 * ux, A[1] + 11 * uy);
+        ctx.lineTo(A[0] - 6 * ux + 7 * uy, A[1] - 6 * uy - 7 * ux); ctx.lineTo(A[0] - 6 * ux - 7 * uy, A[1] - 6 * uy + 7 * ux);
+        ctx.closePath(); ctx.fill();
+      }
+      const camS = camera({ yaw: 0.2 * t, pitch: 0.55, dist: 5, scale: 160, cx: W * 0.75, cy: 222 });
+      drawLines(ctx, camS, stell, 1.6);
+      label(ctx, "Tokamak", W * 0.25, 36, "#e8edf6", 24, "center", 700);
+      label(ctx, "twist from a large current in the plasma", W * 0.25, 64, "#ffa94d", 18, "center", 600);
+      label(ctx, "Stellarator", W * 0.75, 36, "#e8edf6", 24, "center", 700);
+      label(ctx, "twist from shaped external coils, no plasma current", W * 0.75, 64, "#ffd43b", 18, "center", 600);
+      ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
+    };
+  };
+
+  // Poincare section of an area-preserving map (Henon, cos alpha = 0.24).
+  factories.poincare = function (cv) {
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height, c = 0.24, s = Math.sqrt(1 - c * c), sc = 235, cx = W / 2 - 5, cy = H / 2 + 8;
+    const MAXP = 2600;
+    let orbits = [], holdUntil = null;
+    function reset() {
+      ctx.fillStyle = "#0b1220"; ctx.fillRect(0, 0, W, H);
+      orbits = [];
+      const n = 22;
+      for (let i = 0; i < n; i++) {
+        const x0 = 0.04 + i * 0.041;
+        const f = i / (n - 1);
+        const hue = 185 + 140 * f;
+        orbits.push({ x: x0, y: 0, n: 0, dead: false, color: "hsla(" + hue.toFixed(0) + ",85%," + (62 + 8 * f).toFixed(0) + "%,0.9)" });
+      }
+      holdUntil = null;
+    }
+    function step(o) {
+      const q = o.y - o.x * o.x;
+      const x = o.x * c - q * s, y = o.x * s + q * c;
+      o.x = x; o.y = y; o.n++;
+      if (Math.abs(x) > 2.5 || Math.abs(y) > 2.5) o.dead = true;
+    }
+    reset();
+    return function (t) {
+      if (holdUntil !== null) { if (t > holdUntil) reset(); else return; }
+      let alive = false;
+      const per = reduceMotion ? MAXP : 7;
+      for (const o of orbits) {
+        if (o.dead || o.n >= MAXP) continue;
+        alive = true;
+        ctx.fillStyle = o.color;
+        for (let k = 0; k < per && !o.dead; k++) {
+          step(o);
+          if (!o.dead) ctx.fillRect(cx + o.x * sc - 0.8, cy - o.y * sc - 0.8, 1.6, 1.6);
+        }
+      }
+      if (!alive && holdUntil === null) holdUntil = t + 6;
+    };
+  };
+
+  // Gears for Swiss-watch verification; they jam when a fragment marked data-jam is shown.
+  let jammed = false;
+  factories.gears = function (cv) {
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height, m = 5.2, h = 6;
+    const g1 = { x: 175, y: 215, T: 16 }, g2 = { T: 10 }, g3 = { T: 14 };
+    const b12 = -0.55, b23 = 0.95;
+    g2.x = g1.x + m * (g1.T + g2.T) * Math.cos(b12); g2.y = g1.y + m * (g1.T + g2.T) * Math.sin(b12);
+    g3.x = g2.x + m * (g2.T + g3.T) * Math.cos(b23); g3.y = g2.y + m * (g2.T + g3.T) * Math.sin(b23);
+    let theta = 0, speed = 0.5, last = null, jamT = null;
+    function gear(g, ang, color, bad) {
+      const R = m * g.T, n = g.T, step = TAU / n;
+      ctx.save(); ctx.translate(g.x, g.y);
+      ctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const c = ang + i * step;
+        const pts = [[c - 0.5 * step, R - h], [c - 0.22 * step, R + h], [c + 0.22 * step, R + h], [c + 0.5 * step, R - h]];
+        for (let k = 0; k < 4; k++) {
+          const p = pts[k], X = p[1] * Math.cos(p[0]), Y = p[1] * Math.sin(p[0]);
+          if (i === 0 && k === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+        }
+      }
+      ctx.closePath();
+      const grad = ctx.createRadialGradient(-R * 0.3, -R * 0.3, R * 0.1, 0, 0, R + h);
+      grad.addColorStop(0, "#f7d774"); grad.addColorStop(1, color);
+      ctx.fillStyle = grad; ctx.fill();
+      ctx.strokeStyle = "rgba(0,0,0,0.35)"; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = "#0b1220";
+      for (let k = 0; k < 4; k++) {
+        const a0 = ang + k * TAU / 4 + 0.3;
+        ctx.beginPath(); ctx.arc(0, 0, R * 0.62, a0, a0 + 0.9); ctx.arc(0, 0, R * 0.3, a0 + 0.9, a0, true); ctx.closePath(); ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(0, 0, 6, 0, TAU); ctx.fill();
+      if (bad) {
+        const c = ang + 0.5 * step;
+        ctx.fillStyle = "#ff6b6b";
+        ctx.beginPath();
+        ctx.moveTo((R - h) * Math.cos(c - 0.3 * step), (R - h) * Math.sin(c - 0.3 * step));
+        ctx.lineTo((R + h + 7) * Math.cos(c), (R + h + 7) * Math.sin(c));
+        ctx.lineTo((R - h) * Math.cos(c + 0.3 * step), (R - h) * Math.sin(c + 0.3 * step));
+        ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    }
+    return function (t) {
+      const dt = last === null ? 0 : Math.min(0.05, t - last); last = t;
+      if (jammed && jamT === null) jamT = t;
+      if (!jammed) { jamT = null; speed += (0.5 - speed) * Math.min(1, 3 * dt); }
+      else speed += (0 - speed) * Math.min(1, 6 * dt);
+      theta += speed * dt;
+      ctx.clearRect(0, 0, W, H);
+      const shake = jammed && jamT !== null && t - jamT < 0.8 ? 2 * Math.sin(60 * t) * (1 - (t - jamT) / 0.8) : 0;
+      ctx.save(); ctx.translate(shake, 0);
+      const th1 = theta;
+      const th2 = b12 + Math.PI + Math.PI / g2.T - (th1 - b12) * g1.T / g2.T;
+      const th3 = b23 + Math.PI + Math.PI / g3.T - (th2 - b23) * g2.T / g3.T;
+      gear(g1, th1, "#b8860b", false);
+      gear(g3, th3, "#a07010", false);
+      gear(g2, th2, "#c9971c", jammed);
+      ctx.restore();
+      if (jammed) {
+        label(ctx, "one wrong tooth: the whole watch jams", W / 2, H - 22, "#ff6b6b", 20, "center", 700);
+      } else {
+        label(ctx, "every part interlocks", W / 2, H - 22, "#9aa6bd", 20, "center", 600);
+      }
+    };
+  };
+
+  // Harmonic oscillator: spring and phase plane.
+  factories.oscillator = function (cv) {
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height, A = 0.5;
+    const trail = [];
+    return function (t) {
+      const x = A * Math.cos(t), v = -A * Math.sin(t);
+      ctx.clearRect(0, 0, W, H);
+      // spring and mass
+      const wallX = 24, mid = 150, scale = 120, y0 = 170;
+      const mx = mid + scale * x;
+      ctx.fillStyle = "#3b4a66"; ctx.fillRect(wallX - 10, y0 - 70, 10, 140);
+      ctx.strokeStyle = "#9aa6bd"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(wallX, y0);
+      const coils = 12, sx = wallX + 12, ex = mx - 26;
+      ctx.lineTo(sx, y0);
+      for (let i = 0; i < coils; i++) { const xx = sx + (ex - sx) * (i + 0.5) / coils; ctx.lineTo(xx, y0 + (i % 2 ? 14 : -14)); }
+      ctx.lineTo(ex, y0); ctx.lineTo(mx - 22, y0); ctx.stroke();
+      ctx.fillStyle = "#ff922b"; ctx.fillRect(mx - 22, y0 - 22, 44, 44);
+      ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.setLineDash([4, 5]); ctx.beginPath();
+      ctx.moveTo(mid, y0 + 40); ctx.lineTo(mid, y0 + 70); ctx.stroke(); ctx.setLineDash([]);
+      label(ctx, "x = 0", mid, y0 + 92, "#9aa6bd", 15, "center", 400);
+      // phase plane
+      const px = 395, py = 150, ps = 165;
+      const bound = 1 / Math.sqrt(3);
+      ctx.fillStyle = "rgba(255,107,107,0.08)";
+      ctx.fillRect(px - ps * bound, 20, 2 * ps * bound, H - 60);
+      ctx.strokeStyle = "rgba(255,107,107,0.7)"; ctx.setLineDash([6, 5]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(px - ps * bound, 20); ctx.lineTo(px - ps * bound, H - 40);
+      ctx.moveTo(px + ps * bound, 20); ctx.lineTo(px + ps * bound, H - 40); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px - 125, py); ctx.lineTo(px + 125, py); ctx.moveTo(px, py - 120); ctx.lineTo(px, py + 120); ctx.stroke();
+      ctx.strokeStyle = "rgba(59,201,219,0.5)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(px, py, ps * A, 0, TAU); ctx.stroke();
+      trail.push([px + ps * x, py - ps * v]); if (trail.length > 40) trail.shift();
+      for (let i = 0; i < trail.length; i++) {
+        ctx.fillStyle = "rgba(255,146,43," + (i / trail.length * 0.6).toFixed(2) + ")";
+        ctx.beginPath(); ctx.arc(trail[i][0], trail[i][1], 3, 0, TAU); ctx.fill();
+      }
+      glow(ctx, px + ps * x, py - ps * v, 5, "255,146,43");
+      label(ctx, "x", px + 130, py + 5, "#9aa6bd", 16, "left", 600);
+      label(ctx, "ẋ", px + 8, py - 112, "#9aa6bd", 16, "left", 600);
+      label(ctx, "|x| ≤ 1/√3", px, 40, "#ff8787", 15, "center", 600);
+      label(ctx, "energy = ½(ẋ² + x²) = " + (0.5 * (x * x + v * v)).toFixed(3), W / 2, H - 14, "#e8edf6", 17, "center", 600);
+    };
+  };
+
+  /* ---------------- Animation loop, only for the current slide ---------------- */
+  const instances = new Map();
+  let active = [];
+  function instance(cv) {
+    if (!instances.has(cv)) instances.set(cv, { frame: factories[cv.dataset.anim](cv), clock: 0, last: null });
+    return instances.get(cv);
+  }
+  function setActive(slide) {
+    active = slide ? Array.from(slide.querySelectorAll("canvas[data-anim]")).filter(c => factories[c.dataset.anim]).map(instance) : [];
+    for (const a of active) a.last = null;
+    if (reduceMotion) for (const a of active) a.frame(a.clock);
+  }
+  function loop(ts) {
+    const now = ts / 1000;
+    for (const a of active) {
+      if (a.last !== null) a.clock += Math.min(0.05, now - a.last);
+      a.last = now;
+      a.frame(a.clock);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  Reveal.initialize({
+    hash: true,
+    slideNumber: "c/t",
+    width: 1280,
+    height: 720,
+    margin: 0.05,
+    center: false,
+    transition: "slide",
+    backgroundTransition: "fade",
+    plugins: [RevealNotes]
+  });
+  Reveal.on("ready", e => { setActive(e.currentSlide); if (!reduceMotion) requestAnimationFrame(loop); });
+  Reveal.on("slidechanged", e => setActive(e.currentSlide));
+  Reveal.on("fragmentshown", e => { if (e.fragment.dataset.jam) jammed = true; });
+  Reveal.on("fragmenthidden", e => { if (e.fragment.dataset.jam) jammed = false; });
+  Reveal.on("slidechanged", e => { if (!e.currentSlide.querySelector("[data-jam].visible")) jammed = false; });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (reduceMotion) for (const a of active) a.frame(a.clock); });
+})();
+</script>
+</body>
+</html>
