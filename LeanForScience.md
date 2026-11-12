@@ -221,6 +221,6 @@ Assumptions are stated, not hidden. For example, the burn result assumes that a 
 
 ### How it was Built
 
-The library was built almost entirely by AI agents, using the workflow above: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits. Heavy numerics run on a workstation as untrusted oracles, and their certificates are re-checked before they are merged. Large checks are written as explicit proof terms that Lean's kernel verifies.
+The library was built almost entirely by AI agents, with many ideas contributed by Vamsi Pingali and Animesh Kuley. It used the workflow above: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits. Heavy numerics run on a workstation as untrusted oracles, and their certificates are re-checked before they are merged. Large checks are written as explicit proof terms that Lean's kernel verifies.
 
 Work produced in this way can be queried and understood, and ideas at various levels can be added to guide it. The exposition suite includes a "Rosetta stone" translating stellarator physics into geometry, a guide to auditing the kernel in ten minutes, and challenges inviting pure mathematicians to contribute.
