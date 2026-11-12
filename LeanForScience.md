@@ -90,4 +90,80 @@ In a complex interlocking design, such as a swiss watch or a mathematical theory
 
 ## Building Theories: plug-and-play setup
 
+The principles above are packaged in a template repository, <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank">LeanTheory</a>. To build a theory in some domain, we create a fresh repository from this template, named for the topic, and work with an AI coding agent in it. The repository contains instructions for the agent (called **skills**), so most of the interaction is in natural language. Little expertise in Lean, or in setting up AI agents, is needed.
+
+### Developing Theory, not just Translating It
+
+Building a theory is not merely translating finished mathematics into Lean. We typically begin with several goals, open questions, partial approaches, sources, calculations and design problems. These are developed interactively or autonomously, and are tracked as a graph with three kinds of items:
+
+* **Goals:** desired mathematical, scientific or engineering outcomes.
+* **Questions:** unresolved issues, whose answers may be the output we seek or a step towards a goal.
+* **Notes:** units of work, such as a literature summary, a definition, a conjecture, a counterexample, a proof, a computation or a formalization.
+
+Each note records what it depends on, what it is expected to produce, its difficulty and the barriers to completing it. Working on a note need not end in Lean code. It may instead produce new theory, split a question into simpler ones, expose an obstacle or refute an approach.
+
+### Lean as the Validity Gate
+
+Literature summaries, proof sketches, numerical experiments and conjectures are valuable, but they are not established results. Notes pass through stages - from *exploratory*, to *stated* precisely, to having a complete proof, to being ready for formalization. Only when the corresponding Lean code compiles is a result *verified*, and only then can later work rely on it.
+
+We can still explore the consequences of a conjecture, as long as the dependence is recorded and the conclusions are not reported as established. This guards against two common failures of long AI runs:
+
+* **Research drift:** losing the motivating question, repeating abandoned approaches or silently changing definitions.
+* **Validity drift:** treating a plausible argument, a sampled computation or a cited result as if it had been checked under the exact hypotheses needed.
+
+### Layers of a Theory
+
+The Lean code is organized in layers, separating the model from what is deduced from it.
+
+* **Kernel:** the small domain model. Basic objects are definitions, and laws of nature or known facts are *hypotheses* (never axioms) that theorems explicitly assume.
+* **Sanity:** proof challenges testing the kernel.
+* **Theory:** general mathematics, independent of the domain.
+* **Bridge:** theorems connecting the theory and computations to claims about the domain.
+* **Certificates:** exact numerical checks, proved correct in Lean.
+* **Design:** concrete scientific or engineering candidates, with properties proved by combining the layers above.
+
+The template includes a small worked example running through all the layers - the harmonic oscillator, that is, a mass on a spring. The kernel states Newton's law for the oscillator, from which conservation of energy is proved. Combined with certified numerical checks, this gives bounds on the motion for all time.
+
+The domain kernel is different from Lean's kernel. Lean verifies the consequences of the model we have encoded. Whether the model applies to the physical situation is a matter for experts and experiments - this is the gap between the empirical and the mathematical that we saw earlier.
+
+### Sanity Checks and Audits
+
+Every law in the kernel is tested by at least three proof challenges:
+
+* A **degenerate case**: for example, with zero stiffness the oscillator is a free particle.
+* A **concrete instance**: for example, $x(t) = \cos t$ is a solution. This shows the law can be satisfied, so theorems about it are not vacuously true.
+* A **counterexample**: for example, $x(t) = e^t$ is not a solution. This shows the law rules out something.
+
+This is a baseline. Further checks are chosen from the specific risks of each law, such as singularities, symmetries, conservation laws, scaling, boundary behaviour and the order of quantifiers. Every error found later becomes a permanent check.
+
+Audits are strict and include old code - code is not trusted just because it compiles, or because it was written earlier. The first command in any repository runs an audit of the whole kernel before any new work begins.
+
+### Numerics as Proofs
+
+Recall that simulations and numerics are often used in place of mathematics. We can use them, but as **untrusted oracles**. Fast numerical code proposes candidates and bounds, which are then checked using exact arithmetic and interval arithmetic (computing with guaranteed upper and lower bounds). The checks are turned into proofs that Lean's kernel verifies.
+
+The template includes a toolkit for such certificates, together with general mathematics they need - for example, results giving existence of a true solution near an approximate one. Heavy computations can be offloaded to a workstation, with results re-checked before they are used.
+
+### Working with the Agent
+
+We interact with the agent using a few conventional phrases:
+
+* **`start`:** audit the repository and summarize goals, questions, verified results, barriers and choices of what to do next.
+* **`work status`:** report on the state of the project.
+* **`work on ...`:** work on a particular goal, question or note.
+* **`discuss ...`:** explore an idea, source or objection, recording durable outcomes as notes.
+* **`add notes` / `modify notes`:** turn a discussion into new or revised notes.
+* **`update notes from ...`:** read papers, documents or web pages and integrate them into the notes.
+* **`keep working`:** work autonomously, repeatedly choosing the most valuable task that is ready.
+
+By default the agent asks what to work on after each unit of work. In autonomous mode it chooses for itself, stopping only when a decision by the user is genuinely needed. Autonomy changes how work is chosen, not the standards of evidence.
+
+### Getting Started
+
+1. Create a repository from the template on GitHub, named for your topic.
+2. Run the setup script, which installs Lean and its mathematical library, Mathlib.
+3. Tell the agent to `start`.
+4. Seed the project with your goals, questions, sources, ideas and constraints, using a prompt provided in the documentation.
+5. Choose what to work on, or say `keep working`.
+
 ## PlasmaLean
