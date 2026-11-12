@@ -31,7 +31,8 @@ The proof was based on using a postulated rational-solvability algorithm to cons
 
 ## Lean Prover: An Example
 
-<a href="https://live.lean-lang.org/#codez=CYUwZgBAdgXhAUUIC4IDkCGAXAlCiA3gG76ZYQD0FEJgJkTQC%2BKAvBALbYDGAFtBAO4BLLNwBQECAB8IABgjMAfBEAX5DIA0EAEYBPCAHMAToKjBAl%2BTipfANQQAjPIUWJ3DERARugQIJ8iOFBwAdEQYADYQ9EjIrL7QgQAOBgD2cSAGWNpOKjEx%2FkGhgcEhGjr6RibmoqKgkLAA5AhQqGR4UQ1%2BBaGiQA" target="_blank">Infinitude of Primes</a>
+As an example, we see the proof that there are
+<a href="https://live.lean-lang.org/#codez=CYUwZgBAdgXhAUUIC4IDkCGAXAlCiA3gG76ZYQD0FEJgJkTQC%2BKAvBALbYDGAFtBAO4BLLNwBQECAB8IABgjMAfBEAX5DIA0EAEYBPCAHMAToKjBAl%2BTipfANQQAjPIUWJ3DERARugQIJ8iOFBwAdEQYADYQ9EjIrL7QgQAOBgD2cSAGWNpOKjEx%2FkGhgcEhGjr6RibmoqKgkLAA5AhQqGR4UQ1%2BBaGiQA" target="_blank">infinitely many primes</a>.
 
 ## Trust and Verification for Lean
 
