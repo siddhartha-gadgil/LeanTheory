@@ -270,6 +270,10 @@ the available build and axiom checks, record the audited commit and findings, th
 questions, verified results, barriers and ready choices. It does not begin new theory until the
 foundation has been audited.</p>
 <h3 id="step-2-seed-goals-questions-and-sources">Step 2: Seed goals, questions and sources</h3>
+<p>If a coding agent does this step, run it only after the new repository from Step 1 has been
+cloned: open the agent in that checkout and give it the prompt below after <code>start</code>. The agent
+writes the goals, questions and notes into the repository it is running in, so running it before
+cloning, or in a checkout of the <code>LeanTheory</code> template itself, puts them in the wrong repository.</p>
 <p>Give the agent the scientific context, relevant papers or books, user ideas and desired outputs.
 Do not force a single “north star” if the project naturally has several aims. Ask it to create:</p>
 <ul>

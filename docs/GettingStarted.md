@@ -115,6 +115,11 @@ foundation has been audited.
 
 ### Step 2: Seed goals, questions and sources
 
+If a coding agent does this step, run it only after the new repository from Step 1 has been
+cloned: open the agent in that checkout and give it the prompt below after `start`. The agent
+writes the goals, questions and notes into the repository it is running in, so running it before
+cloning, or in a checkout of the `LeanTheory` template itself, puts them in the wrong repository.
+
 Give the agent the scientific context, relevant papers or books, user ideas and desired outputs.
 Do not force a single “north star” if the project naturally has several aims. Ask it to create:
 
