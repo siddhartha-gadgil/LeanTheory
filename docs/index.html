@@ -101,6 +101,33 @@ a:hover { color: var(--plasma); }
 .guide td:first-child { white-space: nowrap; }
 .guide strong { font-weight: 700; }
 
+/* seed prompt form */
+.seed-form { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px 18px; margin: 4px 0 30px; scroll-margin-top: 20px; }
+.seed-form h4 { font-family: var(--serif); font-size: 23px; line-height: 1.2; margin: 0 0 6px; }
+.form-intro { color: var(--muted); font-size: 16px; margin: 0 0 16px; }
+.field { display: block; margin: 0 0 14px; }
+.field .name { display: block; font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.field .req { color: var(--plasma); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 6px; }
+.field input, .field textarea {
+  display: block; width: 100%; font: 16px/1.45 var(--sans); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 9px; padding: 8px 11px; resize: vertical;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); opacity: 0.8; }
+.field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+.field.missing input { border-color: var(--plasma); }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 4px; }
+.btn { font: 600 15px var(--sans); border-radius: 9px; padding: 9px 16px; cursor: pointer; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn:focus-visible { outline: 2px solid var(--plasma); outline-offset: 2px; }
+.seed-status { font-size: 14px; color: var(--muted); }
+.seed-status.ok { color: var(--accent); font-weight: 600; }
+.seed-status.warn { color: var(--plasma); font-weight: 600; }
+.seed-form details { margin-top: 14px; }
+.seed-form summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 15px; }
+.seed-form pre { max-height: 380px; overflow: auto; margin-bottom: 0; }
+
 footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
 footer .wrap { padding-top: 22px; padding-bottom: 32px; display: flex; flex-wrap: wrap; gap: 8px 22px; }
 
@@ -146,7 +173,7 @@ footer .wrap { padding-top: 22px; padding-bottom: 32px; display: flex; flex-wrap
         <span class="desc">Mathematics towards the design of a stellarator.</span>
       </a>
     </nav>
-    <p class="sub-links">PlasmaLean also has a <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> with background, a handbook and progress slides.</p>
+    <p class="sub-links">Starting a project? <a href="#seed-form">Fill in the seed prompt</a> and copy it into your coding agent. PlasmaLean also has a <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> with background, a handbook and progress slides.</p>
   </div>
 </header>
 
@@ -316,6 +343,20 @@ Do not begin formalization merely to fill the graph, and do not label sourced or
 as verified. Update notes/implementation-plan.md and create the initial note files. Finally report
 the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what to work on next.
 </code></pre>
+<section class="seed-form" id="seed-form" aria-labelledby="seed-form-title">
+  <h4 id="seed-form-title">Fill in the seed prompt</h4>
+  <p class="form-intro">Fill in what you know, copy the complete prompt, and paste it into the coding agent running in your new repository. Empty fields are sent as &ldquo;not specified&rdquo;. Your entries are kept only in this browser.</p>
+  <form autocomplete="off"></form>
+  <div class="form-actions">
+    <button type="button" class="btn primary" id="seed-copy">Copy full prompt</button>
+    <button type="button" class="btn" id="seed-clear">Clear</button>
+    <span class="seed-status" role="status" aria-live="polite"></span>
+  </div>
+  <details>
+    <summary>Preview the full prompt</summary>
+    <pre><code id="seed-preview"></code></pre>
+  </details>
+</section>
 <p>Further sources can be added at any time with <code>update notes from &lt;files or URLs&gt;</code>, and the outcome
 of a discussion can be recorded with <code>add notes</code> or <code>modify notes</code> (see Section 5).</p>
 <h3 id="step-3-develop-the-note-graph">Step 3: Develop the note graph</h3>
@@ -502,6 +543,78 @@ blocked or a user decision or new authorization is required.
     });
     pre.appendChild(b);
   });
+
+  // Seed-prompt form: fields come from the "- Label: [hint]" lines of the guide's seed prompt.
+  (function () {
+    var box = document.getElementById("seed-form");
+    if (!box) return;
+    var source = null;
+    document.querySelectorAll("#guide pre code").forEach(function (c) {
+      if (!source && /^Seed the goals/.test(c.textContent)) source = c.textContent;
+    });
+    if (!source) { box.hidden = true; return; }
+    var template = source.replace(/\s+$/, "");
+    var fieldRe = /^- ([^:\n]+): \[([^\]]*)\]$/gm, m, fields = [];
+    while ((m = fieldRe.exec(template))) fields.push({ label: m[1], hint: m[2], line: m[0] });
+    var form = box.querySelector("form"), preview = box.querySelector("#seed-preview");
+    var status = box.querySelector(".seed-status");
+    var KEY = "leantheory-seed-form-v1", saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+    fields.forEach(function (f, i) {
+      var wrap = document.createElement("label"); wrap.className = "field";
+      var name = document.createElement("span"); name.className = "name"; name.textContent = f.label;
+      if (i === 0) { var req = document.createElement("span"); req.className = "req"; req.textContent = "required"; name.appendChild(req); }
+      var input = document.createElement(i === 0 ? "input" : "textarea");
+      if (i === 0) input.type = "text"; else input.rows = 3;
+      input.name = f.label; input.placeholder = f.hint; input.value = saved[f.label] || "";
+      f.input = input; f.wrap = wrap;
+      wrap.appendChild(name); wrap.appendChild(input); form.appendChild(wrap);
+    });
+    function build() {
+      var out = template;
+      fields.forEach(function (f) {
+        var v = f.input.value.replace(/\s+$/, "").replace(/^\s+/, "");
+        v = v ? v.split(/\r?\n/).join("\n  ") : "not specified";
+        out = out.replace(f.line, function () { return "- " + f.label + ": " + v; });
+      });
+      return out;
+    }
+    function refresh() {
+      preview.textContent = build();
+      var data = {}; fields.forEach(function (f) { data[f.label] = f.input.value; });
+      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { /* storage unavailable */ }
+      if (fields[0].input.value.trim()) fields[0].wrap.classList.remove("missing");
+    }
+    function say(msg, cls) { status.textContent = msg; status.className = "seed-status " + (cls || ""); }
+    function fallbackCopy(text) {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      document.body.removeChild(ta); return ok;
+    }
+    form.addEventListener("input", refresh);
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    box.querySelector("#seed-copy").addEventListener("click", function () {
+      if (!fields[0].input.value.trim()) {
+        fields[0].wrap.classList.add("missing"); fields[0].input.focus();
+        say("Please give at least a topic.", "warn"); return;
+      }
+      var text = build();
+      function failed() {
+        if (fallbackCopy(text)) say("Copied. Paste it into your coding agent.", "ok");
+        else { box.querySelector("details").open = true; say("Copying was blocked: select the preview below and copy it.", "warn"); }
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { say("Copied. Paste it into your coding agent.", "ok"); }, failed);
+      } catch (e) { failed(); }
+    });
+    box.querySelector("#seed-clear").addEventListener("click", function () {
+      fields.forEach(function (f) { f.input.value = ""; });
+      refresh(); say("Cleared.");
+    });
+    refresh();
+  })();
 
   // A slowly rotating stellarator in the hero, drawn as a depth-shaded wireframe.
   var cv = document.querySelector(".hero-art");
