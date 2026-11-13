@@ -129,7 +129,9 @@ Do not force a single “north star” if the project naturally has several aims
 - initial notes and their dependency edges;
 - a provisional priority order, clearly separated from verified facts.
 
-Use this copy-paste prompt, replacing the bracketed fields:
+Use this copy-paste prompt, replacing the bracketed fields. Alternatively, fill in the
+[seed prompt form](https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form) on the
+website, which copies the completed prompt to the clipboard:
 
 ```text
 Seed the goals, questions, sources and initial research-note graph for this LeanTheory project.
