@@ -23,10 +23,12 @@ allowed when every downstream result remains explicitly conditional and unverifi
 
 ## Interpret user requests
 
-- For `start`, run `audit-domain` before ordinary work. If no audit record exists, perform a full
-  strict audit of existing code, especially every kernel declaration. If an audit record exists,
-  inspect all changes since its commit and refresh affected audits. Then report repository status,
-  audit findings and ready choices. Do not begin new theory on an unaudited foundation.
+- For `start`, run `audit-domain` before ordinary work, beginning with its Lean setup check, which
+  installs Lean or fetches the Mathlib cache when they are missing. If no audit record exists,
+  perform a full strict audit of existing code, especially every kernel declaration. If an audit
+  record exists, inspect all changes since its commit and refresh affected audits. Then report
+  repository status, audit findings and ready choices. Do not begin new theory on an unaudited
+  foundation.
 - For `work status` or `summarise work`, report goals, questions, verified frontier,
   active/blocked notes and a few ready choices. Match the requested level of detail. Treat these
   exact phrases as explicit invocations of this skill, not as generic conversational requests.

@@ -84,9 +84,9 @@ history and Lean theory independent from other domain projects.
 
 ### Step 2: Install Lean with VS Code
 
-This step is needed on Windows, where the setup script of Step 3 does not run. **Skip it if you
-are on macOS, Linux or WSL (the Windows Subsystem for Linux), or already have Lean installed**:
-Step 3 then sets up Lean from the command line. Visual Studio Code with the Lean 4 extension is
+This step is needed on Windows, where the setup script used in Step 3 does not run. **Skip it if
+you are on macOS, Linux or WSL (the Windows Subsystem for Linux), or already have Lean
+installed**: the coding agent then sets up Lean in Step 3. Visual Studio Code with the Lean 4 extension is
 still useful later for reading, editing and checking the Lean code yourself.
 
 1. Follow the official [Lean quickstart](https://docs.lean-lang.org/lean4/doc/quickstart.html):
@@ -110,42 +110,35 @@ still useful later for reading, editing and checking the Lean code yourself.
    template, such as `LeanTheory/Kernel/Example.lean`, and check that Lean processes it without
    errors.
 
-### Step 3: Set up the checkout and run `start`
+### Step 3: Open the checkout in a coding agent and run `start`
 
-If you followed Step 2, the repository is already cloned and Lean is installed: open the
-downloaded folder in the coding-agent environment and continue with `start` below. If Lean reports
-that Mathlib needs to be built, first fetch its prebuilt cache by running `lake exe cache get` in
-the project folder.
-
-Otherwise, clone the new repository and open that checkout in the coding-agent environment. The
-startup audit is the first point at which Lean is needed. Check whether it is available:
-
-```bash
-lean --version
-```
-
-If that command is unavailable—or if this checkout has not yet fetched its dependencies—run:
-
-```bash
-scripts/setup.sh --check-axioms
-```
-
-On Linux, macOS and WSL this idempotent script installs `elan` if necessary, selects the Lean
-version pinned by `lean-toolchain`, fetches the Mathlib cache, builds the project and runs the
-axiom audit. If a newly installed `lean` or `lake` is not visible in the current shell, open a new
-shell or run `source "$HOME/.elan/env"`. Do not install an arbitrary Lean version separately from
-the pinned toolchain.
-
-The first command to give the agent in any new or unfamiliar checkout is:
+Open the cloned folder in the coding-agent environment. If you followed Step 2, this is the folder
+that VS Code downloaded; otherwise, clone the new repository first. The first command to give the
+agent in any new or unfamiliar checkout is:
 
 ```text
 start
 ```
 
-`start` means: inspect the repository, strictly audit the existing kernel and affected code, run
-the available build and axiom checks, record the audited commit and findings, then summarize goals,
+`start` first sets up Lean if needed. When `lake` is missing on Linux, macOS or WSL, it runs
+`scripts/setup.sh`, which installs `elan`, selects the Lean version pinned by `lean-toolchain` and
+fetches the prebuilt Mathlib cache. When Lean is already installed, for example by VS Code, it
+fetches the Mathlib cache with `lake exe cache get` if that is missing. On native Windows without
+Lean, it asks you to do Step 2.
+
+It then inspects the repository, strictly audits the existing kernel and affected code, runs the
+available build and axiom checks, records the audited commit and findings, and summarizes goals,
 questions, verified results, barriers and ready choices. It does not begin new theory until the
 foundation has been audited.
+
+To set up Lean yourself instead, on Linux, macOS or WSL run the idempotent script below. If a newly
+installed `lean` or `lake` is not visible in the current shell, open a new shell or run
+`source "$HOME/.elan/env"`. Do not install an arbitrary Lean version separately from the pinned
+toolchain.
+
+```bash
+scripts/setup.sh --check-axioms
+```
 
 ### Step 4: Seed goals, questions and sources
 

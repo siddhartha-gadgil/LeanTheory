@@ -5,6 +5,24 @@ description: Strictly audit existing and new domain code, especially the kernel,
 
 # Audit the domain and its assumptions
 
+## Set up Lean when it is missing
+
+On `start`, and before any build in a fresh or unfamiliar checkout, make sure Lean and the
+prebuilt Mathlib cache are present, so that users can simply open the cloned folder in a coding
+agent. Never let a build compile Mathlib from source.
+
+1. Run `lake --version`. If it fails, set up Lean:
+   - on Linux, macOS or WSL, run `scripts/setup.sh --no-build`, which installs `elan` if needed,
+     selects the toolchain pinned in `lean-toolchain` and fetches the Mathlib cache; if `lake` is
+     still not found afterwards, run `source "$HOME/.elan/env"` in the shell and retry;
+   - on native Windows the script does not run: ask the user to install Lean through VS Code
+     (`docs/GettingStarted.md`, Step 2), or install `elan` with its official Windows installer
+     only with the user's approval.
+2. If `lake` works but the Mathlib cache is missing, for example when
+   `.lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean` does not exist, run
+   `lake exe cache get` before any `lake build`. This works on every platform.
+3. Record in the audit record what was installed or fetched, and any step that failed.
+
 ## Establish the actual state
 
 Work from the selected checkout. Read `AGENTS.md` if present, `lean-toolchain`, `lakefile.toml`,
