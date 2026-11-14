@@ -24,12 +24,23 @@ A small worked example (a one-dimensional harmonic oscillator) runs through ever
 ## Getting started
 
 Create a fresh topic-named repository from this GitHub template, then follow
-[the theory-development workflow](docs/GettingStarted.md). In a project checkout, users can ask
-the agent to **`start`**, which strictly audits existing code and the complete domain kernel before
-reporting status. Afterwards users can say `work status`, `summarise work`,
-`work on <note/goal/question>`, discuss an idea or source, record a discussion with `add notes`
-or `modify notes`, integrate papers or URLs with `update notes from <sources>`, or say
-`keep working` to run the autonomous work-selection loop.
+[the theory-development workflow](docs/GettingStarted.md), also available on the
+[website](https://siddhartha-gadgil.github.io/LeanTheory/index.html):
+
+1. On Windows, install Lean with VS Code and its Lean 4 extension (Step 2 of the workflow). Skip
+   this on macOS, Linux or WSL, or if Lean is already installed.
+2. Open the cloned repository in a coding agent and say **`start`**. It sets up Lean and the
+   Mathlib cache if they are missing, then strictly audits existing code and the complete domain
+   kernel before reporting status.
+3. Seed goals, questions and sources, for example with the
+   [seed prompt form](https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form).
+
+Afterwards users can say `work status`, `summarise work`, `work on <note/goal/question>`, discuss
+an idea or source, record a discussion with `add notes` or `modify notes`, integrate papers or
+URLs with `update notes from <sources>`, or say `keep working` to run the autonomous
+work-selection loop.
+
+To set up by hand instead, on Linux, macOS or WSL:
 
 ```bash
 scripts/setup.sh                    # installs elan if missing, fetches the Mathlib cache, builds
@@ -38,13 +49,11 @@ scripts/setup.sh --python           # ... and creates the Python venv for oracle
 source .venv-ws/bin/activate        # activate it before running project Python scripts
 ```
 
-`scripts/setup.sh` is idempotent (Linux and macOS); `scripts/setup.sh --help` lists its options.
-Run `scripts/setup.sh --check-axioms` at the first Lean use if `lean --version` is unavailable or
-the checkout has not been set up. Request the Python environment only when a task needs it, and
-activate `.venv-ws` in every new shell rather than installing project packages globally.
-By hand: install [elan](https://github.com/leanprover/elan), then `lake exe cache get`,
-`lake build`, `lake env lean scripts/check_axioms.lean`. The toolchain is pinned in
-`lean-toolchain` (Lean and Mathlib `v4.34.1`).
+`scripts/setup.sh` is idempotent; `scripts/setup.sh --help` lists its options. Request the Python
+environment only when a task needs it, and activate `.venv-ws` in every new shell rather than
+installing project packages globally. On any platform with Lean installed, the manual steps are
+`lake exe cache get`, `lake build` and `lake env lean scripts/check_axioms.lean`. The toolchain is
+pinned in `lean-toolchain` (Lean and Mathlib `v4.35.0`).
 
 ## Architecture
 
