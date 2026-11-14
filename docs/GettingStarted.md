@@ -86,8 +86,8 @@ history and Lean theory independent from other domain projects.
 
 This step is needed on Windows, where the setup script used in Step 3 does not run. **Skip it if
 you are on macOS, Linux or WSL (the Windows Subsystem for Linux), or already have Lean
-installed**: the coding agent then sets up Lean in Step 3. Visual Studio Code with the Lean 4 extension is
-still useful later for reading, editing and checking the Lean code yourself.
+installed**: the coding agent then sets up Lean in Step 3. Visual Studio Code with the Lean 4
+extension is still useful later for reading, editing and checking the Lean code yourself.
 
 1. Follow the official [Lean quickstart](https://docs.lean-lang.org/lean4/doc/quickstart.html):
    install Visual Studio Code and the Lean 4 extension, and test that the installation works.
@@ -275,8 +275,9 @@ offer to work on the closest prerequisite.
 
 These phrases are conventions rather than a rigid command language:
 
-- **`start`** — the canonical first command after opening a repository. Run or refresh the strict
-  audit, record its scope and results, then give a status summary and ready choices.
+- **`start`** — the canonical first command after opening a repository. Set up Lean and the
+  Mathlib cache if they are missing, run or refresh the strict audit, record its scope and
+  results, then give a status summary and ready choices.
 - **`work status` / `summarise work`** — invoke the theory-development skill to report goals,
   questions, verified results, active notes, barriers and ready choices at the requested level of
   detail. These distinctive phrases are preferred over generic `status` or `summarize` requests so
@@ -308,7 +309,8 @@ uses the same validity gates; it changes work selection, not standards of eviden
 ### Repository startup
 
 ```text
-Start. Before doing new work, strictly audit this repository at its current commit. Review every
+Start. If Lean or the Mathlib cache is missing, set them up first as the audit-domain skill
+describes. Before doing new work, strictly audit this repository at its current commit. Review every
 existing kernel declaration and its sanity coverage, red-team assumptions and degenerate cases,
 inspect affected downstream results, run the feasible build and axiom checks, and record findings
 and the audited commit. Add missing risk-specific sanity or regression checks. Then summarize the

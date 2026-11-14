@@ -148,7 +148,7 @@ The template includes a toolkit for such certificates, together with general mat
 
 We interact with the agent using a few conventional phrases:
 
-* **`start`:** audit the repository and summarize goals, questions, verified results, barriers and choices of what to do next.
+* **`start`:** set up Lean if needed, audit the repository and summarize goals, questions, verified results, barriers and choices of what to do next.
 * **`work status`:** report on the state of the project.
 * **`work on ...`:** work on a particular goal, question or note.
 * **`discuss ...`:** explore an idea, source or objection, recording durable outcomes as notes.
@@ -161,9 +161,9 @@ By default the agent asks what to work on after each unit of work. In autonomous
 ### Getting Started
 
 1. Create a repository from the template on GitHub, named for your topic.
-2. Run the setup script, which installs Lean and its mathematical library, Mathlib.
-3. Tell the agent to `start`.
-4. Seed the project with your goals, questions, sources, ideas and constraints, using a prompt provided in the documentation.
+2. On Windows, install Lean with VS Code and its Lean 4 extension. Skip this on macOS, Linux or WSL.
+3. Open the cloned repository in a coding agent and say `start`. It sets up Lean and Mathlib if needed, then audits the kernel.
+4. Seed the project with your goals, questions, sources, ideas and constraints, using the [seed prompt form](https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form) on the website.
 5. Choose what to work on, or say `keep working`.
 
 ## PlasmaLean

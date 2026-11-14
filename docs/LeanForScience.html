@@ -722,7 +722,7 @@ theorem exists_prime_factor :                -- a characterizing property
   <table>
     <thead><tr><th>Say</th><th>The agent will</th></tr></thead>
     <tbody>
-      <tr><td class="cmd">start</td><td>audit the repository, then summarize goals, questions, verified results, barriers and choices</td></tr>
+      <tr><td class="cmd">start</td><td>set up Lean if needed, audit the repository, then summarize goals, questions, verified results, barriers and choices</td></tr>
       <tr><td class="cmd">work status</td><td>report on the state of the project</td></tr>
       <tr><td class="cmd">work on &hellip;</td><td>work on a particular goal, question or note</td></tr>
       <tr><td class="cmd">discuss &hellip;</td><td>explore an idea, source or objection, recording durable outcomes as notes</td></tr>
@@ -739,9 +739,8 @@ theorem exists_prime_factor :                -- a characterizing property
   <h2>Getting started</h2>
   <ol>
     <li>Create a repository from the <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener">template</a> on GitHub, named for your topic.</li>
-    <li class="fragment">Run the setup script, which installs Lean and its mathematical library, Mathlib:
-      <pre class="lean plain" style="margin:0.35em 0 0.2em"><code>scripts/setup.sh --check-axioms</code></pre></li>
-    <li class="fragment">Tell the agent to <code class="inline">start</code>.</li>
+    <li class="fragment">On Windows, install Lean with VS Code and its Lean 4 extension. Skip this on macOS, Linux or WSL.</li>
+    <li class="fragment">Open the cloned repository in a coding agent and say <code class="inline">start</code>. It sets up Lean and Mathlib if needed, then audits the kernel.</li>
     <li class="fragment">Seed the project with your goals, questions, sources, ideas and constraints, using the <a href="https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form" target="_blank" rel="noopener">seed prompt form &#8599;</a> on the website.</li>
     <li class="fragment">Choose what to work on, or say <code class="inline">keep working</code>.</li>
   </ol>
