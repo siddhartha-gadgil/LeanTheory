@@ -79,12 +79,46 @@ physical regime.
 On GitHub, open the [`LeanTheory` template](https://github.com/siddhartha-gadgil/LeanTheory),
 select **Use this template**, and create a fresh repository in your account or organization. Name
 it for the topic—for example `MarsMissionLean`, `PhotonicCrystalLean` or
-`FluidStabilityLean`—rather than continuing in a repository named `LeanTheory`.
-
-Clone the new repository and open that checkout in the coding-agent environment. Keep its notes,
+`FluidStabilityLean`—rather than continuing in a repository named `LeanTheory`. Keep its notes,
 history and Lean theory independent from other domain projects.
 
-The startup audit is the first point at which Lean is needed. Check whether it is available:
+### Step 2: Install Lean with VS Code
+
+This step is needed on Windows, where the setup script of Step 3 does not run. **Skip it if you
+are on macOS, Linux or WSL (the Windows Subsystem for Linux), or already have Lean installed**:
+Step 3 then sets up Lean from the command line. Visual Studio Code with the Lean 4 extension is
+still useful later for reading, editing and checking the Lean code yourself.
+
+1. Follow the official [Lean quickstart](https://docs.lean-lang.org/lean4/doc/quickstart.html):
+   install Visual Studio Code and the Lean 4 extension, and test that the installation works.
+   **Warning:** choose the "Lean 4" extension (called `lean4`), not the "Lean 3" one (called
+   `lean`).
+2. The Lean 4 extension's menu is at the ∀ symbol at the top right of the editor. Choose
+   **Open Project…**, then **Download Project…**:
+
+   ![The Lean 4 menu with Open Project and Download Project selected](OpenLeanProject.png)
+
+3. Enter the URL of the repository you created in Step 1 in place of the one in the screenshot,
+   for example `https://github.com/your-account/PhotonicCrystalLean`. This clones the repository
+   and sets up the Lean version pinned in its `lean-toolchain` file:
+
+   ![Entering a Git repository URL to download a Lean 4 project](OpenLangur.png)
+
+   If you have already cloned the repository, choose **Open Local Project…** instead and select
+   the checkout.
+4. To check that the installation works, open a file that your repository inherits from the
+   template, such as `LeanTheory/Kernel/Example.lean`, and check that Lean processes it without
+   errors.
+
+### Step 3: Set up the checkout and run `start`
+
+If you followed Step 2, the repository is already cloned and Lean is installed: open the
+downloaded folder in the coding-agent environment and continue with `start` below. If Lean reports
+that Mathlib needs to be built, first fetch its prebuilt cache by running `lake exe cache get` in
+the project folder.
+
+Otherwise, clone the new repository and open that checkout in the coding-agent environment. The
+startup audit is the first point at which Lean is needed. Check whether it is available:
 
 ```bash
 lean --version
@@ -96,11 +130,11 @@ If that command is unavailable—or if this checkout has not yet fetched its dep
 scripts/setup.sh --check-axioms
 ```
 
-On Linux and macOS this idempotent script installs `elan` if necessary, selects the Lean version
-pinned by `lean-toolchain`, fetches the Mathlib cache, builds the project and runs the axiom audit.
-If a newly installed `lean` or `lake` is not visible in the current shell, open a new shell or run
-`source "$HOME/.elan/env"`. Do not install an arbitrary Lean version separately from the pinned
-toolchain.
+On Linux, macOS and WSL this idempotent script installs `elan` if necessary, selects the Lean
+version pinned by `lean-toolchain`, fetches the Mathlib cache, builds the project and runs the
+axiom audit. If a newly installed `lean` or `lake` is not visible in the current shell, open a new
+shell or run `source "$HOME/.elan/env"`. Do not install an arbitrary Lean version separately from
+the pinned toolchain.
 
 The first command to give the agent in any new or unfamiliar checkout is:
 
@@ -113,35 +147,10 @@ the available build and axiom checks, record the audited commit and findings, th
 questions, verified results, barriers and ready choices. It does not begin new theory until the
 foundation has been audited.
 
-### Step 2: Install VS Code and Lean 4
+### Step 4: Seed goals, questions and sources
 
-The coding agent needs only the command-line tools from Step 1. To read, edit and check the Lean
-code yourself, install Visual Studio Code with the Lean 4 extension.
-
-1. Follow the official [Lean quickstart](https://docs.lean-lang.org/lean4/doc/quickstart.html):
-   install Visual Studio Code and the Lean 4 extension, and test that the installation works.
-   **Warning:** choose the "Lean 4" extension (called `lean4`), not the "Lean 3" one (called
-   `lean`).
-2. The Lean 4 extension's menu is at the ∀ symbol at the top right of the editor. Choose
-   **Open Project…**, then **Download Project…**:
-
-   ![The Lean 4 menu with Open Project and Download Project selected](OpenLeanProject.png)
-
-3. Enter the URL of the repository you created in Step 1 in place of the one in the screenshot,
-   for example `https://github.com/your-account/PhotonicCrystalLean`:
-
-   ![Entering a Git repository URL to download a Lean 4 project](OpenLangur.png)
-
-   If you have already cloned the repository, choose **Open Local Project…** instead and select
-   the checkout. Lean uses the version pinned in the project's `lean-toolchain` file.
-4. To check that the installation works, open a file that your repository inherits from the
-   template, such as `LeanTheory/Kernel/Example.lean`, and check that Lean processes it without
-   errors.
-
-### Step 3: Seed goals, questions and sources
-
-If a coding agent does this step, run it only after the new repository from Step 1 has been
-cloned: open the agent in that checkout and give it the prompt below after `start`. The agent
+If a coding agent does this step, run it only after the new repository has been cloned in Step 2
+or Step 3: open the agent in that checkout and give it the prompt below after `start`. The agent
 writes the goals, questions and notes into the repository it is running in, so running it before
 cloning, or in a checkout of the `LeanTheory` template itself, puts them in the wrong repository.
 
@@ -195,7 +204,7 @@ the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what 
 Further sources can be added at any time with `update notes from <files or URLs>`, and the outcome
 of a discussion can be recorded with `add notes` or `modify notes` (see Section 5).
 
-### Step 4: Develop the note graph
+### Step 5: Develop the note graph
 
 Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
 may mean studying literature, testing definitions, deriving a lemma, searching for a
@@ -223,7 +232,7 @@ are recorded as separate *code patch notes*, so the original note and its eviden
 New obstacles should become explicit barriers or questions rather than disappearing into a
 progress narrative.
 
-### Step 5: Formalize ready mathematics
+### Step 6: Formalize ready mathematics
 
 Formalize only when the claim, hypotheses, definitions and proof route are sufficiently precise.
 Search Mathlib and the existing project before adding infrastructure. Put model laws in `Kernel/`
@@ -243,7 +252,7 @@ behavior, quantifier order, nonempty domains, or accepted and rejected certifica
 compiled regression check for every defect discovered later; use several additional checks when
 the model has several independent risks.
 
-### Step 6: Pass the validity gate
+### Step 7: Pass the validity gate
 
 Compile the affected modules, run the axiom audit where appropriate, and record exact declaration
 names and hypotheses. No downstream note may mark the result as an established dependency until
@@ -255,7 +264,7 @@ code rather than only the new lines. Check vacuity, degenerate witnesses, totali
 quantifiers, units, source fidelity, model scope and the continued validity of downstream
 theorems. Record the audited commit and unresolved findings in the implementation plan.
 
-### Step 7: Report and select the next work
+### Step 8: Report and select the next work
 
 After every work unit, report:
 
