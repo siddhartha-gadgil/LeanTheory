@@ -127,15 +127,16 @@ code yourself, install Visual Studio Code with the Lean 4 extension.
 
    ![The Lean 4 menu with Open Project and Download Project selected](OpenLeanProject.png)
 
-3. To test the installation, enter the URL of the small repository
-   `https://github.com/siddhartha-gadgil/LeanLangur`, then open the file `LeanLangur/Basic.lean`
-   to check that Lean processes it:
+3. Enter the URL of the repository you created in Step 1 in place of the one in the screenshot,
+   for example `https://github.com/your-account/PhotonicCrystalLean`:
 
    ![Entering a Git repository URL to download a Lean 4 project](OpenLangur.png)
 
-4. Open your own project in the same way. Use **Download Project…** with the URL of the repository
-   created in Step 1, or **Open Local Project…** for the checkout you have already cloned. Lean
-   then uses the version pinned in the project's `lean-toolchain` file.
+   If you have already cloned the repository, choose **Open Local Project…** instead and select
+   the checkout. Lean uses the version pinned in the project's `lean-toolchain` file.
+4. To check that the installation works, open a file that your repository inherits from the
+   template, such as `LeanTheory/Kernel/Example.lean`, and check that Lean processes it without
+   errors.
 
 ### Step 3: Seed goals, questions and sources
 

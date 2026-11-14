@@ -310,14 +310,15 @@ install Visual Studio Code and the Lean 4 extension, and test that the installat
 <strong>Open Project…</strong>, then <strong>Download Project…</strong>:</p>
 <p><img src="OpenLeanProject.png" alt="The Lean 4 menu with Open Project and Download Project selected"></p>
 </li>
-<li><p>To test the installation, enter the URL of the small repository
-<code>https://github.com/siddhartha-gadgil/LeanLangur</code>, then open the file <code>LeanLangur/Basic.lean</code>
-to check that Lean processes it:</p>
+<li><p>Enter the URL of the repository you created in Step 1 in place of the one in the screenshot,
+for example <code>https://github.com/your-account/PhotonicCrystalLean</code>:</p>
 <p><img src="OpenLangur.png" alt="Entering a Git repository URL to download a Lean 4 project"></p>
+<p>If you have already cloned the repository, choose <strong>Open Local Project…</strong> instead and select
+the checkout. Lean uses the version pinned in the project&#39;s <code>lean-toolchain</code> file.</p>
 </li>
-<li><p>Open your own project in the same way. Use <strong>Download Project…</strong> with the URL of the repository
-created in Step 1, or <strong>Open Local Project…</strong> for the checkout you have already cloned. Lean
-then uses the version pinned in the project&#39;s <code>lean-toolchain</code> file.</p>
+<li><p>To check that the installation works, open a file that your repository inherits from the
+template, such as <code>LeanTheory/Kernel/Example.lean</code>, and check that Lean processes it without
+errors.</p>
 </li>
 </ol>
 <h3 id="step-3-seed-goals-questions-and-sources">Step 3: Seed goals, questions and sources</h3>
