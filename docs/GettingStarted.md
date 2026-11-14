@@ -113,7 +113,31 @@ the available build and axiom checks, record the audited commit and findings, th
 questions, verified results, barriers and ready choices. It does not begin new theory until the
 foundation has been audited.
 
-### Step 2: Seed goals, questions and sources
+### Step 2: Install VS Code and Lean 4
+
+The coding agent needs only the command-line tools from Step 1. To read, edit and check the Lean
+code yourself, install Visual Studio Code with the Lean 4 extension.
+
+1. Follow the official [Lean quickstart](https://docs.lean-lang.org/lean4/doc/quickstart.html):
+   install Visual Studio Code and the Lean 4 extension, and test that the installation works.
+   **Warning:** choose the "Lean 4" extension (called `lean4`), not the "Lean 3" one (called
+   `lean`).
+2. The Lean 4 extension's menu is at the ∀ symbol at the top right of the editor. Choose
+   **Open Project…**, then **Download Project…**:
+
+   ![The Lean 4 menu with Open Project and Download Project selected](OpenLeanProject.png)
+
+3. To test the installation, enter the URL of the small repository
+   `https://github.com/siddhartha-gadgil/LeanLangur`, then open the file `LeanLangur/Basic.lean`
+   to check that Lean processes it:
+
+   ![Entering a Git repository URL to download a Lean 4 project](OpenLangur.png)
+
+4. Open your own project in the same way. Use **Download Project…** with the URL of the repository
+   created in Step 1, or **Open Local Project…** for the checkout you have already cloned. Lean
+   then uses the version pinned in the project's `lean-toolchain` file.
+
+### Step 3: Seed goals, questions and sources
 
 If a coding agent does this step, run it only after the new repository from Step 1 has been
 cloned: open the agent in that checkout and give it the prompt below after `start`. The agent
@@ -170,7 +194,7 @@ the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what 
 Further sources can be added at any time with `update notes from <files or URLs>`, and the outcome
 of a discussion can be recorded with `add notes` or `modify notes` (see Section 5).
 
-### Step 3: Develop the note graph
+### Step 4: Develop the note graph
 
 Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
 may mean studying literature, testing definitions, deriving a lemma, searching for a
@@ -198,7 +222,7 @@ are recorded as separate *code patch notes*, so the original note and its eviden
 New obstacles should become explicit barriers or questions rather than disappearing into a
 progress narrative.
 
-### Step 4: Formalize ready mathematics
+### Step 5: Formalize ready mathematics
 
 Formalize only when the claim, hypotheses, definitions and proof route are sufficiently precise.
 Search Mathlib and the existing project before adding infrastructure. Put model laws in `Kernel/`
@@ -218,7 +242,7 @@ behavior, quantifier order, nonempty domains, or accepted and rejected certifica
 compiled regression check for every defect discovered later; use several additional checks when
 the model has several independent risks.
 
-### Step 5: Pass the validity gate
+### Step 6: Pass the validity gate
 
 Compile the affected modules, run the axiom audit where appropriate, and record exact declaration
 names and hypotheses. No downstream note may mark the result as an established dependency until
@@ -230,7 +254,7 @@ code rather than only the new lines. Check vacuity, degenerate witnesses, totali
 quantifiers, units, source fidelity, model scope and the continued validity of downstream
 theorems. Record the audited commit and unresolved findings in the implementation plan.
 
-### Step 6: Report and select the next work
+### Step 7: Report and select the next work
 
 After every work unit, report:
 

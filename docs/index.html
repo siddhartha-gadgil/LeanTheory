@@ -100,6 +100,7 @@ a:hover { color: var(--plasma); }
 .guide th { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .guide td:first-child { white-space: nowrap; }
 .guide strong { font-weight: 700; }
+.guide img { display: block; max-width: 100%; height: auto; margin: 12px 0 6px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
 
 /* seed prompt form */
 .seed-form { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px 18px; margin: 4px 0 30px; scroll-margin-top: 20px; }
@@ -296,7 +297,30 @@ toolchain.</p>
 the available build and axiom checks, record the audited commit and findings, then summarize goals,
 questions, verified results, barriers and ready choices. It does not begin new theory until the
 foundation has been audited.</p>
-<h3 id="step-2-seed-goals-questions-and-sources">Step 2: Seed goals, questions and sources</h3>
+<h3 id="step-2-install-vs-code-and-lean-4">Step 2: Install VS Code and Lean 4</h3>
+<p>The coding agent needs only the command-line tools from Step 1. To read, edit and check the Lean
+code yourself, install Visual Studio Code with the Lean 4 extension.</p>
+<ol>
+<li><p>Follow the official <a href="https://docs.lean-lang.org/lean4/doc/quickstart.html" target="_blank" rel="noopener">Lean quickstart</a>:
+install Visual Studio Code and the Lean 4 extension, and test that the installation works.
+<strong>Warning:</strong> choose the &quot;Lean 4&quot; extension (called <code>lean4</code>), not the &quot;Lean 3&quot; one (called
+<code>lean</code>).</p>
+</li>
+<li><p>The Lean 4 extension&#39;s menu is at the ∀ symbol at the top right of the editor. Choose
+<strong>Open Project…</strong>, then <strong>Download Project…</strong>:</p>
+<p><img src="OpenLeanProject.png" alt="The Lean 4 menu with Open Project and Download Project selected"></p>
+</li>
+<li><p>To test the installation, enter the URL of the small repository
+<code>https://github.com/siddhartha-gadgil/LeanLangur</code>, then open the file <code>LeanLangur/Basic.lean</code>
+to check that Lean processes it:</p>
+<p><img src="OpenLangur.png" alt="Entering a Git repository URL to download a Lean 4 project"></p>
+</li>
+<li><p>Open your own project in the same way. Use <strong>Download Project…</strong> with the URL of the repository
+created in Step 1, or <strong>Open Local Project…</strong> for the checkout you have already cloned. Lean
+then uses the version pinned in the project&#39;s <code>lean-toolchain</code> file.</p>
+</li>
+</ol>
+<h3 id="step-3-seed-goals-questions-and-sources">Step 3: Seed goals, questions and sources</h3>
 <p>If a coding agent does this step, run it only after the new repository from Step 1 has been
 cloned: open the agent in that checkout and give it the prompt below after <code>start</code>. The agent
 writes the goals, questions and notes into the repository it is running in, so running it before
@@ -361,7 +385,7 @@ the seeded graph, unresolved ambiguities and 2–5 ready choices, then ask what 
 </section>
 <p>Further sources can be added at any time with <code>update notes from &lt;files or URLs&gt;</code>, and the outcome
 of a discussion can be recorded with <code>add notes</code> or <code>modify notes</code> (see Section 5).</p>
-<h3 id="step-3-develop-the-note-graph">Step 3: Develop the note graph</h3>
+<h3 id="step-4-develop-the-note-graph">Step 4: Develop the note graph</h3>
 <p>Choose a goal, question or note and process one coherent work unit. Depending on readiness, this
 may mean studying literature, testing definitions, deriving a lemma, searching for a
 counterexample, running an exploratory calculation, writing a proof, or formalizing it in Lean.</p>
@@ -382,7 +406,7 @@ its implementation has not started; requested changes to partially or fully impl
 are recorded as separate <em>code patch notes</em>, so the original note and its evidence stay intact.
 New obstacles should become explicit barriers or questions rather than disappearing into a
 progress narrative.</p>
-<h3 id="step-4-formalize-ready-mathematics">Step 4: Formalize ready mathematics</h3>
+<h3 id="step-5-formalize-ready-mathematics">Step 5: Formalize ready mathematics</h3>
 <p>Formalize only when the claim, hypotheses, definitions and proof route are sufficiently precise.
 Search Mathlib and the existing project before adding infrastructure. Put model laws in <code>Kernel/</code>
 as explicit hypotheses, derived mathematics in <code>Theory/</code>, domain connections in <code>Bridge/</code>, and
@@ -399,7 +423,7 @@ symmetry, conservation, monotonicity, dimensional scaling, parameter endpoints, 
 behavior, quantifier order, nonempty domains, or accepted and rejected certificate fixtures. Add a
 compiled regression check for every defect discovered later; use several additional checks when
 the model has several independent risks.</p>
-<h3 id="step-5-pass-the-validity-gate">Step 5: Pass the validity gate</h3>
+<h3 id="step-6-pass-the-validity-gate">Step 6: Pass the validity gate</h3>
 <p>Compile the affected modules, run the axiom audit where appropriate, and record exact declaration
 names and hypotheses. No downstream note may mark the result as an established dependency until
 this succeeds. A failed formalization returns useful information to the research note: a missing
@@ -408,7 +432,7 @@ hypothesis, false conjecture, unsuitable definition or library gap.</p>
 code rather than only the new lines. Check vacuity, degenerate witnesses, totalized operations,
 quantifiers, units, source fidelity, model scope and the continued validity of downstream
 theorems. Record the audited commit and unresolved findings in the implementation plan.</p>
-<h3 id="step-6-report-and-select-the-next-work">Step 6: Report and select the next work</h3>
+<h3 id="step-7-report-and-select-the-next-work">Step 7: Report and select the next work</h3>
 <p>After every work unit, report:</p>
 <ul>
 <li>what changed in the theory and note graph;</li>
