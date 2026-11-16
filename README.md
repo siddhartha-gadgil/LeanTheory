@@ -21,6 +21,15 @@ The template keeps the following general machinery:
 
 A small worked example (a one-dimensional harmonic oscillator) runs through every layer.
 
+Projects built this way include [PlasmaLean](https://github.com/siddhartha-gadgil/PlasmaLean),
+mathematics towards the design of a stellarator, from which this template was extracted, and a
+smaller example built in two to three days:
+[the Game of Life is undecidable](https://siddhartha-gadgil.github.io/GameOfLife/)
+([slides](https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html)). It
+formalizes a known but rather non-trivial result: Conway's Game of Life can encode Turing
+machines, so there is a cell such that no algorithm decides, from a finite starting pattern,
+whether that cell is ever alive.
+
 ## Getting started
 
 Create a fresh topic-named repository from this GitHub template, then follow
