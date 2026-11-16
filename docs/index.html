@@ -50,7 +50,8 @@ a:hover { color: var(--plasma); }
 .tagline { font-size: clamp(19px, 2.2vw, 23px); color: var(--night-ink); max-width: 28em; margin: 14px 0 6px; }
 .meta { color: var(--night-muted); max-width: 34em; margin: 0 0 32px; font-size: 16px; }
 .meta strong { color: var(--night-ink); }
-.links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 900px; }
+.links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; max-width: 1110px; }
+@media (max-width: 1180px) { .links { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; } }
 .link-card {
   display: block; text-decoration: none; color: var(--night-ink); background: #141e33;
   border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 14px; padding: 16px 18px;
@@ -173,8 +174,13 @@ footer .wrap { padding-top: 22px; padding-bottom: 32px; display: flex; flex-wrap
         <span class="title">PlasmaLean &#8599;</span>
         <span class="desc">Mathematics towards the design of a stellarator.</span>
       </a>
+      <a class="link-card" href="https://siddhartha-gadgil.github.io/GameOfLife/" target="_blank" rel="noopener">
+        <span class="label">Example</span>
+        <span class="title">Game of Life &#8599;</span>
+        <span class="desc">Built in two to three days: the Game of Life is undecidable.</span>
+      </a>
     </nav>
-    <p class="sub-links">Starting a project? <a href="#seed-form">Fill in the seed prompt</a> and copy it into your coding agent. PlasmaLean also has a <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> with background, a handbook and progress slides.</p>
+    <p class="sub-links">Starting a project? <a href="#seed-form">Fill in the seed prompt</a> and copy it into your coding agent. PlasmaLean also has a <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> with background, a handbook and progress slides. The Game of Life project has <a href="https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html" target="_blank" rel="noopener">slides &#8599;</a> too.</p>
   </div>
 </header>
 
@@ -533,6 +539,7 @@ blocked or a user decision or new authorization is required.
     <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener">Repository</a>
     <a href="https://github.com/siddhartha-gadgil/LeanTheory/blob/main/docs/GettingStarted.md" target="_blank" rel="noopener">This guide as Markdown</a>
     <a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener">PlasmaLean</a>
+    <a href="https://siddhartha-gadgil.github.io/GameOfLife/" target="_blank" rel="noopener">Game of Life</a>
   </div>
 </footer>
 

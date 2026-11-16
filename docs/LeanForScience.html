@@ -746,6 +746,26 @@ theorem exists_prime_factor :                -- a characterizing property
   </ol>
 </section>
 
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>A smaller example: the Game of Life</h2>
+  <div class="cols center" style="grid-template-columns:1.15fr 1fr;gap:36px">
+    <div>
+      <ul class="small" style="font-size:0.74em">
+        <li>Built in <strong>two to three days</strong> with the same workflow: a result that was known, but rather non-trivial.</li>
+        <li class="fragment">Conway&rsquo;s Game of Life can encode Turing machines. <strong>Main theorem:</strong> there is a cell such that no algorithm decides, from a finite starting pattern, whether that cell is ever alive.</li>
+        <li class="fragment">A small trusted kernel defines the rule, with sanity checks. Untrusted generators propose certificates for runs of tens of thousands of generations, which Lean&rsquo;s kernel checks.</li>
+        <li class="fragment">About 403,000 lines of Lean, most of them generated certificates, using only the standard axioms.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="viz"><canvas data-anim="life" width="520" height="330"></canvas></div>
+      <p class="caption">Gosper&rsquo;s glider gun: a finite pattern that grows forever, emitting gliders. Illustration only.</p>
+      <p class="small" style="margin-top:0.6em"><a href="https://siddhartha-gadgil.github.io/GameOfLife/" target="_blank" rel="noopener">Website &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html" target="_blank" rel="noopener">Slides &#8599;</a></p>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ PART 6 ============================ -->
 <section class="divider" data-background-color="#0b1220">
   <p class="kicker">Part 6</p>
@@ -897,7 +917,8 @@ theorem exists_prime_factor :                -- a characterizing property
     Website: <a href="https://siddhartha-gadgil.github.io/LeanTheory/index.html" target="_blank" rel="noopener" style="color:#66d9e8">siddhartha-gadgil.github.io/LeanTheory &#8599;</a><br>
     Template: <a href="https://github.com/siddhartha-gadgil/LeanTheory" target="_blank" rel="noopener" style="color:#66d9e8">github.com/siddhartha-gadgil/LeanTheory &#8599;</a><br>
     Example: <a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener" style="color:#66d9e8">github.com/siddhartha-gadgil/PlasmaLean &#8599;</a><br>
-    PlasmaLean website: <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener" style="color:#66d9e8">siddhartha-gadgil.github.io/PlasmaLean &#8599;</a>
+    PlasmaLean website: <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener" style="color:#66d9e8">siddhartha-gadgil.github.io/PlasmaLean &#8599;</a><br>
+    Game of Life: <a href="https://siddhartha-gadgil.github.io/GameOfLife/" target="_blank" rel="noopener" style="color:#66d9e8">siddhartha-gadgil.github.io/GameOfLife &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html" target="_blank" rel="noopener" style="color:#66d9e8">slides &#8599;</a>
   </p>
 </section>
 
@@ -1323,6 +1344,49 @@ theorem exists_prime_factor :                -- a characterizing property
       label(ctx, "ẋ", px + 8, py - 112, "#9aa6bd", 16, "left", 600);
       label(ctx, "|x| ≤ 1/√3", px, 40, "#ff8787", 15, "center", 600);
       label(ctx, "energy = ½(ẋ² + x²) = " + (0.5 * (x * x + v * v)).toFixed(3), W / 2, H - 14, "#e8edf6", 17, "center", 600);
+    };
+  };
+
+  // Conway's Game of Life: Gosper's glider gun on a bounded grid, restarted periodically.
+  factories.life = function (cv) {
+    const ctx = cv.getContext("2d");
+    const S = 8, Wc = Math.floor(cv.width / S), Hc = Math.floor(cv.height / S);
+    const gun = [[24,0],[22,1],[24,1],[12,2],[13,2],[20,2],[21,2],[34,2],[35,2],[11,3],[15,3],[20,3],[21,3],[34,3],[35,3],
+      [0,4],[1,4],[10,4],[16,4],[20,4],[21,4],[0,5],[1,5],[10,5],[14,5],[16,5],[17,5],[22,5],[24,5],[10,6],[16,6],[24,6],
+      [11,7],[15,7],[12,8],[13,8]];
+    let grid, gen, acc = 0, last = null;
+    function reset() {
+      grid = new Uint8Array(Wc * Hc); gen = 0;
+      for (const [x, y] of gun) grid[(y + 2) * Wc + (x + 2)] = 1;
+    }
+    function step() {
+      const next = new Uint8Array(Wc * Hc);
+      for (let y = 0; y < Hc; y++) for (let x = 0; x < Wc; x++) {
+        let n = 0;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          const X = x + dx, Y = y + dy;
+          if (X >= 0 && X < Wc && Y >= 0 && Y < Hc) n += grid[Y * Wc + X];
+        }
+        const alive = grid[y * Wc + x];
+        next[y * Wc + x] = (n === 3 || (alive && n === 2)) ? 1 : 0;
+      }
+      grid = next; gen++;
+      if (gen > 420) reset();
+    }
+    reset();
+    return function (t) {
+      const dt = last === null ? 0 : Math.min(0.05, t - last); last = t;
+      acc += dt;
+      while (acc > 0.07) { step(); acc -= 0.07; }
+      ctx.fillStyle = "#0b1220"; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.strokeStyle = "rgba(255,255,255,0.04)"; ctx.lineWidth = 1; ctx.beginPath();
+      for (let x = 0; x <= Wc; x++) { ctx.moveTo(x * S + 0.5, 0); ctx.lineTo(x * S + 0.5, Hc * S); }
+      for (let y = 0; y <= Hc; y++) { ctx.moveTo(0, y * S + 0.5); ctx.lineTo(Wc * S, y * S + 0.5); }
+      ctx.stroke();
+      ctx.fillStyle = "#66d9e8";
+      for (let y = 0; y < Hc; y++) for (let x = 0; x < Wc; x++) if (grid[y * Wc + x]) ctx.fillRect(x * S + 1, y * S + 1, S - 2, S - 2);
+      label(ctx, "generation " + gen, cv.width - 12, cv.height - 12, "#9aa6bd", 14, "right", 600);
     };
   };
 

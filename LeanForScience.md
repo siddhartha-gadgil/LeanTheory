@@ -166,6 +166,10 @@ By default the agent asks what to work on after each unit of work. In autonomous
 4. Seed the project with your goals, questions, sources, ideas and constraints, using the [seed prompt form](https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form) on the website.
 5. Choose what to work on, or say `keep working`.
 
+### A Smaller Example: the Game of Life
+
+A smaller example, built in two to three days with the same workflow, formalizes a result that was known but rather non-trivial: Conway's Game of Life can encode Turing machines. The main theorem says there is a cell such that no algorithm decides, from a finite starting pattern, whether that cell is ever alive. See the <a href="https://siddhartha-gadgil.github.io/GameOfLife/" target="_blank">website</a> and <a href="https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html" target="_blank">slides</a>.
+
 ## PlasmaLean
 
 <a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank">PlasmaLean</a> is a library of Lean and AI-assisted mathematics aimed at the design of a stellarator. It is the project from which the `LeanTheory` template was extracted, so it follows the model described above. Its <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank">website</a> has background on stellarators, a handbook, progress slides and an exposition suite.
