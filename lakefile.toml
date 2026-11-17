@@ -19,6 +19,13 @@ name = "LeanTheory"
 
 # `meta` code of the certificate builders, compiled to native code (`eval_cert` runs ≈ 10×
 # faster than in the interpreter). Only depends on Lean; imported by `LeanTheory.Certificates`.
+# Reads tasks as JSON lines and answers them with the `@[response]` handlers of `LeanTheory`
+# (`LeanTheory/ResponseExt.lean`, `LeanTheory/Elaborate.lean`): `lake exe theory_loop`.
+[[lean_exe]]
+name = "theory_loop"
+root = "theory_loop"
+supportInterpreter = true
+
 [[lean_lib]]
 name = "LeanTheoryMeta"
 roots = ["LeanTheoryMeta.EvalCert"]

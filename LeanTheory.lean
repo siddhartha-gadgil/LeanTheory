@@ -47,7 +47,9 @@ public import LeanTheory.Certificates.ValidatedQuadratureArcs
 public import LeanTheory.Certificates.ValidatedTrig
 public import LeanTheory.Certificates.ValidatedTrigFast
 public import LeanTheory.Certificates.WeightedEll1
+public import LeanTheory.Elaborate
 public import LeanTheory.Kernel.Example
+public import LeanTheory.ResponseExt
 public import LeanTheory.Sanity.Example
 public import LeanTheory.Sanity.QuasisymmetryNotSymmetry
 public import LeanTheory.SubsetSum
