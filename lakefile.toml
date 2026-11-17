@@ -26,6 +26,12 @@ name = "theory_loop"
 root = "theory_loop"
 supportInterpreter = true
 
+# The same tasks over HTTP, with a web page for trying them: `lake exe theory_server [port]`.
+[[lean_exe]]
+name = "theory_server"
+root = "theory_server"
+supportInterpreter = true
+
 [[lean_lib]]
 name = "LeanTheoryMeta"
 roots = ["LeanTheoryMeta.EvalCert"]
