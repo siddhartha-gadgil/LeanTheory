@@ -127,6 +127,11 @@ summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14
       code: "open LeanTheory.Example in\ntheorem energy_eq (x v : ℚ) : energyQ 2 3 x v = v ^ 2 + 3 / 2 * x ^ 2 := by\n  unfold energyQ; ring" } },
     { label: "A false statement", task: { task: "elab_defs", names: [],
       code: "theorem wrong : LeanTheory.Example.energyQ 2 3 0 1 = 2 := by\n  norm_num [LeanTheory.Example.energyQ]" } },
+    { label: "Check compilation", task: { task: "check", modify_env: false,
+      code: "def fib : Nat → Nat\n  | 0 => 0\n  | 1 => 1\n  | n + 2 => fib n + fib (n + 1)\n\ntheorem fib_five : fib 5 = 5 := by\n  sorry" } },
+    { label: "Evaluate with code", task: { task: "eval", modify_env: false,
+      code: "def fib : Nat → Nat\n  | 0 => 0\n  | 1 => 1\n  | n + 2 => fib n + fib (n + 1)",
+      term: "(List.range 12).map fib" } },
     { label: "Unknown task", task: { task: "nope" } }
   ];
   var req = document.getElementById("req"), result = document.getElementById("result");
@@ -146,10 +151,17 @@ summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14
     raw.textContent = JSON.stringify(data, null, 2);
     result.innerHTML = "";
     var r = data.response || {};
-    var failed = data.status !== "ok" || r.result === "error" || (r.messages && r.messages.some(function (m) { return /error|unsolved|unknown|failed/i.test(m); }));
+    var failed = data.status !== "ok" || r.result === "error" || r.compiles === false ||
+      (r.messages && r.messages.some(function (m) { return typeof m === "string" ? /error|unsolved|unknown|failed/i.test(m) : m.severity === "error"; }));
     result.appendChild(el("span", "badge " + (failed ? "err" : "ok"), failed ? "error" : "ok"));
     if (data.message) result.appendChild(el("div", "msg", data.message));
     if (r.error) result.appendChild(el("div", "msg", r.error));
+    if (r.compiles != null) {
+      var c = el("p", null, r.compiles ? "Compiles." : "Does not compile.");
+      if (r.declarations && r.declarations.length) c.appendChild(el("span", null, " Declarations: " + r.declarations.join(", ") + "."));
+      if (r.sorry && r.sorry.length) c.appendChild(el("span", null, " Uses sorry: " + r.sorry.join(", ") + "."));
+      result.appendChild(c);
+    }
     if (r.output != null) { var p = el("p", null, "Value: "); p.appendChild(el("span", "value", r.output)); result.appendChild(p); }
     if (r.definitions && r.definitions.length) {
       var t = el("table"); var h = el("tr"); h.appendChild(el("th", null, "Name")); h.appendChild(el("th", null, "Value")); t.appendChild(h);
@@ -158,7 +170,9 @@ summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14
     }
     if (r.messages) {
       if (r.messages.length === 0) result.appendChild(el("p", "status", "Lean reported no messages: the code elaborated."));
-      r.messages.forEach(function (m) { result.appendChild(el("div", "msg", m)); });
+      r.messages.forEach(function (m) {
+        result.appendChild(el("div", "msg", typeof m === "string" ? m : m.severity + " at line " + m.line + ", column " + m.column + ": " + m.text));
+      });
     }
   }
   function post(path, body) {

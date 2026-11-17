@@ -19,6 +19,9 @@ to `.agents`).
 | `certify-numerics` | turning a numerical candidate into a kernel-checked certificate (exact arithmetic, validated enclosures, remainder bounds) |
 | `lean-proofs` | writing or repairing any Lean code: tactic choice, concrete checks with `kernel_fact`/`bool_cert`/`eval_cert`, the SubsetSum proof-term pattern, memory limits; no `decide` of any kind |
 | `domain-design` | advancing a candidate design through verified milestones with composed certificates, tradeoff and tolerance studies |
+| `ensure-theory-server` | before using the task server: check that `theory_server` is running, start it and wait until it is ready if not |
+| `check-compilation` | checking whether Lean code compiles on the task server (task `check`) without changing its environment, for example for search candidates |
+| `evaluate-on-server` | evaluating terms on the task server (task `eval`), optionally after defining functions, without changing its environment |
 | `workstation-update` | fetching, re-checking, merging and recording workstation runs (`workstation/*` branches) |
 
 Worked examples referenced throughout: `LeanTheory/Kernel/Example.lean`, `LeanTheory/Sanity/Example.lean`, `LeanTheory/Bridge/Example.lean`, `LeanTheory/Certificates/Example.lean`, `LeanTheory/SubsetSum.lean`.
