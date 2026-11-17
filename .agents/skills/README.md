@@ -14,7 +14,7 @@ to `.agents`).
 | `try-to-prove` | `try to prove ...`: a proof attempt on a precise claim, running `reasoning-loop` in problem-solving mode |
 | `explore-mathematics` | `explore ...`: an open-ended question, running `reasoning-loop` in exploratory mode to find questions and stress-tested conjectures |
 | `reasoning-loop` | the mathematical reasoning loop behind both: deconstruct, triage, strategy or probes, execute, verify, metacognition and termination, with all artifacts in a task folder under `notes/reasoning/` |
-| `examples-counterexamples` | constructing examples, boundary cases and counterexamples to test statements, hypotheses and definitions |
+| `examples-counterexamples` | constructing examples, boundary cases, counterexamples and existence witnesses to test statements, hypotheses and definitions; assesses whether an evolutionary search could find the object and launches one in parallel |
 | `proof-techniques` | a library of proof techniques with a registry and worked examples, used when planning proofs |
 | `certify-numerics` | turning a numerical candidate into a kernel-checked certificate (exact arithmetic, validated enclosures, remainder bounds) |
 | `lean-proofs` | writing or repairing any Lean code: tactic choice, concrete checks with `kernel_fact`/`bool_cert`/`eval_cert`, the SubsetSum proof-term pattern, memory limits; no `decide` of any kind |

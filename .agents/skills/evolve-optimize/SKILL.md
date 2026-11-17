@@ -115,6 +115,12 @@ in `reasoning-loop`.
 
 ## Uses in the project
 
+Searches are often launched from other work: `examples-counterexamples` and the existence
+technique of `proof-techniques` assess whether a search could find a counterexample or a witness,
+and if so launch this skill with a sub-agent in parallel, with a budget. When running as such a
+sub-agent, stay within the budget, generate candidates yourself if you cannot launch sub-agents,
+and report the best package, its score, whether the target property was proved, and the insights.
+
 - Constructions and designs: parameters, shapes or schedules that satisfy proved constraints and
   optimize a figure of merit (`domain-design`).
 - Counterexamples and witnesses: an extremal object, or a certificate for a bound
