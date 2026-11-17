@@ -22,6 +22,7 @@ to `.agents`).
 | `ensure-theory-server` | before using the task server: check that `theory_server` is running, start it and wait until it is ready if not |
 | `check-compilation` | checking whether Lean code compiles on the task server (task `check`) without changing its environment, for example for search candidates |
 | `evaluate-on-server` | evaluating terms on the task server (task `eval`), optionally after defining functions, without changing its environment |
+| `evolve-optimize` | `evolve ...` or `optimize ... subject to ...`: evolutionary search for a term of a given type with proved constraints and an optimal measure, checked on the task server (population, analysis, generation by sub-agents, evaluation, selection) |
 | `workstation-update` | fetching, re-checking, merging and recording workstation runs (`workstation/*` branches) |
 
 Worked examples referenced throughout: `LeanTheory/Kernel/Example.lean`, `LeanTheory/Sanity/Example.lean`, `LeanTheory/Bridge/Example.lean`, `LeanTheory/Certificates/Example.lean`, `LeanTheory/SubsetSum.lean`.

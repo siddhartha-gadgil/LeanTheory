@@ -45,7 +45,7 @@ Name the level a candidate has reached precisely; never round up. A generic ladd
 
 1. Choose the next achievable level for the candidate.
 2. Parameterize the design with explicit units and symmetry conventions.
-3. Use theory to reduce the search space and derive sufficient conditions (`discover-theory`, `formalize-theory`). Prove a candidate sufficient condition with `try-to-prove`, and explore an open design question or a conjectured tradeoff with `explore-mathematics`. Use external solvers or optimizers ‹replace: your solvers› only as candidate generators; record version-specific conventions.
+3. Use theory to reduce the search space and derive sufficient conditions (`discover-theory`, `formalize-theory`). Prove a candidate sufficient condition with `try-to-prove`, and explore an open design question or a conjectured tradeoff with `explore-mathematics`. When the design is a term that must satisfy provable constraints while optimizing a figure of merit, search for it with `evolve-optimize`. Use external solvers or optimizers ‹replace: your solvers› only as candidate generators; record version-specific conventions.
 4. Optimize meaningful objectives but keep hard constraints separate: an objective penalty or its optimum is not a proof of feasibility.
 5. Generate the exact certificates needed for the level (`certify-numerics`, `lean-proofs`); generators validate every emitted bound in exact arithmetic.
 6. Propagate tolerances through margins. Recompute every dependent certificate after any change of data, parameters or model.

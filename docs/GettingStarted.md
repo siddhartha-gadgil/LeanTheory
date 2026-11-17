@@ -293,6 +293,12 @@ These phrases are conventions rather than a rigid command language:
   research questions, probes, examples and counterexamples, and stress-tested conjectures, ending
   in a research brief. It uses the same loop and task folders, and switches to a proof attempt
   when a precise theorem emerges.
+- **`evolve ...`** — invoke the `evolve-optimize` skill: an evolutionary search, in the
+  AlphaEvolve pattern, for a term of a given type that satisfies constraints proved in Lean and
+  maximizes or minimizes a measure. Candidates are packages of the term and its proofs, checked
+  and measured on the task server. Each generation analyses why the best candidates score well
+  and why their proofs work, generates many new candidates with sub-agents, evaluates and
+  selects. The run lives in a task folder under `notes/reasoning/`.
 - **`discuss ...`** — explore an idea, source or objection with the user. Record durable outcomes
   as new or updated notes and dependency edges.
 - **`add notes`** / **`modify notes`** — invoke the `edit-notes` skill to turn the discussion in

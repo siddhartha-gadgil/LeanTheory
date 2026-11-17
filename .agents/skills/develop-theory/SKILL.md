@@ -45,6 +45,9 @@ allowed when every downstream result remains explicitly conditional and unverifi
 - For `try to prove ...` or `explore ...`, use `../try-to-prove/SKILL.md` or
   `../explore-mathematics/SKILL.md`. They run `reasoning-loop`, which writes its work to a task
   folder under `notes/reasoning/` and registers the outcome in the graph at the end.
+- For `evolve ...` or `optimize ... subject to ...`, use `../evolve-optimize/SKILL.md`: an
+  evolutionary search for a term with proved constraints that optimizes a measure, with its run in
+  a task folder under `notes/reasoning/`.
 - For `keep working`, enter autonomous mode and continue across work units without asking the user
   to select after each one. Proactively use available sub-agents for independent ready tasks or
   independent attacks on the same difficult question when this improves progress.

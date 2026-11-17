@@ -45,9 +45,9 @@ Create a fresh topic-named repository from this GitHub template, then follow
    [seed prompt form](https://siddhartha-gadgil.github.io/LeanTheory/index.html#seed-form).
 
 Afterwards users can say `work status`, `summarise work`, `work on <note/goal/question>`,
-`try to prove <claim>`, `explore <question>`, discuss an idea or source, record a discussion with
-`add notes` or `modify notes`, integrate papers or URLs with `update notes from <sources>`, or say
-`keep working` to run the autonomous work-selection loop.
+`try to prove <claim>`, `explore <question>`, `evolve <problem>`, discuss an idea or source,
+record a discussion with `add notes` or `modify notes`, integrate papers or URLs with
+`update notes from <sources>`, or say `keep working` to run the autonomous work-selection loop.
 
 To set up by hand instead, on Linux, macOS or WSL:
 
@@ -173,7 +173,8 @@ The skills in [.agents/skills](.agents/skills/README.md) (`develop-theory`, `edi
 `audit-domain`, `domain-design`, `workstation-update`) describe each step for an agent. For
 mathematical discovery, `try-to-prove` and `explore-mathematics` run `reasoning-loop`, supported by
 `examples-counterexamples` and `proof-techniques`, and keep each task's work in
-`notes/reasoning/`.
+`notes/reasoning/`. `evolve-optimize` runs evolutionary searches for terms with proved constraints
+that optimize a measure, checking candidates on the task server (`theory_server`).
 
 **Future work.** A configurable documentation pipeline (handbook site and progress slideshow
 generated from the notes) existed in the original project and was removed from the template.
