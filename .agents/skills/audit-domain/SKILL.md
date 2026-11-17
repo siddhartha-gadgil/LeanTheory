@@ -58,7 +58,10 @@ Prioritize the kernel, then audit outward through Sanity, Theory, Bridge, Certif
    compiled declaration with compatible hypotheses; downgrade stale or unmatched claims.
 6. Build the affected modules and, for a startup/full audit, run `lake build` and
    `lake env lean scripts/check_axioms.lean` when the local build budget permits. Record exactly
-   what ran, failures, warnings and resource limitations.
+   what ran, failures, warnings and resource limitations. Check that the root module of every
+   `[[lean_lib]]` in `lakefile.toml` is imported at the top of `theory_loop.lean` and
+   `theory_server.lean` and listed in their `importModules` calls (the `LeanTheoryMeta` library
+   reaches them through `LeanTheory`); record a missing library as a finding and fix it.
 7. Record findings by severity, corrections, affected downstream results and the audited commit in
    `notes/implementation-plan.md`. An unresolved kernel finding blocks claims that depend on it.
 
@@ -74,7 +77,7 @@ After any kernel correction, re-run its sanity suite and re-audit all dependent 
 6. **Certificates** (`LeanTheory/Certificates/`): checkers, decoders and proof-term certificates; heuristic solvers stay outside the trusted path. Template: `LeanTheory/Certificates/Example.lean`.
 7. **Design** (`LeanTheory/Design/`): concrete candidates composed from the layers above (see `domain-design`).
 
-Keep source-dependent data (measured constants, validity envelopes) separate from mathematical consequences. Use the single library `LeanTheory` unless a real dependency boundary appears. Every module needs a module docstring and every declaration a docstring.
+Keep source-dependent data (measured constants, validity envelopes) separate from mathematical consequences. Use the single library `LeanTheory` unless a real dependency boundary appears. A new `[[lean_lib]]` must also be added to the task executables `theory_loop.lean` and `theory_server.lean`, both as a top-level `import` and in their `importModules` lists (see `lean-proofs`). Every module needs a module docstring and every declaration a docstring.
 
 ## Audit each claim
 
