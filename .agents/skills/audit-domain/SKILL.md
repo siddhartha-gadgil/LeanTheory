@@ -49,6 +49,8 @@ Prioritize the kernel, then audit outward through Sanity, Theory, Bridge, Certif
 3. Red-team each kernel contract for contradictory fields, empty domains, zero-duration or zero
    parameter witnesses, unguarded division/square root/log/supremum, hidden classical choices,
    missing bounds, wrong quantifier order, unit or normalization errors and accidental weakening.
+   Construct the witnesses explicitly with `examples-counterexamples`: an object satisfying a
+   contract that should fail it, or a degenerate object that makes a law vacuous, is a finding.
 4. Check that exported theorems state the advertised model, domain, regularity, boundary
    conditions, norm, parameter range and time horizon. Trace important results back to kernel laws;
    do not accept a theorem merely because an over-strong hypothesis makes it easy.
@@ -115,7 +117,9 @@ boundary behavior, symmetry/equivariance, conservation or monotonicity, dimensio
 parameter endpoints, quantifier order, nonempty domains, or another independent characterization.
 Add a compiled regression theorem for every defect found during audit. More than one additional
 check is expected when the law has several distinct hazards; never stop merely because a quota has
-been met.
+been met. Use `examples-counterexamples` to find the degenerate case, instance, counterexample and
+adversarial witnesses; when a needed sanity theorem is mathematically non-trivial, work it out
+with `try-to-prove` before writing the Lean proof.
 
 For each new definition also prove characterizing properties and at least one meaningful limiting case. For each certificate format, an accepted and a rejected fixture (`initialStates_energy_le` / `initialStates_not_le_small`). Diagnose inconsistent or vacuous assumptions before proving further consequences.
 

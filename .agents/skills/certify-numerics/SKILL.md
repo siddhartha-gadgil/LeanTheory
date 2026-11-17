@@ -29,7 +29,7 @@ Parse decimal coefficients as exact rationals or explicitly bounded measurements
 - **Stability and coercivity:** bound the retained block, the omitted subspace, cross terms, coefficient errors, quadrature, and the change from the approximate to the certified state.
 - **Empirical data:** bound coefficients on their valid envelope and quantify over every state in the claimed range.
 
-Failure to close a bound is an unresolved certificate, not evidence that the property fails.
+Failure to close a bound is an unresolved certificate, not evidence that the property fails. When a route needs an analytic lemma that is not yet available, such as a remainder bound, a contraction estimate or a coverage argument, work it out with `try-to-prove` before building the checker. When numerics suggest that the property fails, make the counterexample exact with `examples-counterexamples`.
 
 ## Build a small sound checker
 
@@ -42,7 +42,7 @@ Close concrete instances without any `decide` (see `lean-proofs` §2):
 - the SubsetSum pattern (`LeanTheory/SubsetSum.lean`) for a new large certificate format;
 - `norm_num` / `rfl` for a handful of closed facts.
 
-Generators must validate every emitted bound with exact rational arithmetic before writing it (round outward, recompute, assert). Test valid and invalid fixtures: missing coverage, zero denominators, altered coefficients, omitted tail bounds, contradictory intervals. Build the affected modules one at a time and inspect `#print axioms` for the public soundness theorem; heavy builds go to the workstation (`workstation-update`, `Workstation.md`).
+Generators must validate every emitted bound with exact rational arithmetic before writing it (round outward, recompute, assert). Test valid and invalid fixtures: missing coverage, zero denominators, altered coefficients, omitted tail bounds, contradictory intervals (`examples-counterexamples` helps design the rejected ones). Build the affected modules one at a time and inspect `#print axioms` for the public soundness theorem; heavy builds go to the workstation (`workstation-update`, `Workstation.md`).
 
 ## Worked example
 

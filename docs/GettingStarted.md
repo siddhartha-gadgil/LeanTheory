@@ -284,6 +284,15 @@ These phrases are conventions rather than a rigid command language:
   Claude reliably selects the project skill.
 - **`work on N-...`**, **`work on G-...`** or **`work on Q-...`** — begin a work unit on that
   item. For a broad goal or question, choose and announce the nearest useful subnote.
+- **`try to prove ...`** — invoke the `try-to-prove` skill to attempt a proof of a precise claim,
+  given in words, in LaTeX or as a note or question. It runs the `reasoning-loop` skill:
+  deconstruction, triage, proof plans, execution with recursive sub-lemmas, verification in Lean
+  or informally, and metacognition, ending in a proof or a failure report with the precise
+  obstacle. Every artifact goes in a task folder under `notes/reasoning/`.
+- **`explore ...`** — invoke the `explore-mathematics` skill on an open-ended question: ranked
+  research questions, probes, examples and counterexamples, and stress-tested conjectures, ending
+  in a research brief. It uses the same loop and task folders, and switches to a proof attempt
+  when a precise theorem emerges.
 - **`discuss ...`** — explore an idea, source or objection with the user. Record durable outcomes
   as new or updated notes and dependency edges.
 - **`add notes`** / **`modify notes`** — invoke the `edit-notes` skill to turn the discussion in
@@ -294,7 +303,10 @@ These phrases are conventions rather than a rigid command language:
 - **`update notes from <files or URLs>`** — invoke the `update-notes-from` skill to read and
   analyze supplied papers, documents, local files or online sources, record provenance and
   inaccessible material, and integrate the resulting theory into the notes under the same
-  implementation gate and code patch note workflow.
+  implementation gate and code patch note workflow. The analysis uses the reasoning tools:
+  source study of each proof, the techniques it uses, checks of its examples and
+  counterexamples, and stress tests of conjectures, kept in a task folder under
+  `notes/reasoning/`.
 - **`keep working`** — enter autonomous mode. Repeatedly choose the highest-value ready item,
   develop or formalize it, update the graph, and continue without waiting for the user after each
   step. Give concise progress updates. Stop when a real user decision is required, no useful item

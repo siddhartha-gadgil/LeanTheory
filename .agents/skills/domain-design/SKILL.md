@@ -45,7 +45,7 @@ Name the level a candidate has reached precisely; never round up. A generic ladd
 
 1. Choose the next achievable level for the candidate.
 2. Parameterize the design with explicit units and symmetry conventions.
-3. Use theory to reduce the search space and derive sufficient conditions (`discover-theory`, `formalize-theory`). Use external solvers or optimizers ‹replace: your solvers› only as candidate generators; record version-specific conventions.
+3. Use theory to reduce the search space and derive sufficient conditions (`discover-theory`, `formalize-theory`). Prove a candidate sufficient condition with `try-to-prove`, and explore an open design question or a conjectured tradeoff with `explore-mathematics`. Use external solvers or optimizers ‹replace: your solvers› only as candidate generators; record version-specific conventions.
 4. Optimize meaningful objectives but keep hard constraints separate: an objective penalty or its optimum is not a proof of feasibility.
 5. Generate the exact certificates needed for the level (`certify-numerics`, `lean-proofs`); generators validate every emitted bound in exact arithmetic.
 6. Propagate tolerances through margins. Recompute every dependent certificate after any change of data, parameters or model.
@@ -73,7 +73,7 @@ Rules:
 
 - State tradeoffs as families: a certified bound as a function of the design parameter, certified on boxes covering the range, rather than a few sampled points.
 - For tolerances, certify the property on the whole uncertainty box and report the margin; report the largest box you could certify, not the one you hoped for.
-- A failure to certify is an open item, not evidence that the design fails; an exact counterexample is.
+- A failure to certify is an open item, not evidence that the design fails; an exact counterexample is. Construct and check such counterexamples with `examples-counterexamples`.
 
 ## 6. When to use the workstation
 

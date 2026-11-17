@@ -53,6 +53,9 @@ the original note. Record:
 - Whether the change corrects, extends or supersedes an existing claim, what remains unresolved,
   and the next implementation action. Do not present the proposed correction as already proved.
 
+When the discussion produced a reasoning task folder under `notes/reasoning/`, link the folder from
+the note and summarize its outcome and evidence state, rather than copying its artifacts.
+
 Reuse an existing unstarted patch note for the same change when appropriate. If that patch note
 has itself entered implementation, create a new follow-up instead of rewriting it. Keep original
 evidence and history intact; place links from new notes and the registry without editing protected

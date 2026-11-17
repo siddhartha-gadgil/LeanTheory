@@ -19,6 +19,13 @@ Typical targets: completing squares in an energy functional, identifying the rig
 
 ## Run the discovery loop
 
+For a structured attempt on one precise claim or one open question, run `reasoning-loop` (through
+`try-to-prove` or `explore-mathematics`). It provides detailed phases for deconstruction,
+strategy with `proof-techniques`, execution with recursive sub-lemmas, verification,
+metacognition, conjecture stress tests and `examples-counterexamples`, and keeps its artifacts in
+a task folder under `notes/reasoning/`. The steps below are the domain-specific checklist that
+such an attempt must still satisfy.
+
 1. Formulate the proposed theorem with all constants and hypotheses.
 2. Look up the closest primary literature and its limitations. Record novelty as provisional until the search and source comparison are complete.
 3. Seek a proof by algebraic rearrangement, conservation, symmetry, comparison, compactness, variational arguments, perturbation theory or validated computation.

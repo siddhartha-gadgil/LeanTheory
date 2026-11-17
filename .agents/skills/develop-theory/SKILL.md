@@ -42,6 +42,9 @@ allowed when every downstream result remains explicitly conditional and unverifi
   has started and record requested revisions in separate code patch notes.
 - For `update notes from <source files or URLs>`, use `../update-notes-from/SKILL.md` to analyze the
   supplied theory and integrate it through the same implementation gate.
+- For `try to prove ...` or `explore ...`, use `../try-to-prove/SKILL.md` or
+  `../explore-mathematics/SKILL.md`. They run `reasoning-loop`, which writes its work to a task
+  folder under `notes/reasoning/` and registers the outcome in the graph at the end.
 - For `keep working`, enter autonomous mode and continue across work units without asking the user
   to select after each one. Proactively use available sub-agents for independent ready tasks or
   independent attacks on the same difficult question when this improves progress.
@@ -52,7 +55,9 @@ In both `work on ...` and `keep working`, prefer launching sub-agents when at le
 tasks can proceed independently. Useful assignments include primary-source review, counterexample
 search, Mathlib/API reconnaissance, numerical exploration, proof attempts and an independent
 kernel/specification audit. Give each sub-agent a precise item ID, inputs, output format and
-non-overlapping scope; tell it which specialized skill to use when relevant.
+non-overlapping scope; tell it which specialized skill to use when relevant. Independent proof
+attempts and explorations suit sub-agents well: give each its own `try-to-prove` or
+`explore-mathematics` task, so that each writes to its own task folder under `notes/reasoning/`.
 
 The coordinating agent remains responsible for the research graph, mathematical consistency and
 the final result. Before integrating a sub-agent result, inspect its claims and files, reconcile
@@ -67,7 +72,8 @@ tightly coupled proof step, or work whose coordination cost exceeds the likely g
 ## Run one work unit
 
 1. Verify dependency status and choose one coherent outcome.
-2. Route to the appropriate method: `discover-theory` for an open mathematical gap,
+2. Route to the appropriate method: `discover-theory` for an open mathematical gap, with
+   `reasoning-loop` for a structured proof attempt or conjecture search on one claim,
    `formalize-theory` for a complete sourced theorem or proof, `audit-domain` for model and
    specification risk, `certify-numerics` for a numerical certificate, `domain-design` for a
    candidate design, and `lean-proofs` when writing Lean.
@@ -88,7 +94,7 @@ value rather than mechanically:
 
 - a prerequisite that unlocks several important notes;
 - a validity gap on the path to an active goal;
-- an inexpensive counterexample test for a risky conjecture;
+- an inexpensive counterexample test for a risky conjecture, with `examples-counterexamples`;
 - a lean-ready theorem that advances the verified frontier;
 - a research note likely to make a blocked question precise.
 
