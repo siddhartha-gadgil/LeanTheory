@@ -9,10 +9,12 @@ relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
 
+# TauCeti (an AI-built Lean library downstream of Mathlib); Mathlib comes in through it, at the
+# commit pinned by TauCeti's own lake-manifest.json.
 [[require]]
-name = "mathlib"
-scope = "leanprover-community"
-rev = "v4.35.0"
+name = "TauCeti"
+git = "https://github.com/TauCetiProject/TauCeti"
+rev = "v4.36.0"
 
 [[lean_lib]]
 name = "LeanTheory"

@@ -62,7 +62,9 @@ source .venv-ws/bin/activate        # activate it before running project Python 
 environment only when a task needs it, and activate `.venv-ws` in every new shell rather than
 installing project packages globally. On any platform with Lean installed, the manual steps are
 `lake exe cache get`, `lake build` and `lake env lean scripts/check_axioms.lean`. The toolchain is
-pinned in `lean-toolchain` (Lean and Mathlib `v4.35.0`).
+pinned in `lean-toolchain` (Lean `v4.36.0`). The project depends on
+[TauCeti](https://github.com/TauCetiProject/TauCeti) `v4.36.0`, and Mathlib comes in through it, at
+the commit pinned by TauCeti (see `lake-manifest.json`).
 
 ## Architecture
 

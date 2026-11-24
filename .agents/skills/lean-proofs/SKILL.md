@@ -5,7 +5,7 @@ description: Write and repair Lean 4 proofs efficiently in a LeanTheory-based fo
 
 # Lean proofs in LeanTheory
 
-Toolchain: see `lean-toolchain` and `lakefile.toml` (Lean and Mathlib are pinned together). Check a file with `lake env lean <path>` and the library with `lake build`. Before finishing, run `lake env lean scripts/check_axioms.lean`. It **fails** on any axiom other than `propext`, `Classical.choice` and `Quot.sound`, so `sorry`, `native_decide`, `Lean.ofReduceBool` and native `bv_decide` proofs are all rejected. Builds must have zero warnings.
+Toolchain: see `lean-toolchain` and `lakefile.toml` (Lean is pinned with the TauCeti release the project requires; Mathlib comes in through TauCeti, at the commit in `lake-manifest.json`). Check a file with `lake env lean <path>` and the library with `lake build`. Before finishing, run `lake env lean scripts/check_axioms.lean`. It **fails** on any axiom other than `propext`, `Classical.choice` and `Quot.sound`, so `sorry`, `native_decide`, `Lean.ofReduceBool` and native `bv_decide` proofs are all rejected. Builds must have zero warnings.
 
 **New libraries and the task executables.** New modules go in the `LeanTheory` library and are imported by the root module `LeanTheory.lean`; the executables `theory_loop` and `theory_server` then see them. When you add a new `[[lean_lib]]` to `lakefile.toml`, also add its root module to both `theory_loop.lean` and `theory_server.lean`, in two places each: as an `import` at the top of the file, so that `lake build` builds the library before the executable, and in the `importModules` list of `main`, so that tasks run in an environment containing it. Then rebuild both executables (`lake build theory_loop theory_server`).
 

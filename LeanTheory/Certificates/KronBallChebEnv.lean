@@ -127,11 +127,13 @@ theorem eq_of_kron_flat {P Q : P3} {a J K b W R d : ℕ} (hb : 1 ≤ b) (hP : In
     simp [l1, liftN]
   have hz : flat R P = flat R Q := by
     rw [← sub_eq_zero]
-    refine Polynomial.ext fun j => Polynomial.ext fun i => ?_
+    refine AddMonoidAlgebra.coeff_injective <| Finsupp.ext fun j =>
+      AddMonoidAlgebra.coeff_injective <| Finsupp.ext fun i => ?_
     have := natAbs_coeff_le_l1 (flat R P - flat R Q) i j
     rw [h0] at this
     simpa using this
-  refine Polynomial.ext fun k => Polynomial.ext fun j => ?_
+  refine AddMonoidAlgebra.coeff_injective <| Finsupp.ext fun k =>
+    AddMonoidAlgebra.coeff_injective <| Finsupp.ext fun j => ?_
   by_cases hj : j < R
   · have e1 := coeff_flat hP hJ j k hj
     have e2 := coeff_flat hQ hJ j k hj
