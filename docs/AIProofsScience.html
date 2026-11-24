@@ -347,42 +347,14 @@ theorem InfinitudeOfPrimes : ∀ n, ∃ p &gt; n, IsPrime p := by
     <div class="arrow">&#10230;</div>
     <div class="box good big">&#10003; checked</div>
   </div>
-  <ul class="mt">
+  <ul class="small mt">
     <li class="fragment">The <strong>kernel</strong> is like the part of a chess engine that checks whether moves are legal.</li>
     <li class="fragment">Correctness of checked proofs depends only on the kernel, not on all of Lean.</li>
     <li class="fragment"><strong>Independent kernels</strong> exist in other languages, so an invalid proof is accepted only if it passes all of them. Other checks, such as model building, have also been implemented.</li>
   </ul>
+  <div class="callout mt fragment" style="font-size:0.72em"><strong>But is it the right statement?</strong> A correct proof may prove the wrong thing: different from what we intend in mathematics, or mismatched with reality in science, through an error in a definition or statement. We need to guard against these.</div>
 </section>
 
-<section>
-  <p class="kicker">Trust and verification with Lean</p>
-  <h2>But is it the right statement?</h2>
-  <div class="cols center">
-    <div>
-      <p>Even if a proof is correct, it may be proving the <strong>wrong thing</strong>:</p>
-      <ul>
-        <li class="fragment">different from what we intend, in mathematics;</li>
-        <li class="fragment">mismatched with reality, in science.</li>
-      </ul>
-      <p class="fragment">This comes from errors in <strong>definitions</strong> or <strong>statements</strong>, and we need to guard against them.</p>
-    </div>
-    <svg viewBox="0 0 440 260" width="100%" role="img" aria-label="An arrow hitting the wrong target">
-      <g font-family="Source Sans 3, sans-serif" font-size="17" text-anchor="middle">
-        <circle cx="110" cy="120" r="70" fill="#e6f4f6" stroke="#0b7285" stroke-width="2"/>
-        <circle cx="110" cy="120" r="42" fill="#fff" stroke="#0b7285" stroke-width="2"/>
-        <circle cx="110" cy="120" r="14" fill="#0b7285"/>
-        <text x="110" y="225" fill="#0b7285" font-weight="700">what we meant</text>
-        <circle cx="330" cy="120" r="70" fill="#fff1e7" stroke="#d9480f" stroke-width="2"/>
-        <circle cx="330" cy="120" r="42" fill="#fff" stroke="#d9480f" stroke-width="2"/>
-        <circle cx="330" cy="120" r="14" fill="#d9480f"/>
-        <text x="330" y="225" fill="#d9480f" font-weight="700">what we proved</text>
-        <line x1="330" y1="120" x2="420" y2="30" stroke="#172033" stroke-width="3"/>
-        <polygon points="330,120 344,100 350,114" fill="#172033"/>
-        <text x="330" y="30" fill="#2b8a3e" font-weight="700">&#10003; proof correct</text>
-      </g>
-    </svg>
-  </div>
-</section>
 
 <!-- ============================ PART 3 ============================ -->
 <section class="divider" data-background-color="#0b1220">
@@ -396,7 +368,7 @@ theorem InfinitudeOfPrimes : ∀ n, ∃ p &gt; n, IsPrime p := by
   <h2>Three principles</h2>
   <div class="cols-3 mt">
     <div class="card fragment"><div class="big">&#127919;</div><h3>Proof challenges</h3><p>Many statements that must hold if a definition is correct. Proving them all raises our confidence in the definition.</p></div>
-    <div class="card plasma fragment"><div class="big">&#9673;</div><h3>Small kernels</h3><p>The defining model of a domain is isolated in a modest amount of code, tested intensively and inspected by hand.</p></div>
+    <div class="card plasma fragment"><div class="big">&#9673;</div><h3>Small kernels</h3><p>In analogy with Lean&rsquo;s small kernel, we isolate the defining model of a domain in a small amount of code. Other results are verified relative to it, and the kernel itself is tested with proof challenges and inspected by hand.</p></div>
     <div class="card good fragment"><div class="big">&#9881;</div><h3>Swiss-watch verification</h3><p>In an interlocking theory, errors cause failures rather than cancelling out, so the theory is largely self-correcting.</p></div>
   </div>
 </section>
@@ -425,31 +397,6 @@ theorem exists_prime_factor :                -- a characterizing property
   </div>
 </section>
 
-<section>
-  <p class="kicker">Autonomous verification</p>
-  <h2>Small kernels</h2>
-  <div class="cols center">
-    <div>
-      <ul>
-        <li>Lean itself has a small kernel. In the same way, we isolate the <strong>key defining model</strong> of our domain into a modest amount of code.</li>
-        <li class="fragment">Other results are verified in terms of this domain kernel.</li>
-        <li class="fragment">The kernel itself is intensively tested with proof challenges, and can even be inspected by hand.</li>
-      </ul>
-    </div>
-    <svg viewBox="0 0 420 380" width="100%" role="img" aria-label="Concentric layers around a small kernel">
-      <g font-family="Source Sans 3, sans-serif" text-anchor="middle">
-        <circle cx="210" cy="190" r="180" fill="#f1f3f6" stroke="#dfe2e8"/>
-        <circle cx="210" cy="190" r="135" fill="#e6f4f6" stroke="#b9dde3"/>
-        <circle cx="210" cy="190" r="90" fill="#fff1e7" stroke="#f5c6a5"/>
-        <circle cx="210" cy="190" r="48" fill="#0b1220"/>
-        <text x="210" y="196" fill="#e8edf6" font-size="18" font-weight="700">kernel</text>
-        <text x="210" y="128" fill="#d9480f" font-size="16" font-weight="700">proof challenges</text>
-        <text x="210" y="80" fill="#0b7285" font-size="16" font-weight="700">theory</text>
-        <text x="210" y="34" fill="#5b6578" font-size="16" font-weight="700">applications and designs</text>
-      </g>
-    </svg>
-  </div>
-</section>
 
 <section>
   <p class="kicker">Autonomous verification</p>
@@ -698,42 +645,23 @@ HasSubsetSum.skip 1 [2, 3] 5
 <section class="divider" data-background-color="#0b1220">
   <p class="kicker">Part 5</p>
   <h1>PlasmaLean</h1>
-  <p class="sub">Lean and AI-assisted mathematics towards the design of a stellarator.</p>
+  <p class="sub">Lean and AI-assisted mathematics towards the design of a stellarator, and the project from which LeanTheory was extracted. Built almost entirely by AI agents, with many ideas contributed by Vamsi Pingali and Animesh Kuley.</p>
+  <p class="sub" style="font-size:0.62em"><a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener" style="color:#66d9e8">Repository &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener" style="color:#66d9e8">Website &#8599;</a></p>
+  <aside class="notes">PlasmaLean follows the workflow of the previous part: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits. Heavy numerics run on a workstation as untrusted oracles, and their certificates are re-checked before they are merged; large checks are explicit proof terms. Work produced this way can be queried and understood, and ideas at various levels can be added to guide it. The website has an exposition suite with a Rosetta stone from stellarator physics to geometry, a ten-minute guide to auditing the kernel, and challenges for pure mathematicians.</aside>
 </section>
 
-<section>
-  <p class="kicker">PlasmaLean</p>
-  <h2>A library for stellarator design</h2>
-  <ul>
-    <li><a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener">PlasmaLean &#8599;</a> is a library of Lean and AI-assisted mathematics aimed at the design of a <strong>stellarator</strong>.</li>
-    <li class="fragment">It is the project from which the <strong>LeanTheory</strong> template was extracted, so it follows the model just described.</li>
-    <li class="fragment">Its <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener">website &#8599;</a> has background on stellarators, a handbook, progress slides and an exposition suite.</li>
-  </ul>
-</section>
 
-<section>
-  <p class="kicker">Stellarators</p>
-  <h2>A magnetic bottle needs twisted field lines</h2>
-  <p class="xsmall">Fusion needs deuterium and tritium at over a hundred million degrees: a <strong>plasma</strong>, kept away from the walls by a toroidal <strong>magnetic bottle</strong>. In a simple toroidal field, ions and electrons drift apart and hit the wall. The cure is field lines that <strong>twist</strong>, measured by the <strong>rotational transform</strong> $\iota$.</p>
-  <div class="viz"><canvas data-anim="bottle" width="1180" height="390"></canvas></div>
-  <div class="legend">
-    <span><i style="background:#ff922b"></i>ion, drifting up</span>
-    <span><i style="background:#b197fc"></i>electron, drifting down</span>
-    <span><i style="background:#3bc9db"></i>magnetic field lines</span>
-    <span>Illustrative animation, not a computed orbit.</span>
-  </div>
-  <aside class="notes">Left: with no twist, the vertical drift carries each particle straight out to the wall. Right: as the particle follows a twisted field line it spends time at the top and the bottom of the torus, so the drift averages out and the orbit stays inside.</aside>
-</section>
 
 <section>
   <p class="kicker">Stellarators</p>
   <h2>Tokamaks and stellarators</h2>
-  <div class="viz"><canvas data-anim="tokstell" width="1180" height="370"></canvas></div>
+  <p class="xsmall" style="margin:-0.4em 0 0.5em">Fusion plasma is held in a toroidal <strong>magnetic bottle</strong>. To stop ions and electrons drifting apart into the wall, the field lines must <strong>twist</strong>, measured by the rotational transform $\iota$.</p>
+  <div class="viz" style="max-width:1080px;margin:0 auto"><canvas data-anim="tokstell" width="1180" height="370"></canvas></div>
   <div class="cols" style="margin-top:0.5em">
     <div class="xsmall"><strong>Tokamak:</strong> the twist comes from a large current, millions of amperes, driven through the plasma itself. This current brings instabilities and sudden disruptions.</div>
     <div class="xsmall fragment"><strong>Stellarator:</strong> the twist comes from shaped external coils, with little or no plasma current. The field cannot be symmetric about the axis of the torus, so stellarators are genuinely three-dimensional.</div>
   </div>
-  <aside class="notes">Both pictures are schematic. The stellarator shape is a rotating ellipse with a helical axis and five field periods, surrounded by non-planar modular coils.</aside>
+  <aside class="notes">Fusion needs deuterium and tritium at over a hundred million degrees. In a simple toroidal field, ions drift one way and electrons the other, and the plasma hits the wall; as a particle follows a twisted field line it spends time at the top and the bottom of the torus, so the drift averages out. Both pictures are schematic. The stellarator shape is a rotating ellipse with a helical axis and five field periods, surrounded by non-planar modular coils.</aside>
 </section>
 
 <section>
@@ -820,21 +748,6 @@ HasSubsetSum.skip 1 [2, 3] 5
 </section>
 
 
-<section>
-  <p class="kicker">PlasmaLean</p>
-  <h2>How it was built</h2>
-  <div class="cols">
-    <ul class="small">
-      <li>Built almost entirely by <strong>AI agents</strong>, with many ideas contributed by <strong>Vamsi Pingali</strong> and <strong>Animesh Kuley</strong>. It used the workflow above: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits.</li>
-      <li class="fragment">Heavy numerics run on a workstation as <strong>untrusted oracles</strong>; their certificates are re-checked before they are merged.</li>
-      <li class="fragment">Large checks are written as <strong>explicit proof terms</strong> that Lean&rsquo;s kernel verifies.</li>
-    </ul>
-    <div class="fragment">
-      <div class="callout accent small">Work produced in this way can be <strong>queried and understood</strong>, and ideas at various levels can be added to guide it.</div>
-      <p class="small mt">The exposition suite includes a &ldquo;Rosetta stone&rdquo; translating stellarator physics into geometry, a guide to auditing the kernel in ten minutes, and challenges inviting pure mathematicians to contribute.</p>
-    </div>
-  </div>
-</section>
 
 <section data-background-color="#0b1220" class="divider" style="padding-top:150px">
   <p class="kicker">Links</p>
