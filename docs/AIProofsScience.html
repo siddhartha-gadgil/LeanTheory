@@ -414,6 +414,37 @@ theorem exists_prime_factor :                -- a characterizing property
   <aside class="notes">The gears jam when the second point appears: one wrong tooth stops the whole mechanism.</aside>
 </section>
 
+<section>
+  <p class="kicker">Autonomous verification</p>
+  <h2>Trusting external facts, traceably</h2>
+  <div class="cols center" style="grid-template-columns:1fr 1.05fr;gap:34px">
+<pre class="lean"><code>/-- A proposition we trust without proof: a
+hypothesis, like Mathlib's `Fact`, never an axiom -/
+class Trusted (P : Prop) where
+  trust : P
+
+-- trust an external fact under a name
+trust P as h_P
+
+-- a consequence, proved using `h_P`
+theorem consequence : Q := by grind
+
+#check consequence
+-- consequence [SimplyTrusted P] : Q
+
+-- once P is proved, an instance discharges it
+prove P := proof_of_P</code></pre>
+    <ul class="small">
+      <li>Measurements, empirical laws, outputs of external programs, results from the literature and conjectures enter as <strong>typeclass hypotheses</strong> <code class="inline nw">[Trusted P]</code>, not as axioms: Lean's logic stays consistent, and results are conditional on what they trust.</li>
+      <li class="fragment">Every result that depends on a trusted fact <strong>carries it in its type</strong>: what a theorem assumes is visible and auditable.</li>
+      <li class="fragment">The <code class="inline">trust</code> command keeps a <strong>ledger</strong> of all trusted propositions; proving one later discharges it wherever it is used.</li>
+      <li class="fragment">Model laws in a LeanTheory kernel follow the same pattern.</li>
+    </ul>
+  </div>
+  <p class="caption" style="margin-top:0.6em">From <a href="https://github.com/siddhartha-gadgil/TrustAndVerify" target="_blank" rel="noopener">TrustAndVerify &#8599;</a></p>
+  <aside class="notes">The class Trusted is like Mathlib's Fact. The command trust P as h_P adds a theorem h_P with the instance hypothesis [Trusted P] and a section variable [SimplyTrusted P], and records P in an environment extension, so all trusted propositions can be listed. A theorem proved using h_P has [SimplyTrusted P] in its signature. The command prove P := pf adds a default instance of Trusted P. In LeanTheory, laws such as OscillatorLaw are typeclass hypotheses in the same way.</aside>
+</section>
+
 <!-- ============================ PART 4 ============================ -->
 <section class="divider" data-background-color="#0b1220">
   <p class="kicker">Part 4</p>
@@ -775,9 +806,9 @@ HasSubsetSum.skip 1 [2, 3] 5
   const FONT = '"Source Sans 3", "Helvetica Neue", Arial, sans-serif';
 
   /* ---------------- Lean syntax highlighting ---------------- */
-  const KW = /^(def|theorem|lemma|example|by|have|show|from|fun|match|with|notation|structure|class|instance|where|let|if|then|else|suffices|obtain|intro|exact|refine|induction|by_cases|by_contra|inductive|meta|private)$/;
+  const KW = /^(def|theorem|lemma|example|by|have|show|from|fun|match|with|notation|structure|class|instance|where|let|if|then|else|suffices|obtain|intro|exact|refine|induction|by_cases|by_contra|inductive|meta|private|trust|prove|as)$/;
   const TAC = /^(grind|simp|simp_all|omega|norm_num|decide|rfl|sorry|linarith|positivity)$/;
-  const TY = /^(Nat|Int|Real|Prop|Type|IsPrime|List|MetaM|Expr|HasSubsetSum)$/;
+  const TY = /^(Nat|Int|Real|Prop|Type|IsPrime|List|MetaM|Expr|HasSubsetSum|Trusted|SimplyTrusted)$/;
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function highlightLean(el) {
     const src = el.textContent;
