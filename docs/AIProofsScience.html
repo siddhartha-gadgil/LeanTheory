@@ -233,8 +233,8 @@
   <h2>Knowledge depends on abstraction</h2>
   <div class="cols wide-left center">
     <div>
-      <p>All knowledge beyond cataloguing facts (&ldquo;stamp collection&rdquo;) depends on <strong>abstraction</strong>: hiding details not relevant to what we seek to understand.</p>
-      <p class="fragment">Newton&rsquo;s laws give the trajectory of a <strong>point mass</strong>. We ignore</p>
+      <p style="font-size:0.9em">All knowledge beyond cataloguing facts (&ldquo;stamp collection&rdquo;) depends on <strong>abstraction</strong>: hiding details not relevant to what we seek to understand.</p>
+      <p class="fragment" style="font-size:0.9em">Newton&rsquo;s laws give the trajectory of a <strong>point mass</strong>. We ignore</p>
       <div class="fragment">
         <span class="tag struck">colour</span><span class="tag struck">material</span><span class="tag struck">location</span>
         <span class="small muted">&nbsp;irrelevant</span><br>
@@ -253,30 +253,10 @@
       </svg>
     </div>
   </div>
-  <aside class="notes">This is sometimes at the cost of simplifying, or taking an ideal model of, what we are studying.</aside>
+  <p class="small fragment" style="margin-top:0.6em">Engineering does the same, for example with a <strong>data stream</strong>. In every case we <strong>study a system through the properties we specify</strong>, and what we deduce holds wherever the abstraction is valid.</p>
+  <aside class="notes">This is sometimes at the cost of simplifying, or taking an ideal model of, what we are studying. Abstraction is most explicit in modular systems, as in software engineering.</aside>
 </section>
 
-<section>
-  <p class="kicker">Abstraction and mathematics</p>
-  <h2>Abstraction in engineering</h2>
-  <p>Abstraction is most explicit in modular systems, for instance in software engineering.</p>
-  <div class="flow mt" style="justify-content:center">
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div class="box">loaded from a drive</div>
-      <div class="box">streamed over the internet</div>
-      <div class="box">input by the user</div>
-    </div>
-    <div class="arrow">&#10230;</div>
-    <div class="box accent big"><strong>data stream</strong><small>the abstraction</small></div>
-    <div class="arrow">&#10230;</div>
-    <div class="box big">processing</div>
-  </div>
-  <ul class="mt">
-    <li class="fragment">We specify the <strong>properties</strong> we are concerned with, and study the system, or its idealised version, in terms of those properties.</li>
-    <li class="fragment">What we deduce applies to <strong>every system</strong> for which the abstraction is valid.</li>
-    <li class="fragment">Our attention is focussed on what matters for the questions at hand.</li>
-  </ul>
-</section>
 
 <section>
   <p class="kicker">Abstraction and mathematics</p>
@@ -812,35 +792,33 @@ HasSubsetSum.skip 1 [2, 3] 5
 
 <section>
   <p class="kicker">PlasmaLean</p>
-  <h2>Results, as of early November 2026</h2>
-  <ul class="small" style="font-size:0.72em">
-    <li><strong>Lead candidate:</strong> an exact, purely rational vacuum field of a kind first found by Dommaschk, with two field periods. Found by untrusted numerics, then certified in Lean: a KAM theorem with explicit constants gives <strong>two nested invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ on both (C1), and a certified small deviation from quasi-axisymmetry, a symmetry of particle motion that helps C2.</li>
-    <li class="fragment"><strong>Confinement for all time:</strong> an earlier exact vacuum field has a KAM-certified invariant torus, so every field line starting inside stays inside forever. Certain high-energy alpha particles produced by fusion are also confined for all time.</li>
-    <li class="fragment"><strong>Coils:</strong> concrete polygonal coils give field lines near the axis certified to stay confined for 52 circuits. Another certificate bounds field errors from manufacturing tolerances, for a test coil pair.</li>
-    <li class="fragment"><strong>Grad&rsquo;s conjecture:</strong> an explicit non-symmetric equilibrium of Landreman satisfies, in Lean, the hypotheses of a counterexample.</li>
-    <li class="fragment"><strong>Test beds:</strong> stability for a band of a Landreman equilibrium and for a tokamak equilibrium (Solov&rsquo;ev), and a tokamak model whose core stays above 10 keV for every supplied solution of a transport model.</li>
-  </ul>
+  <h2>Results and status, early November 2026</h2>
+  <div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px">
+    <ul class="small" style="font-size:0.66em;margin-top:0">
+      <li><strong>Lead candidate:</strong> an exact rational vacuum field of Dommaschk&rsquo;s kind, found by untrusted numerics and certified in Lean: a KAM theorem with explicit constants gives <strong>two nested invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ (C1), and a certified small deviation from quasi-axisymmetry.</li>
+      <li><strong>Confinement for all time:</strong> a KAM-certified torus traps every field line starting inside it, and certain fusion alpha particles too.</li>
+      <li><strong>Coils:</strong> polygonal coils keep field lines near the axis for 52 circuits; certified bounds on manufacturing errors for a test pair.</li>
+      <li><strong>Grad&rsquo;s conjecture:</strong> a Landreman equilibrium satisfies, in Lean, the hypotheses of a counterexample.</li>
+      <li><strong>Test beds:</strong> stability and burn-temperature results on tokamak models.</li>
+    </ul>
+    <div class="fragment">
+      <table style="font-size:0.6em">
+        <thead><tr><th>Clause</th><th>Lead candidate</th></tr></thead>
+        <tbody>
+          <tr><td class="clause">C1</td><td class="ok">verified, in vacuum</td></tr>
+          <tr><td class="clause">C2</td><td class="open">open: certified near-symmetry only</td></tr>
+          <tr><td class="clause">C3</td><td class="open">open</td></tr>
+          <tr><td class="clause">C4</td><td class="ok">in vacuum</td></tr>
+          <tr><td class="clause">C5</td><td class="open">open: shown only on a tokamak model</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:0.6em"><strong>No candidate yet satisfies all of C1&ndash;C5.</strong></p>
+      <p class="xsmall muted">Assumptions are stated, not hidden, and graphics that are not Lean certificates are labelled as illustrative.</p>
+    </div>
+  </div>
+  <aside class="notes">The burn result assumes that a solution of the transport model exists, and the standard reductions used in the stability results are listed as supplied. C2 is open for the lead candidate: only its near-quasi-axisymmetry is certified, not the transport of thermal particles. C3 asks for stability of a current-free plasma at positive pressure.</aside>
 </section>
 
-<section>
-  <p class="kicker">PlasmaLean</p>
-  <h2>Honest status</h2>
-  <table>
-    <thead><tr><th>Clause</th><th>Lead candidate</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td class="clause">C1</td><td class="ok">verified, in vacuum</td><td>two nested certified tori, zero net current</td></tr>
-      <tr><td class="clause">C2</td><td class="open">open</td><td>certified near-symmetry only; thermal transport not yet proved</td></tr>
-      <tr><td class="clause">C3</td><td class="open">open</td><td>stability of a current-free plasma at positive pressure</td></tr>
-      <tr><td class="clause">C4</td><td class="ok">in vacuum</td><td>certified nested tori; positive pressure open</td></tr>
-      <tr><td class="clause">C5</td><td class="open">open</td><td>shown only on a tokamak model</td></tr>
-    </tbody>
-  </table>
-  <ul class="small mt">
-    <li><strong>No candidate yet satisfies all of C1&ndash;C5.</strong></li>
-    <li class="fragment">Assumptions are stated, not hidden: the burn result assumes a solution of the transport model exists, and standard reductions in the stability results are listed as supplied.</li>
-    <li class="fragment">Website graphics and sandbox outputs that are not Lean certificates are labelled as illustrative.</li>
-  </ul>
-</section>
 
 <section>
   <p class="kicker">PlasmaLean</p>
