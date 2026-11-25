@@ -678,7 +678,7 @@ HasSubsetSum.skip 1 [2, 3] 5
   <h1>PlasmaLean</h1>
   <p class="sub">Lean and AI-assisted mathematics towards the design of a stellarator, and the project from which LeanTheory was extracted. Built almost entirely by AI agents, with many ideas contributed by Vamsi Pingali and Animesh Kuley.</p>
   <p class="sub" style="font-size:0.62em"><a href="https://github.com/siddhartha-gadgil/PlasmaLean" target="_blank" rel="noopener" style="color:#66d9e8">Repository &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://siddhartha-gadgil.github.io/PlasmaLean/index.html" target="_blank" rel="noopener" style="color:#66d9e8">Website &#8599;</a></p>
-  <aside class="notes">PlasmaLean follows the workflow of the previous part: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits. Heavy numerics run on a workstation as untrusted oracles, and their certificates are re-checked before they are merged; large checks are explicit proof terms. Work produced this way can be queried and understood, and ideas at various levels can be added to guide it. The website has an exposition suite with a Rosetta stone from stellarator physics to geometry, a ten-minute guide to auditing the kernel, and challenges for pure mathematicians.</aside>
+  <aside class="notes">PlasmaLean follows the workflow of the previous part: a research graph of goals, questions and notes, Lean as the validity gate, and strict audits. Heavy numerics run on a workstation as untrusted oracles, and their certificates are re-checked before they are merged; large checks are explicit proof terms. Work produced this way can be queried and understood, and ideas at various levels can be added to guide it. The website has an exposition suite with a Rosetta stone from stellarator physics to geometry, a ten-minute guide to auditing the kernel, and challenges for pure mathematicians. PlasmaLean now builds on TauCeti, with differential forms on manifolds, and uses LeanTheory&rsquo;s task server and reasoning-loop skills: the tools flow back from LeanTheory into PlasmaLean.</aside>
 </section>
 
 
@@ -736,46 +736,48 @@ HasSubsetSum.skip 1 [2, 3] 5
   <h2>Kernel, and errors caught by audits</h2>
   <div class="cols" style="grid-template-columns:0.8fr 1.3fr;gap:36px">
     <div>
-      <div class="big-number">~900</div>
-      <p class="small">lines in the domain kernel, in six modules: force balance, vacuum fields, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
-      <div class="big-number" style="margin-top:0.5em">600k+</div>
-      <p class="small">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
+      <div class="big-number">~1,400</div>
+      <p class="small" style="font-size:0.72em">lines in the domain kernel, in seven modules: force balance, vacuum fields, their differential-form versions, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
+      <div class="big-number" style="margin-top:0.5em">750k+</div>
+      <p class="small" style="font-size:0.72em">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
     </div>
-    <div>
-      <div class="card bad fragment"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ if $g$ is unconstrained: meaningless until $g$ is proved to be the pressure gradient.</p></div>
-      <div class="card bad fragment" style="margin-top:8px"><h3>Current-free twist</h3><p>An early C1 used a surface that could be degenerate, so <em>every</em> field passed. Caught by an audit, kept as a regression check, fixed using Amp&egrave;re&rsquo;s law.</p></div>
-      <div class="card bad fragment" style="margin-top:8px"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values. Now covered by regression checks.</p></div>
+    <div style="font-size:0.85em">
+      <div class="card bad fragment" style="padding:0.45em 0.8em"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ when $g$ is free: meaningless until $g$ is proved to be the pressure gradient.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Current-free twist</h3><p>An early C1 allowed a degenerate surface, so <em>every</em> field passed. Fixed using Amp&egrave;re&rsquo;s law; kept as a regression check.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values; now regression-checked.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Coils</h3><p>A claim about coil fields was too strong: a circular coil can lie wholly outside a given half-space, where its field is a vacuum field. Caught on 23 November, with a compiled counterexample.</p></div>
     </div>
   </div>
 </section>
 
 <section>
   <p class="kicker">PlasmaLean</p>
-  <h2>Results and status, early November 2026</h2>
-  <div class="cols" style="grid-template-columns:1.2fr 1fr;gap:34px">
-    <ul class="small" style="font-size:0.66em;margin-top:0">
-      <li><strong>Lead candidate:</strong> an exact rational vacuum field of Dommaschk&rsquo;s kind, found by untrusted numerics and certified in Lean: a KAM theorem with explicit constants gives <strong>two nested invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ (C1), and a certified small deviation from quasi-axisymmetry.</li>
+  <h2>Results and status, late November 2026</h2>
+  <div class="cols" style="grid-template-columns:1.25fr 1fr;gap:30px">
+    <ul class="small" style="font-size:0.575em;margin-top:0">
+      <li><strong>Lead candidate:</strong> an exact rational vacuum field of Dommaschk&rsquo;s kind, found by untrusted numerics and certified in Lean: a KAM theorem with explicit constants gives <strong>two nested embedded invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ (C1), and a certified small deviation from quasi-axisymmetry.</li>
       <li><strong>Confinement for all time:</strong> a KAM-certified torus traps every field line starting inside it, and certain fusion alpha particles too.</li>
       <li><strong>Coils:</strong> polygonal coils keep field lines near the axis for 52 circuits; certified bounds on manufacturing errors for a test pair.</li>
-      <li><strong>Grad&rsquo;s conjecture:</strong> a Landreman equilibrium satisfies, in Lean, the hypotheses of a counterexample.</li>
-      <li><strong>Test beds:</strong> stability and burn-temperature results on tokamak models.</li>
+      <li><strong>Trapped particles:</strong> a general theorem that particles stay confined for time of order $1/\varepsilon^2$ on an annulus of periodic orbits. On the actual Dommaschk field, a complete local mirror-well certificate and a conditional first-exit theorem reduce C2 to one stated estimate: how far the action drifts for real guiding centres.</li>
+      <li><strong>Pressure:</strong> a stability gap for a plasma&ndash;vacuum interface in a periodic cylinder with a close wall, uniform in the period. On the Dommaschk tori, the proposed interface test <strong>fails</strong> at a certified point.</li>
+      <li><strong>Differential forms:</strong> Lorentz orbits as Hamiltonian flows, potentials and topology, contact structures and Noether&rsquo;s theorem, built on TauCeti.</li>
     </ul>
     <div class="fragment">
-      <table style="font-size:0.6em">
+      <table style="font-size:0.56em">
         <thead><tr><th>Clause</th><th>Lead candidate</th></tr></thead>
         <tbody>
-          <tr><td class="clause">C1</td><td class="ok">verified, in vacuum</td></tr>
-          <tr><td class="clause">C2</td><td class="open">open: certified near-symmetry only</td></tr>
-          <tr><td class="clause">C3</td><td class="open">open</td></tr>
+          <tr><td class="clause">C1</td><td class="ok">verified on embedded tori, in vacuum</td></tr>
+          <tr><td class="clause">C2</td><td class="open">open: complete local mirror-well certificate on the actual field; the action-drift bound and thermal coverage remain</td></tr>
+          <tr><td class="clause">C3</td><td class="open">open: cylinder benchmark proved; interface test obstructed on the Dommaschk tori</td></tr>
           <tr><td class="clause">C4</td><td class="ok">in vacuum</td></tr>
           <tr><td class="clause">C5</td><td class="open">open: shown only on a tokamak model</td></tr>
         </tbody>
       </table>
-      <p class="small" style="margin-top:0.6em"><strong>No candidate yet satisfies all of C1&ndash;C5.</strong></p>
+      <p class="small" style="margin-top:0.5em"><strong>No candidate yet satisfies all of C1&ndash;C5.</strong></p>
       <p class="xsmall muted">Assumptions are stated, not hidden, and graphics that are not Lean certificates are labelled as illustrative.</p>
     </div>
   </div>
-  <aside class="notes">The burn result assumes that a solution of the transport model exists, and the standard reductions used in the stability results are listed as supplied. C2 is open for the lead candidate: only its near-quasi-axisymmetry is certified, not the transport of thermal particles. C3 asks for stability of a current-free plasma at positive pressure.</aside>
+  <aside class="notes">C2 is still open, but for the first time it is reduced, on the actual Dommaschk field, to one stated dynamical estimate. A complete local mirror-well certificate covers one sector of field lines, and the first-exit theorem is conditional: a particle stays radially inside up to time T provided its action stays close to the target. What remains is coverage of all phases, a bound on how the action drifts for real guiding centres (the main conceptual step, which is research rather than more certificate computation), and the fraction of a thermal population that stays confined. The negative interface result is itself useful, as it rules out one route to finite pressure. No clause changed status for any candidate between 2 and 25 November. The burn result assumes that a solution of the transport model exists, and the standard reductions used in the stability results are listed as supplied. Grad&rsquo;s conjecture: an explicit non-symmetric equilibrium of Landreman satisfies, in Lean, the hypotheses of a counterexample.</aside>
 </section>
 
 

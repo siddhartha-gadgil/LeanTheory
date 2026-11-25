@@ -849,29 +849,32 @@ theorem exists_prime_factor :                -- a characterizing property
   <h2>Kernel, and errors caught by audits</h2>
   <div class="cols" style="grid-template-columns:0.8fr 1.3fr;gap:36px">
     <div>
-      <div class="big-number">~900</div>
-      <p class="small">lines in the domain kernel, in six modules: force balance, vacuum fields, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
-      <div class="big-number" style="margin-top:0.5em">600k+</div>
-      <p class="small">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
+      <div class="big-number">~1,400</div>
+      <p class="small" style="font-size:0.72em">lines in the domain kernel, in seven modules: force balance, vacuum fields, their differential-form versions, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
+      <div class="big-number" style="margin-top:0.5em">750k+</div>
+      <p class="small" style="font-size:0.72em">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
     </div>
-    <div>
-      <div class="card bad fragment"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ if $g$ is unconstrained: meaningless until $g$ is proved to be the pressure gradient.</p></div>
-      <div class="card bad fragment" style="margin-top:8px"><h3>Current-free twist</h3><p>An early C1 used a surface that could be degenerate, so <em>every</em> field passed. Caught by an audit, kept as a regression check, fixed using Amp&egrave;re&rsquo;s law.</p></div>
-      <div class="card bad fragment" style="margin-top:8px"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values. Now covered by regression checks.</p></div>
+    <div style="font-size:0.85em">
+      <div class="card bad fragment" style="padding:0.45em 0.8em"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ when $g$ is free: meaningless until $g$ is proved to be the pressure gradient.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Current-free twist</h3><p>An early C1 allowed a degenerate surface, so <em>every</em> field passed. Fixed using Amp&egrave;re&rsquo;s law; kept as a regression check.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values; now regression-checked.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Coils</h3><p>A claim about coil fields was too strong: a circular coil can lie wholly outside a given half-space, where its field is a vacuum field. Caught on 23 November, with a compiled counterexample.</p></div>
     </div>
   </div>
 </section>
 
 <section>
   <p class="kicker">PlasmaLean</p>
-  <h2>Results, as of early November 2026</h2>
-  <ul class="small" style="font-size:0.72em">
-    <li><strong>Lead candidate:</strong> an exact, purely rational vacuum field of a kind first found by Dommaschk, with two field periods. Found by untrusted numerics, then certified in Lean: a KAM theorem with explicit constants gives <strong>two nested invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ on both (C1), and a certified small deviation from quasi-axisymmetry, a symmetry of particle motion that helps C2.</li>
+  <h2>Results, as of late November 2026</h2>
+  <ul class="small" style="font-size:0.66em">
+    <li><strong>Lead candidate:</strong> an exact, purely rational vacuum field of a kind first found by Dommaschk, with two field periods. Found by untrusted numerics, then certified in Lean: a KAM theorem with explicit constants gives <strong>two nested embedded invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ on both (C1), and a certified small deviation from quasi-axisymmetry, a symmetry of particle motion that helps C2.</li>
     <li class="fragment"><strong>Confinement for all time:</strong> an earlier exact vacuum field has a KAM-certified invariant torus, so every field line starting inside stays inside forever. Certain high-energy alpha particles produced by fusion are also confined for all time.</li>
     <li class="fragment"><strong>Coils:</strong> concrete polygonal coils give field lines near the axis certified to stay confined for 52 circuits. Another certificate bounds field errors from manufacturing tolerances, for a test coil pair.</li>
-    <li class="fragment"><strong>Grad&rsquo;s conjecture:</strong> an explicit non-symmetric equilibrium of Landreman satisfies, in Lean, the hypotheses of a counterexample.</li>
-    <li class="fragment"><strong>Test beds:</strong> stability for a band of a Landreman equilibrium and for a tokamak equilibrium (Solov&rsquo;ev), and a tokamak model whose core stays above 10 keV for every supplied solution of a transport model.</li>
+    <li class="fragment"><strong>Trapped particles:</strong> a general theorem that particles stay confined for time of order $1/\varepsilon^2$ on an annulus of periodic orbits. On the actual Dommaschk field, a complete local mirror-well certificate and a conditional first-exit theorem reduce C2 to one stated estimate: how far the action drifts for real guiding centres.</li>
+    <li class="fragment"><strong>Pressure:</strong> a stability gap for a plasma&ndash;vacuum interface in a periodic cylinder with a close wall, uniform in the period. On the Dommaschk tori, the proposed interface test <strong>fails</strong> at a certified point.</li>
+    <li class="fragment"><strong>Differential forms:</strong> Lorentz orbits as Hamiltonian flows, potentials and topology, contact structures and Noether&rsquo;s theorem, built on TauCeti.</li>
   </ul>
+  <aside class="notes">C2 is still open, but for the first time it is reduced, on the actual Dommaschk field, to one stated dynamical estimate. A complete local mirror-well certificate covers one sector of field lines, and the first-exit theorem is conditional: a particle stays radially inside up to time T provided its action stays close to the target. What remains is coverage of all phases, a bound on how the action drifts for real guiding centres (the main conceptual step, which is research rather than more certificate computation), and the fraction of a thermal population that stays confined. The negative interface result is itself useful, as it rules out one route to finite pressure. No clause changed status for any candidate between 2 and 25 November. Earlier results not on this slide: an explicit non-symmetric equilibrium of Landreman satisfies, in Lean, the hypotheses of a counterexample to Grad&rsquo;s conjecture; and on test beds, stability for a band of a Landreman equilibrium and for a Solov&rsquo;ev tokamak equilibrium, and a tokamak model whose core stays above 10 keV for every supplied solution of a transport model.</aside>
 </section>
 
 <section>
@@ -880,9 +883,9 @@ theorem exists_prime_factor :                -- a characterizing property
   <table>
     <thead><tr><th>Clause</th><th>Lead candidate</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td class="clause">C1</td><td class="ok">verified, in vacuum</td><td>two nested certified tori, zero net current</td></tr>
-      <tr><td class="clause">C2</td><td class="open">open</td><td>certified near-symmetry only; thermal transport not yet proved</td></tr>
-      <tr><td class="clause">C3</td><td class="open">open</td><td>stability of a current-free plasma at positive pressure</td></tr>
+      <tr><td class="clause">C1</td><td class="ok">verified on embedded tori, in vacuum</td><td>two nested embedded certified tori, zero net current</td></tr>
+      <tr><td class="clause">C2</td><td class="open">open</td><td>complete local mirror-well certificate on the actual field; the action-drift bound and thermal coverage remain</td></tr>
+      <tr><td class="clause">C3</td><td class="open">open</td><td>cylinder benchmark proved; interface test obstructed on the Dommaschk tori</td></tr>
       <tr><td class="clause">C4</td><td class="ok">in vacuum</td><td>certified nested tori; positive pressure open</td></tr>
       <tr><td class="clause">C5</td><td class="open">open</td><td>shown only on a tokamak model</td></tr>
     </tbody>
@@ -908,6 +911,7 @@ theorem exists_prime_factor :                -- a characterizing property
       <p class="small mt">The exposition suite includes a &ldquo;Rosetta stone&rdquo; translating stellarator physics into geometry, a guide to auditing the kernel in ten minutes, and challenges inviting pure mathematicians to contribute.</p>
     </div>
   </div>
+  <aside class="notes">PlasmaLean now builds on TauCeti, with differential forms on manifolds, and uses LeanTheory&rsquo;s task server and reasoning-loop skills: the tools flow back from LeanTheory into PlasmaLean.</aside>
 </section>
 
 <section data-background-color="#0b1220" class="divider" style="padding-top:150px">
