@@ -739,13 +739,13 @@ HasSubsetSum.skip 1 [2, 3] 5
       <div class="big-number">~1,400</div>
       <p class="small" style="font-size:0.72em">lines in the domain kernel, in seven modules: force balance, vacuum fields, their differential-form versions, simplified one-dimensional plasma and heat laws, radial transport, fusion power balance.</p>
       <div class="big-number" style="margin-top:0.5em">750k+</div>
-      <p class="small" style="font-size:0.72em">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms. Each law is a hypothesis, never an axiom.</p>
+      <p class="small" style="font-size:0.72em">lines of Lean in the library built on it, using only Lean&rsquo;s standard axioms, plus 43,435 generated certificate modules, rebuilt and axiom-checked. Each law is a hypothesis, never an axiom.</p>
     </div>
     <div style="font-size:0.85em">
       <div class="card bad fragment" style="padding:0.45em 0.8em"><h3>Force balance</h3><p>$J \times B = g$ holds for every $B$ and $J$ when $g$ is free: meaningless until $g$ is proved to be the pressure gradient.</p></div>
       <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Current-free twist</h3><p>An early C1 allowed a degenerate surface, so <em>every</em> field passed. Fixed using Amp&egrave;re&rsquo;s law; kept as a regression check.</p></div>
       <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Plasma composition</h3><p>The plasma law allowed contradictory impurity and fuel values; now regression-checked.</p></div>
-      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Coils</h3><p>A claim about coil fields was too strong: a circular coil can lie wholly outside a given half-space, where its field is a vacuum field. Caught on 23 November, with a compiled counterexample.</p></div>
+      <div class="card bad fragment" style="margin-top:5px;padding:0.4em 0.8em"><h3>Band form of C2</h3><p>It accepted a single orbit as a &ldquo;population&rdquo;: fraction one, any horizon. Caught on 25 November; fixed by fixing the inputs first (<code class="inline">BandSpec</code>), with regression theorems.</p></div>
     </div>
   </div>
 </section>
@@ -758,7 +758,7 @@ HasSubsetSum.skip 1 [2, 3] 5
       <li><strong>Lead candidate:</strong> an exact rational vacuum field of Dommaschk&rsquo;s kind, found by untrusted numerics and certified in Lean: a KAM theorem with explicit constants gives <strong>two nested embedded invariant tori</strong>, with zero net current and $|\iota| \ge 0.2386$ (C1), and a certified small deviation from quasi-axisymmetry.</li>
       <li><strong>Confinement for all time:</strong> a KAM-certified torus traps every field line starting inside it, and certain fusion alpha particles too.</li>
       <li><strong>Coils:</strong> polygonal coils keep field lines near the axis for 52 circuits; certified bounds on manufacturing errors for a test pair.</li>
-      <li><strong>Trapped particles:</strong> a general theorem that particles stay confined for time of order $1/\varepsilon^2$ on an annulus of periodic orbits. On the actual Dommaschk field, a complete local mirror-well certificate and a conditional first-exit theorem reduce C2 to one stated estimate: how far the action drifts for real guiding centres.</li>
+      <li><strong>Trapped particles:</strong> a general theorem that particles stay confined for time of order $1/\varepsilon^2$ on an annulus of periodic orbits. On the actual Dommaschk field, a complete local mirror-well certificate, in the generated certificate library, and a conditional first-exit theorem reduce C2, whose band form now has fixed inputs, to one stated estimate: how far the action drifts for real guiding centres.</li>
       <li><strong>Pressure:</strong> a stability gap for a plasma&ndash;vacuum interface in a periodic cylinder with a close wall, uniform in the period. On the Dommaschk tori, the proposed interface test <strong>fails</strong> at a certified point.</li>
       <li><strong>Differential forms:</strong> Lorentz orbits as Hamiltonian flows, potentials and topology, contact structures and Noether&rsquo;s theorem, built on TauCeti.</li>
     </ul>
