@@ -28,7 +28,12 @@ smaller example built in two to three days:
 ([slides](https://siddhartha-gadgil.github.io/GameOfLife/GameOfLifeUndecidable.html)). It
 formalizes a known but rather non-trivial result: Conway's Game of Life can encode Turing
 machines, so there is a cell such that no algorithm decides, from a finite starting pattern,
-whether that cell is ever alive.
+whether that cell is ever alive. A third,
+[Homeostasis](https://siddhartha-gadgil.github.io/Homeostasis/)
+([slides](https://siddhartha-gadgil.github.io/Homeostasis/Homeostasis.html)), is a research
+program on homeostasis in chemical reaction networks. It proves general theorems in Lean, such as
+the Shinar–Feinberg theorem on absolute concentration robustness and the Deficiency Zero theorem,
+and studies biochemical case studies.
 
 ## Getting started
 
