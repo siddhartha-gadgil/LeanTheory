@@ -766,6 +766,28 @@ theorem exists_prime_factor :                -- a characterizing property
   </div>
 </section>
 
+<section>
+  <p class="kicker">Building theories</p>
+  <h2>Another example: homeostasis in reaction networks</h2>
+  <div class="cols center" style="grid-template-columns:1.25fr 1fr;gap:34px">
+    <ul class="small" style="font-size:0.66em">
+      <li>How do biochemical networks keep an output fixed while totals, rates and inputs vary? A research program in chemical reaction network theory, built with the LeanTheory template.</li>
+      <li class="fragment"><strong>General theorems</strong>, for every network and all positive rate constants: Shinar&ndash;Feinberg on absolute concentration robustness, the Deficiency Zero theorem with Horn&rsquo;s and Birch&rsquo;s theorems, persistence via siphons, and the determinant formula for infinitesimal homeostasis.</li>
+      <li class="fragment"><strong>Case studies</strong>: EnvZ&ndash;OmpR and IDHKP&ndash;IDH, robust for all rates; the antithetic integral-feedback motif, with perfect adaptation and stability; stochastic extinction at low copy numbers.</li>
+      <li class="fragment"><strong>Honest definitions</strong>: robustness holds vacuously with no steady state and trivially with one, so headline claims require two distinct steady states.</li>
+    </ul>
+    <div>
+      <div class="card" style="text-align:center">
+        <h3>The smallest example</h3>
+        <p style="font-size:0.85em">$A + B \to 2B, \qquad B \to A$</p>
+        <p style="font-size:0.85em">At every positive steady state <span class="nw">$x_A = \kappa_1/\kappa_0$</span>, whatever the total amount, while $x_B$ depends on it.</p>
+      </div>
+      <p class="small" style="margin-top:0.8em;text-align:center"><a href="https://siddhartha-gadgil.github.io/Homeostasis/" target="_blank" rel="noopener">Website &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://siddhartha-gadgil.github.io/Homeostasis/Homeostasis.html" target="_blank" rel="noopener">Slides &#8599;</a></p>
+    </div>
+  </div>
+  <aside class="notes">Absolute concentration robustness (ACR) in a species means all positive steady states agree in that species. The project also studies infinitesimal homeostasis, perfect adaptation, persistence and stochastic models, and treats Lean as the validity gate: a result is established only when a named theorem compiles. Lean also settled a linkage-class count in one of the EnvZ&ndash;OmpR models that a secondary source states differently. Open questions include a general ACR criterion, n-site phosphorylation, dilution bounds and low copy numbers.</aside>
+</section>
+
 <!-- ============================ PART 6 ============================ -->
 <section class="divider" data-background-color="#0b1220">
   <p class="kicker">Part 6</p>
